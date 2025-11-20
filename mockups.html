@@ -8,13 +8,13 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f5f7fa; color: #2d3748; }
         .nav-toc { position: fixed; right: 20px; top: 20px; background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); max-width: 250px; z-index: 1000; }
-        .nav-toc h3 { margin-bottom: 12px; font-size: 1em; color: #667eea; }
+        .nav-toc h3 { margin-bottom: 12px; font-size: 1em; color: #4A90E2; }
         .nav-toc a { display: block; padding: 6px 0; color: #4a5568; text-decoration: none; font-size: 0.9em; }
-        .nav-toc a:hover { color: #667eea; }
+        .nav-toc a:hover { color: #4A90E2; }
         .container { max-width: 1600px; margin: 0 auto; padding: 40px 20px 40px 20px; }
         h1 { text-align: center; color: #1a202c; margin-bottom: 40px; font-size: 2.5em; }
         .wireframe { background: white; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.07); margin-bottom: 60px; overflow: hidden; }
-        .wireframe-header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 24px 32px; }
+        .wireframe-header { background: #4A90E2; color: white; padding: 24px 32px; }
         .wireframe-header h2 { font-size: 1.6em; margin-bottom: 6px; }
         .wireframe-header p { opacity: 0.9; }
         .screen { background: #f8f9fa; min-height: 700px; position: relative; border: 3px solid #e2e8f0; }
@@ -31,7 +31,7 @@
         .content-area { flex: 1; overflow-y: auto; padding: 24px; }
         
         .btn { padding: 10px 20px; border: none; border-radius: 6px; font-size: 0.95em; font-weight: 600; cursor: pointer; }
-        .btn-primary { background: #667eea; color: white; }
+        .btn-primary { background: #4A90E2; color: white; }
         .btn-secondary { background: #e2e8f0; color: #4a5568; }
         .btn-sm { padding: 6px 12px; font-size: 0.85em; }
         
@@ -68,7 +68,7 @@
         .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
         
         .login-split { display: flex; height: 100vh; }
-        .login-left { flex: 1; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; display: flex; align-items: center; justify-content: center; padding: 40px; }
+        .login-left { flex: 1; background: #4A90E2; color: white; display: flex; align-items: center; justify-content: center; padding: 40px; }
         .login-right { flex: 1; display: flex; align-items: center; justify-content: center; background: #f8f9fa; padding: 40px; }
         .login-box { background: white; padding: 40px; border-radius: 10px; max-width: 400px; width: 100%; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
         
@@ -76,7 +76,7 @@
         .service-item.used { opacity: 0.5; }
         
         .progress-bar { height: 8px; background: #e2e8f0; border-radius: 4px; overflow: hidden; margin: 10px 0; }
-        .progress-fill { height: 100%; background: #667eea; }
+        .progress-fill { height: 100%; background: #4A90E2; }
         
         .template-card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
         
@@ -141,7 +141,7 @@
                             </label>
                         </div>
                         <button class="btn btn-primary" style="width: 100%; padding: 12px;">Sign In</button>
-                        <p style="text-align: center; margin-top: 16px; color: #667eea; cursor: pointer;">Forgot password?</p>
+                        <p style="text-align: center; margin-top: 16px; color: #4A90E2; cursor: pointer;">Forgot password?</p>
                     </div>
                 </div>
             </div>
@@ -173,14 +173,22 @@
                         <div class="dealership-switcher">🏢 Premium Motors Boise ▼</div>
                         <div style="display: flex; gap: 12px; align-items: center;">
                             <div>John Doe (Admin)</div>
-                            <div style="width: 36px; height: 36px; background: #667eea; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: 600;">JD</div>
+                            <div style="width: 36px; height: 36px; background: #4A90E2; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: 600;">JD</div>
                         </div>
                     </div>
                     <div class="content-area">
                         <h2 style="margin-bottom: 6px;">Dashboard</h2>
-                        <p style="color: #718096; margin-bottom: 24px;">Overview of your contract operations</p>
-                        
-                        <div class="stats-grid">
+                        <p style="color: #718096; margin-bottom: 16px;">Overview of your contract operations</p>
+
+                        <div style="display: flex; gap: 12px; margin-bottom: 24px; align-items: center;">
+                            <div style="font-weight: 600; color: #4a5568;">Date Range:</div>
+                            <input type="date" value="2024-10-01" style="padding: 8px 12px; border: 2px solid #e2e8f0; border-radius: 6px;">
+                            <span style="color: #718096;">to</span>
+                            <input type="date" value="2024-10-31" style="padding: 8px 12px; border: 2px solid #e2e8f0; border-radius: 6px;">
+                            <button class="btn btn-secondary btn-sm">Apply</button>
+                        </div>
+
+                        <div class="stats-grid" style="grid-template-columns: repeat(5, 1fr);">
                             <div class="stat-card">
                                 <div class="stat-label">ACTIVE PAID</div>
                                 <div class="stat-value">247</div>
@@ -192,21 +200,26 @@
                                 <div style="color: #c53030; font-size: 0.9em; margin-top: 6px;">⚠ Needs approval</div>
                             </div>
                             <div class="stat-card">
-                                <div class="stat-label">FULFILLED (MTD)</div>
+                                <div class="stat-label">FULFILLED</div>
                                 <div class="stat-value">43</div>
-                                <div style="color: #48bb78; font-size: 0.9em; margin-top: 6px;">↑ 8% from last month</div>
+                                <div style="color: #48bb78; font-size: 0.9em; margin-top: 6px;">↑ 8% from period</div>
                             </div>
                             <div class="stat-card">
-                                <div class="stat-label">REVENUE (MTD)</div>
+                                <div class="stat-label">REVENUE</div>
                                 <div class="stat-value" style="font-size: 1.8em;">$73.9K</div>
-                                <div style="color: #48bb78; font-size: 0.9em; margin-top: 6px;">↑ 15% from last month</div>
+                                <div style="color: #48bb78; font-size: 0.9em; margin-top: 6px;">↑ 15% from period</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-label">SPOILAGE</div>
+                                <div class="stat-value" style="font-size: 1.8em; color: #ed8936;">8.2%</div>
+                                <div style="color: #718096; font-size: 0.9em; margin-top: 6px;">Expired unused</div>
                             </div>
                         </div>
                         
                         <div class="card">
                             <div class="card-header">
                                 <span>Recent Contracts</span>
-                                <a href="#" style="color: #667eea; text-decoration: none;">View all →</a>
+                                <a href="#" style="color: #4A90E2; text-decoration: none;">View all →</a>
                             </div>
                             <table>
                                 <thead>
@@ -237,8 +250,29 @@
                                         <td><strong>PM-2024-387</strong></td>
                                         <td>Emily Rodriguez</td>
                                         <td>2022 Ford F-150</td>
-                                        <td><span class="badge badge-success">Active Paid</span></td>
-                                        <td>3 of 5</td>
+                                        <td><span class="badge badge-secondary">Active Unpaid</span></td>
+                                        <td>0 of 5</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>PM-2024-386</strong></td>
+                                        <td>David Martinez</td>
+                                        <td>2021 Chevrolet Silverado</td>
+                                        <td><span class="badge badge-secondary">Fulfilled</span></td>
+                                        <td>4 of 4</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>PM-2024-385</strong></td>
+                                        <td>Lisa Thompson</td>
+                                        <td>2023 Toyota RAV4</td>
+                                        <td><span class="badge badge-danger">Void</span></td>
+                                        <td>0 of 5</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>PM-2024-384</strong></td>
+                                        <td>Robert Wilson</td>
+                                        <td>2022 Honda CR-V</td>
+                                        <td><span class="badge badge-danger">Canceled</span></td>
+                                        <td>2 of 6</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -538,14 +572,14 @@
     <!-- SCREEN 7: CONTRACT TEMPLATES -->
     <div id="screen7" class="wireframe">
         <div class="wireframe-header">
-            <h2>Screen 7: Contract Template List</h2>
+            <h2>Screen 7: Service Contracts List</h2>
             <p>Manage reusable contract packages</p>
         </div>
         <div class="screen">
             <div class="dashboard-layout">
                 <div class="sidebar">
                     <div class="logo">🚗 PM System</div>
-                    <div class="nav-item active">📄 Templates</div>
+                    <div class="nav-item active">📄 Service Contracts</div>
                 </div>
                 <div class="main-content">
                     <div class="top-bar">
@@ -553,11 +587,11 @@
                         <div style="width: 36px; height: 36px; background: #667eea; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: 600;">JD</div>
                     </div>
                     <div class="content-area">
-                        <h2 style="margin-bottom: 6px;">Contract Templates</h2>
-                        <p style="color: #718096; margin-bottom: 24px;">Create and manage reusable packages</p>
+                        <h2 style="margin-bottom: 6px;">Service Contracts</h2>
+                        <p style="color: #718096; margin-bottom: 24px;">Create and manage reusable contract packages</p>
                         
                         <div style="display: flex; justify-content: flex-end; margin-bottom: 20px;">
-                            <button class="btn btn-primary">➕ Create Template</button>
+                            <button class="btn btn-primary">➕ Create Contract</button>
                         </div>
                         
                         <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;">
@@ -622,14 +656,14 @@
     <!-- SCREEN 8: CREATE TEMPLATE -->
     <div id="screen8" class="wireframe">
         <div class="wireframe-header">
-            <h2>Screen 8: Create/Edit Contract Template</h2>
+            <h2>Screen 8: Create/Edit Service Contract</h2>
             <p>Build custom contract packages with live preview</p>
         </div>
         <div class="screen">
             <div class="dashboard-layout">
                 <div class="sidebar">
                     <div class="logo">🚗 PM System</div>
-                    <div class="nav-item active">📄 Templates</div>
+                    <div class="nav-item active">📄 Service Contracts</div>
                 </div>
                 <div class="main-content">
                     <div class="top-bar">
@@ -637,7 +671,7 @@
                         <div style="width: 36px; height: 36px; background: #667eea; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: 600;">JD</div>
                     </div>
                     <div class="content-area">
-                        <h2 style="margin-bottom: 20px;">Create Contract Template</h2>
+                        <h2 style="margin-bottom: 20px;">Create Service Contract</h2>
                         
                         <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 20px;">
                             <div class="card">
@@ -710,13 +744,9 @@
                                             <span>Cost:</span>
                                             <span>$200</span>
                                         </div>
-                                        <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                                        <div style="display: flex; justify-content: space-between;">
                                             <span>Price:</span>
                                             <span style="color: #48bb78;">$300</span>
-                                        </div>
-                                        <div style="display: flex; justify-content: space-between; padding-top: 8px; border-top: 1px solid #e2e8f0; font-weight: 600;">
-                                            <span>Profit:</span>
-                                            <span style="color: #667eea;">$100 (33%)</span>
                                         </div>
                                     </div>
                                 </div>
@@ -761,11 +791,49 @@
                                 </div>
                                 <div style="text-align: right;">
                                     <div style="font-size: 1.4em; font-weight: 600; color: #48bb78;">$300</div>
-                                    <div style="font-size: 0.85em; color: #718096;">Cost: $200</div>
                                 </div>
                             </div>
                             <div style="background: #f7fafc; padding: 12px; border-radius: 4px; font-size: 0.9em; margin: 12px 0;">
                                 24 months • 30,000 miles • 4 services
+                            </div>
+                            <button class="btn btn-primary" style="width: 100%;">Select This Contract</button>
+                        </div>
+
+                        <div style="border: 2px solid #cbd5e0; border-radius: 6px; padding: 16px; margin: 16px 0; cursor: pointer;">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                                <div>
+                                    <div style="font-weight: 600; font-size: 1.1em;">Honda Extended Care Plus</div>
+                                    <div style="margin-top: 6px;">
+                                        <span class="badge badge-info">Honda</span>
+                                        <span class="badge badge-secondary">Accord</span>
+                                        <span class="badge badge-secondary">2023</span>
+                                    </div>
+                                </div>
+                                <div style="text-align: right;">
+                                    <div style="font-size: 1.4em; font-weight: 600; color: #48bb78;">$499</div>
+                                </div>
+                            </div>
+                            <div style="background: #f7fafc; padding: 12px; border-radius: 4px; font-size: 0.9em; margin: 12px 0;">
+                                36 months • 50,000 miles • 6 services
+                            </div>
+                            <button class="btn btn-primary" style="width: 100%;">Select This Contract</button>
+                        </div>
+
+                        <div style="border: 2px solid #cbd5e0; border-radius: 6px; padding: 16px; margin: 16px 0; cursor: pointer;">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                                <div>
+                                    <div style="font-weight: 600; font-size: 1.1em;">Universal Premium Maintenance</div>
+                                    <div style="margin-top: 6px;">
+                                        <span class="badge badge-secondary">2023</span>
+                                        <span class="badge badge-secondary">All Makes</span>
+                                    </div>
+                                </div>
+                                <div style="text-align: right;">
+                                    <div style="font-size: 1.4em; font-weight: 600; color: #48bb78;">$399</div>
+                                </div>
+                            </div>
+                            <div style="background: #f7fafc; padding: 12px; border-radius: 4px; font-size: 0.9em; margin: 12px 0;">
+                                24 months • 40,000 miles • 5 services
                             </div>
                             <button class="btn btn-primary" style="width: 100%;">Select This Contract</button>
                         </div>
@@ -801,6 +869,7 @@
                                 <div>
                                     <div style="font-size: 1.3em;">Contract #PM-2024-389</div>
                                     <div style="color: #718096; font-size: 0.9em;">Honda 24-Month Maintenance</div>
+                                    <div style="color: #718096; font-size: 0.8em; margin-top: 4px;">Assigned by: Jason Johnson - Service Advisor</div>
                                 </div>
                                 <span class="badge badge-success" style="padding: 8px 14px;">Active Paid</span>
                             </div>
@@ -818,7 +887,7 @@
                                     </div>
                                 </div>
                                 
-                                <div style="background: linear-gradient(135deg, #667eea, #764ba2); padding: 16px; border-radius: 6px; color: white; margin-bottom: 20px;">
+                                <div style="background: #4A90E2; padding: 16px; border-radius: 6px; color: white; margin-bottom: 20px;">
                                     <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px;">
                                         <div>
                                             <div style="opacity: 0.9; font-size: 0.85em;">Sale Date</div>
@@ -892,7 +961,7 @@
                     <div class="modal-header">⚠️ Confirm Service Usage</div>
                     <div class="modal-body">
                         <p style="margin-bottom: 16px;">Are you sure you want to mark the following service as used?</p>
-                        <div style="background: #f7fafc; padding: 16px; border-radius: 6px; border-left: 4px solid #667eea; margin-bottom: 16px;">
+                        <div style="background: #f7fafc; padding: 16px; border-radius: 6px; border-left: 4px solid #4A90E2; margin-bottom: 16px;">
                             <div style="font-weight: 600; font-size: 1.1em; margin-bottom: 6px;">Tire Rotation</div>
                             <div style="font-size: 0.9em; color: #718096;">Value: $75 • Contract: PM-2024-389</div>
                             <div style="font-size: 0.9em; color: #718096;">Customer: Sarah Johnson</div>
@@ -936,11 +1005,7 @@
                         <div class="card">
                             <div class="card-header">Report Filters</div>
                             <div class="card-body">
-                                <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px;">
-                                    <div class="form-group" style="margin: 0;">
-                                        <label>Date Range</label>
-                                        <select><option>This Month</option></select>
-                                    </div>
+                                <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin-bottom: 12px;">
                                     <div class="form-group" style="margin: 0;">
                                         <label>Start Date</label>
                                         <input type="date" value="2024-10-01">
@@ -948,6 +1013,14 @@
                                     <div class="form-group" style="margin: 0;">
                                         <label>End Date</label>
                                         <input type="date" value="2024-10-31">
+                                    </div>
+                                    <div class="form-group" style="margin: 0;">
+                                        <label>Status</label>
+                                        <select><option>All Statuses</option></select>
+                                    </div>
+                                    <div class="form-group" style="margin: 0;">
+                                        <label>Assigned User</label>
+                                        <select><option>All Users</option><option>John Doe</option><option>Jane Smith</option></select>
                                     </div>
                                     <div style="align-self: end;">
                                         <button class="btn btn-primary" style="width: 100%;">Generate</button>
@@ -965,9 +1038,9 @@
                                 </div>
                             </div>
                             <div class="card-body">
-                                <div class="stats-grid" style="grid-template-columns: repeat(3, 1fr); margin-bottom: 20px;">
+                                <div class="stats-grid" style="grid-template-columns: repeat(4, 1fr); margin-bottom: 20px;">
                                     <div class="stat-card" style="box-shadow: none; background: #f7fafc;">
-                                        <div class="stat-label">CONTRACTS</div>
+                                        <div class="stat-label">CONTRACTS SOLD</div>
                                         <div class="stat-value" style="font-size: 1.8em;">47</div>
                                     </div>
                                     <div class="stat-card" style="box-shadow: none; background: #f7fafc;">
@@ -975,41 +1048,67 @@
                                         <div class="stat-value" style="font-size: 1.8em; color: #48bb78;">$14.1K</div>
                                     </div>
                                     <div class="stat-card" style="box-shadow: none; background: #f7fafc;">
-                                        <div class="stat-label">PROFIT</div>
-                                        <div class="stat-value" style="font-size: 1.8em; color: #667eea;">$4.7K</div>
+                                        <div class="stat-label">SERVICES USED</div>
+                                        <div class="stat-value" style="font-size: 1.8em; color: #4A90E2;">73</div>
+                                    </div>
+                                    <div class="stat-card" style="box-shadow: none; background: #f7fafc;">
+                                        <div class="stat-label">SERVICE VALUE REDEEMED</div>
+                                        <div class="stat-value" style="font-size: 1.8em; color: #ed8936;">$5.5K</div>
                                     </div>
                                 </div>
-                                
+
+                                <h3 style="margin: 24px 0 16px; font-size: 1.1em;">Service Redemption Details</h3>
                                 <table>
                                     <thead>
                                         <tr>
-                                            <th>Date</th>
-                                            <th>Contract #</th>
+                                            <th>Date Used</th>
                                             <th>Customer</th>
-                                            <th>Status</th>
-                                            <th>Cost</th>
-                                            <th>Price</th>
-                                            <th>Profit</th>
+                                            <th>Contract #</th>
+                                            <th>Service</th>
+                                            <th>Value</th>
+                                            <th>Assigned User</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td>Oct 15</td>
-                                            <td><strong>PM-389</strong></td>
+                                            <td>Oct 28</td>
                                             <td>S. Johnson</td>
-                                            <td><span class="badge badge-success">Paid</span></td>
-                                            <td>$200</td>
-                                            <td>$300</td>
-                                            <td style="color: #48bb78; font-weight: 600;">$100</td>
+                                            <td><strong>PM-389</strong></td>
+                                            <td>Oil Change</td>
+                                            <td style="font-weight: 600;">$75</td>
+                                            <td>Jason Johnson</td>
                                         </tr>
                                         <tr>
-                                            <td>Oct 14</td>
-                                            <td><strong>PM-388</strong></td>
+                                            <td>Oct 25</td>
                                             <td>M. Chen</td>
-                                            <td><span class="badge badge-warning">Pending</span></td>
-                                            <td>$350</td>
-                                            <td>$499</td>
-                                            <td style="color: #48bb78; font-weight: 600;">$149</td>
+                                            <td><strong>PM-387</strong></td>
+                                            <td>Tire Rotation</td>
+                                            <td style="font-weight: 600;">$75</td>
+                                            <td>Jane Smith</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Oct 22</td>
+                                            <td>R. Wilson</td>
+                                            <td><strong>PM-384</strong></td>
+                                            <td>Air Filter Replacement</td>
+                                            <td style="font-weight: 600;">$75</td>
+                                            <td>Jason Johnson</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Oct 20</td>
+                                            <td>S. Johnson</td>
+                                            <td><strong>PM-382</strong></td>
+                                            <td>Brake Inspection</td>
+                                            <td style="font-weight: 600;">$75</td>
+                                            <td>John Doe</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Oct 18</td>
+                                            <td>L. Thompson</td>
+                                            <td><strong>PM-375</strong></td>
+                                            <td>Oil Change</td>
+                                            <td style="font-weight: 600;">$75</td>
+                                            <td>Jane Smith</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -1305,7 +1404,7 @@
 
 </div>
 
-<div style="text-align: center; padding: 60px 20px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; margin-top: 40px;">
+<div style="text-align: center; padding: 60px 20px; background: #4A90E2; color: white; margin-top: 40px;">
     <h2 style="font-size: 2em; margin-bottom: 16px;">✅ Complete Wireframe Set</h2>
     <p style="font-size: 1.1em; max-width: 700px; margin: 0 auto;">
         All 15 screens documented with detailed UI components, workflows, and feature demonstrations. Ready for stakeholder review and development.
