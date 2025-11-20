@@ -1,5 +1,8 @@
 # Prepaid Maintenance Contract Administration System
 
+> ### 🎨 **[View Project Example Mockups](https://htmlpreview.github.io/?https://github.com/spoonjab/prepaid-maintenance/blob/main/mockups.html)**
+> Interactive wireframes showcasing all 15 screens with complete UI/UX design
+
 A comprehensive web-based platform for dealerships to manage prepaid maintenance and service contracts with multi-dealership support, role-based access control, and external API integration.
 
 ## Features
