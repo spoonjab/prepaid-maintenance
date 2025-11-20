@@ -1,0 +1,208 @@
+Prepaid Maintenance Contract Administration System
+Complete Wireframe Documentation
+This document presents comprehensive wireframe mockups for the Prepaid Maintenance Contract Administration System. These wireframes
+demonstrate all user workflows, administrative functions, external API integration capabilities, and system features necessary for managing
+prepaid maintenance contracts across multiple dealerships.
+
+✓ User Authentication ✓ Dashboard & Analytics ✓ Customer Management
+✓ Vehicle Entry with VIN Decoder ✓ Contract Template Builder ✓ Smart Contract Assignment
+✓ Service Usage Tracking ✓ Status Management ✓ Accounting Reports
+✓ User & Role Management ✓ API Key Management ✓ PDF Customization
+
+Screen 1: Login Page
+Initial authentication entry point with split-screen design. Left side features branding and system description, right side contains email/password
+login form with 'Remember me' option.
+Key Features:
+• Email/password authentication
+• Branding area
+• Forgot password link
+• Clean, professional design
+
+Screen 2: Main Dashboard (Admin View)
+Central hub with comprehensive statistics, dealership switcher prominently displayed in top bar, and quick access to key functions. Shows active
+contracts, pending approvals, fulfilled contracts, and revenue metrics.
+Key Features:
+• Statistics cards (4 key metrics)
+• Dealership switcher dropdown
+• Recent contracts table
+• Quick action buttons
+• Sidebar navigation
+• User menu with avatar
+
+Screen 3: Customer List / Search
+Searchable customer database with real-time filtering. Search works across name, phone, email, and customer number. Table shows customer
+details with vehicle and contract counts.
+Key Features:
+• Universal search box
+• Add customer button
+• Sortable table columns
+• Vehicle count per customer
+• Active contract count
+• Pagination controls
+
+Screen 4: Customer Detail Page
+Comprehensive view combining customer information, all vehicles, and all contracts in a single interface. Each vehicle shows its contracts with
+service progress bars and available/used services.
+Key Features:
+• Customer info card
+• Multiple vehicles support
+• Contract details per vehicle
+• Service progress tracking
+• Empty states for vehicles without contracts
+• Edit and assign contract actions
+
+Screen 5: Add/Edit Customer Modal
+Form modal for creating new customers or editing existing ones. Auto-generates customer number on save. Validates required fields including
+name, email, and phone.
+Key Features:
+• Two-column form layout
+• Required field indicators
+• Address fields (street, city, state, ZIP)
+• Auto customer number generation
+• Cancel/Save actions
+
+Screen 6: Add Vehicle Modal (with VIN Decoder)
+Quick vehicle entry with automated VIN decoding. Enter 17-character VIN, click Decode, and system auto-populates year, make, and model
+using external VIN API. Fields editable for verification.
+Key Features:
+• VIN input field (17 chars)
+• Decode VIN button
+• Auto-populated fields (year/make/model)
+• Success confirmation message
+• Manual override capability
+Screen 7: Contract Template List
+Grid view of reusable contract templates. Each card shows applicable vehicles (make/model/year badges), pricing, duration, and included
+services. Templates can be edited or copied.
+Key Features:
+• Card-based grid layout
+• Search functionality
+• Create template button
+• Vehicle applicability badges
+• Cost vs selling price display
+• Service count and list
+• Edit/Copy actions
+
+Screen 8: Create/Edit Contract Template
+Comprehensive form for building contract packages with live preview. Two-column layout: left side has form fields, right side shows real-time
+preview. Validates that service prices total equals selling price.
+Key Features:
+• Template naming
+• Vehicle applicability (multi-select)
+• Pricing fields (cost/selling price)
+• Terms (duration, mileage, deductible)
+• Dynamic service builder
+• Live preview with calculations
+• Validation warnings
+Screen 9: Assign Contract Modal
+Smart modal that shows only contracts applicable to the selected vehicle. System filters by matching make, model, or year. Each contract card
+displays full details including pricing and services.
+Key Features:
+• Filtered contract list
+• Vehicle info header
+• Contract selection cards
+• Detailed pricing display
+• Terms summary
+• Service list preview
+• Info box explaining filtering
+
+Screen 10: Customer Contract Detail
+Complete contract view showing customer/vehicle info, contract terms, service progress, and status history. Service items show used/available
+status with dates. Includes timeline of all status changes.
+Key Features:
+• Customer & vehicle summary
+• Contract details card
+• Progress bar (25%, 50%, etc.)
+• Service list with used dates
+• Mark service as used buttons
+• Status history timeline
+• Download PDF action
+
+Screen 11: Mark Service as Used - Confirmation
+Safety confirmation modal before marking a service as completed. Shows service details, customer info, and warning that action cannot be
+undone through interface. Prevents accidental clicks.
+Key Features:
+• Service details display
+• Customer/contract info
+• Warning about permanence
+• Impact summary (services remaining)
+• Cancel/Confirm buttons
+• Clear visual hierarchy
+
+Screen 12: Accounting Report Interface
+Comprehensive reporting with flexible filters and export options. Filter by date range, status, assigned user. Results show summary statistics
+and detailed table with cost/profit calculations.
+Key Features:
+• Multiple filter options
+• Date range selector
+• Status filter
+• User filter
+• Generate report button
+• Summary statistics
+• Detailed results table
+• CSV/PDF export buttons
+• Total calculations
+
+Screen 13: User Management (Admin Only)
+Admin interface for creating and managing users. Shows role (Admin/User), position, dealership assignments, and status. Includes reference
+cards explaining roles and default positions.
+Key Features:
+• User list table
+• Role badges (Admin/User)
+• Position display
+• Dealership assignments
+• Active/Inactive status
+• Add user button
+• Edit actions
+• Role/Position reference cards
+
+Screen 14: API Key Management
+Generate and manage API keys for external integrations. Shows active keys with masked values, dealership association, usage stats. Includes
+documentation cards for Rating, Purchase, and Void APIs.
+Key Features:
+• API key list table
+• Key name and masked value
+• Show/hide key toggle
+• Dealership assignment
+• Last used timestamp
+• Active/Inactive status
+• Generate new key button
+• API endpoint documentation cards
+• Pending contracts link
+
+Screen 15: PDF Template Customization
+Configure PDF contract documents with dealership branding. Two-column layout: left has settings (logo upload, sections, footer), right shows
+live PDF preview with all contract fields.
+Key Features:
+• Logo upload
+• Section toggles (customer info, vehicle, services)
+• Footer customization
+• Custom field builder
+• Live PDF preview
+• 4-page contract layout
+• Save/Reset buttons
+• Template variable support
+
+Implementation Ready
+These 15 comprehensive wireframes provide a complete visual blueprint for the Prepaid Maintenance Contract Administration System. Each
+screen demonstrates key functionality, user interactions, and the overall system architecture outlined in the technical documentation. Status
+Badge Colors Demonstrated:
+• Active Paid (Green) - Contract is paid and services can be used
+• Active Unpaid (Gray) - Contract created but payment not received
+• Pending (Yellow/Orange) - External API purchase awaiting approval
+• Fulfilled (Gray) - All services completed
+• Void (Red) - Contract cancelled
+• Inactive (Red) - User/API key deactivated
+Key System Capabilities:
+• Multi-dealership support with intelligent data filtering
+• Role-based access control (Admin vs User, Position-based permissions)
+• Smart contract matching based on vehicle make/model/year
+• External API integration (Rating, Purchase, Void endpoints)
+• Automated VIN decoding for quick vehicle entry
+• Real-time service usage tracking with progress indicators
+• Comprehensive accounting and reporting capabilities
+• Customizable PDF contract generation
+Next Steps:
+1. Review wireframes with stakeholders
+2. Gather feedback on workflows and UI elements
+3. Confirm all business requirements are addressed
+4. Proceed to development phase

@@ -1,0 +1,1316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PM System - Complete Wireframes</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f5f7fa; color: #2d3748; }
+        .nav-toc { position: fixed; right: 20px; top: 20px; background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); max-width: 250px; z-index: 1000; }
+        .nav-toc h3 { margin-bottom: 12px; font-size: 1em; color: #667eea; }
+        .nav-toc a { display: block; padding: 6px 0; color: #4a5568; text-decoration: none; font-size: 0.9em; }
+        .nav-toc a:hover { color: #667eea; }
+        .container { max-width: 1600px; margin: 0 auto; padding: 40px 20px 40px 20px; }
+        h1 { text-align: center; color: #1a202c; margin-bottom: 40px; font-size: 2.5em; }
+        .wireframe { background: white; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.07); margin-bottom: 60px; overflow: hidden; }
+        .wireframe-header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 24px 32px; }
+        .wireframe-header h2 { font-size: 1.6em; margin-bottom: 6px; }
+        .wireframe-header p { opacity: 0.9; }
+        .screen { background: #f8f9fa; min-height: 700px; position: relative; border: 3px solid #e2e8f0; }
+        
+        /* Common Components */
+        .dashboard-layout { display: flex; height: 800px; background: white; }
+        .sidebar { width: 240px; background: #1a202c; color: white; padding: 20px 0; }
+        .logo { padding: 0 20px 20px; font-size: 1.3em; font-weight: 700; border-bottom: 1px solid rgba(255,255,255,0.1); margin-bottom: 20px; }
+        .nav-item { padding: 10px 20px; color: rgba(255,255,255,0.7); cursor: pointer; display: flex; align-items: center; gap: 10px; }
+        .nav-item:hover, .nav-item.active { background: rgba(255,255,255,0.1); color: white; }
+        .main-content { flex: 1; display: flex; flex-direction: column; background: #f7fafc; }
+        .top-bar { background: white; border-bottom: 1px solid #e2e8f0; padding: 16px 24px; display: flex; justify-content: space-between; align-items: center; }
+        .dealership-switcher { padding: 8px 16px; background: #f7fafc; border: 2px solid #cbd5e0; border-radius: 6px; font-size: 0.95em; }
+        .content-area { flex: 1; overflow-y: auto; padding: 24px; }
+        
+        .btn { padding: 10px 20px; border: none; border-radius: 6px; font-size: 0.95em; font-weight: 600; cursor: pointer; }
+        .btn-primary { background: #667eea; color: white; }
+        .btn-secondary { background: #e2e8f0; color: #4a5568; }
+        .btn-sm { padding: 6px 12px; font-size: 0.85em; }
+        
+        .card { background: white; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); margin-bottom: 20px; }
+        .card-header { padding: 16px 20px; border-bottom: 1px solid #e2e8f0; font-weight: 600; display: flex; justify-content: space-between; align-items: center; }
+        .card-body { padding: 20px; }
+        
+        table { width: 100%; border-collapse: collapse; }
+        th { text-align: left; padding: 12px; background: #f7fafc; font-size: 0.85em; text-transform: uppercase; color: #4a5568; }
+        td { padding: 12px; border-bottom: 1px solid #e2e8f0; }
+        
+        .badge { padding: 4px 10px; border-radius: 12px; font-size: 0.8em; font-weight: 600; display: inline-block; }
+        .badge-success { background: #c6f6d5; color: #22543d; }
+        .badge-warning { background: #feebc8; color: #7c2d12; }
+        .badge-danger { background: #fed7d7; color: #742a2a; }
+        .badge-info { background: #bee3f8; color: #2c5282; }
+        .badge-secondary { background: #e2e8f0; color: #4a5568; }
+        .badge-purple { background: #e9d8fd; color: #44337a; }
+        
+        .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-bottom: 24px; }
+        .stat-card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+        .stat-label { color: #718096; font-size: 0.85em; margin-bottom: 6px; }
+        .stat-value { font-size: 2.2em; font-weight: 700; color: #1a202c; }
+        
+        .modal-overlay { position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; }
+        .modal { background: white; border-radius: 10px; max-width: 600px; width: 90%; box-shadow: 0 20px 25px rgba(0,0,0,0.15); }
+        .modal-header { padding: 20px; border-bottom: 1px solid #e2e8f0; font-weight: 600; font-size: 1.2em; }
+        .modal-body { padding: 20px; }
+        .modal-footer { padding: 16px 20px; border-top: 1px solid #e2e8f0; display: flex; justify-content: flex-end; gap: 10px; }
+        
+        .form-group { margin-bottom: 16px; }
+        .form-group label { display: block; margin-bottom: 6px; font-weight: 500; color: #4a5568; font-size: 0.9em; }
+        .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 10px; border: 2px solid #e2e8f0; border-radius: 6px; font-size: 0.95em; }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        
+        .login-split { display: flex; height: 100vh; }
+        .login-left { flex: 1; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; display: flex; align-items: center; justify-content: center; padding: 40px; }
+        .login-right { flex: 1; display: flex; align-items: center; justify-content: center; background: #f8f9fa; padding: 40px; }
+        .login-box { background: white; padding: 40px; border-radius: 10px; max-width: 400px; width: 100%; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+        
+        .service-item { padding: 14px; background: #f7fafc; border: 2px solid #e2e8f0; border-radius: 6px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
+        .service-item.used { opacity: 0.5; }
+        
+        .progress-bar { height: 8px; background: #e2e8f0; border-radius: 4px; overflow: hidden; margin: 10px 0; }
+        .progress-fill { height: 100%; background: #667eea; }
+        
+        .template-card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        
+        .info-box { background: #ebf8ff; border-left: 4px solid #4299e1; padding: 14px; margin: 14px 0; border-radius: 4px; font-size: 0.9em; }
+        .warning-box { background: #fffaf0; border-left: 4px solid #ed8936; padding: 14px; margin: 14px 0; border-radius: 4px; font-size: 0.9em; }
+    </style>
+</head>
+<body>
+
+<div class="nav-toc">
+    <h3>📋 Screens</h3>
+    <a href="#screen1">1. Login</a>
+    <a href="#screen2">2. Dashboard</a>
+    <a href="#screen3">3. Customers</a>
+    <a href="#screen4">4. Customer Detail</a>
+    <a href="#screen5">5. Add Customer</a>
+    <a href="#screen6">6. Add Vehicle</a>
+    <a href="#screen7">7. Templates</a>
+    <a href="#screen8">8. Create Template</a>
+    <a href="#screen9">9. Assign Contract</a>
+    <a href="#screen10">10. Contract Detail</a>
+    <a href="#screen11">11. Mark Service</a>
+    <a href="#screen12">12. Reports</a>
+    <a href="#screen13">13. Users</a>
+    <a href="#screen14">14. API Keys</a>
+    <a href="#screen15">15. PDF Config</a>
+</div>
+
+<div class="container">
+    <h1>🚗 Prepaid Maintenance System - Complete Wireframes</h1>
+
+    <!-- SCREEN 1: LOGIN -->
+    <div id="screen1" class="wireframe">
+        <div class="wireframe-header">
+            <h2>Screen 1: Login Page</h2>
+            <p>Authentication entry point with split-screen design</p>
+        </div>
+        <div class="screen">
+            <div class="login-split">
+                <div class="login-left">
+                    <div style="text-align: center;">
+                        <div style="font-size: 4em; margin-bottom: 20px;">🚗</div>
+                        <h2 style="font-size: 2em; margin-bottom: 12px;">Prepaid Maintenance</h2>
+                        <h3 style="font-size: 1.3em; margin-bottom: 20px; opacity: 0.9;">Contract Administration</h3>
+                        <p style="opacity: 0.8;">Streamline your dealership's maintenance contract management</p>
+                    </div>
+                </div>
+                <div class="login-right">
+                    <div class="login-box">
+                        <h3 style="margin-bottom: 24px; font-size: 1.6em;">Welcome Back</h3>
+                        <div class="form-group">
+                            <label>Email Address</label>
+                            <input type="email" value="john.doe@dealer.com">
+                        </div>
+                        <div class="form-group">
+                            <label>Password</label>
+                            <input type="password" value="••••••••••">
+                        </div>
+                        <div class="form-group">
+                            <label style="display: flex; align-items: center; font-weight: normal;">
+                                <input type="checkbox" style="width: auto; margin-right: 8px;"> Remember me
+                            </label>
+                        </div>
+                        <button class="btn btn-primary" style="width: 100%; padding: 12px;">Sign In</button>
+                        <p style="text-align: center; margin-top: 16px; color: #667eea; cursor: pointer;">Forgot password?</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCREEN 2: DASHBOARD -->
+    <div id="screen2" class="wireframe">
+        <div class="wireframe-header">
+            <h2>Screen 2: Main Dashboard</h2>
+            <p>Central hub with statistics and dealership switcher</p>
+        </div>
+        <div class="screen">
+            <div class="dashboard-layout">
+                <div class="sidebar">
+                    <div class="logo">🚗 PM System</div>
+                    <div class="nav-item active">📊 Dashboard</div>
+                    <div class="nav-item">👥 Customers</div>
+                    <div class="nav-item">🚙 Vehicles</div>
+                    <div class="nav-item">📄 Templates</div>
+                    <div class="nav-item">📋 Contracts</div>
+                    <div class="nav-item">📈 Reports</div>
+                    <div style="padding: 16px 20px; border-top: 1px solid rgba(255,255,255,0.1); margin-top: 16px; font-size: 0.75em; opacity: 0.5;">ADMIN</div>
+                    <div class="nav-item">👤 Users</div>
+                    <div class="nav-item">🔑 API Keys</div>
+                </div>
+                <div class="main-content">
+                    <div class="top-bar">
+                        <div class="dealership-switcher">🏢 Premium Motors Boise ▼</div>
+                        <div style="display: flex; gap: 12px; align-items: center;">
+                            <div>John Doe (Admin)</div>
+                            <div style="width: 36px; height: 36px; background: #667eea; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: 600;">JD</div>
+                        </div>
+                    </div>
+                    <div class="content-area">
+                        <h2 style="margin-bottom: 6px;">Dashboard</h2>
+                        <p style="color: #718096; margin-bottom: 24px;">Overview of your contract operations</p>
+                        
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <div class="stat-label">ACTIVE PAID</div>
+                                <div class="stat-value">247</div>
+                                <div style="color: #48bb78; font-size: 0.9em; margin-top: 6px;">↑ 12% from last month</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-label">PENDING</div>
+                                <div class="stat-value" style="color: #ed8936;">18</div>
+                                <div style="color: #c53030; font-size: 0.9em; margin-top: 6px;">⚠ Needs approval</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-label">FULFILLED (MTD)</div>
+                                <div class="stat-value">43</div>
+                                <div style="color: #48bb78; font-size: 0.9em; margin-top: 6px;">↑ 8% from last month</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-label">REVENUE (MTD)</div>
+                                <div class="stat-value" style="font-size: 1.8em;">$73.9K</div>
+                                <div style="color: #48bb78; font-size: 0.9em; margin-top: 6px;">↑ 15% from last month</div>
+                            </div>
+                        </div>
+                        
+                        <div class="card">
+                            <div class="card-header">
+                                <span>Recent Contracts</span>
+                                <a href="#" style="color: #667eea; text-decoration: none;">View all →</a>
+                            </div>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Contract #</th>
+                                        <th>Customer</th>
+                                        <th>Vehicle</th>
+                                        <th>Status</th>
+                                        <th>Services</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><strong>PM-2024-389</strong></td>
+                                        <td>Sarah Johnson</td>
+                                        <td>2023 Honda Accord</td>
+                                        <td><span class="badge badge-success">Active Paid</span></td>
+                                        <td>1 of 4</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>PM-2024-388</strong></td>
+                                        <td>Michael Chen</td>
+                                        <td>2024 Toyota Camry</td>
+                                        <td><span class="badge badge-warning">Pending</span></td>
+                                        <td>0 of 6</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>PM-2024-387</strong></td>
+                                        <td>Emily Rodriguez</td>
+                                        <td>2022 Ford F-150</td>
+                                        <td><span class="badge badge-success">Active Paid</span></td>
+                                        <td>3 of 5</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCREEN 3: CUSTOMER LIST -->
+    <div id="screen3" class="wireframe">
+        <div class="wireframe-header">
+            <h2>Screen 3: Customer List / Search</h2>
+            <p>Searchable customer database with filtering</p>
+        </div>
+        <div class="screen">
+            <div class="dashboard-layout">
+                <div class="sidebar">
+                    <div class="logo">🚗 PM System</div>
+                    <div class="nav-item">📊 Dashboard</div>
+                    <div class="nav-item active">👥 Customers</div>
+                    <div class="nav-item">🚙 Vehicles</div>
+                </div>
+                <div class="main-content">
+                    <div class="top-bar">
+                        <div class="dealership-switcher">🏢 Premium Motors Boise ▼</div>
+                        <div style="width: 36px; height: 36px; background: #667eea; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: 600;">JD</div>
+                    </div>
+                    <div class="content-area">
+                        <h2 style="margin-bottom: 6px;">Customers</h2>
+                        <p style="color: #718096; margin-bottom: 24px;">Manage customer profiles and contracts</p>
+                        
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 20px;">
+                            <input type="text" placeholder="🔍 Search by name, phone, email, or customer number..." value="Johnson" style="flex: 1; max-width: 500px; padding: 10px 10px 10px 36px; border: 2px solid #e2e8f0; border-radius: 6px;">
+                            <button class="btn btn-primary">➕ Add Customer</button>
+                        </div>
+                        
+                        <div class="card">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Customer #</th>
+                                        <th>Name</th>
+                                        <th>Phone</th>
+                                        <th>Vehicles</th>
+                                        <th>Contracts</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr style="background: #fffaf0;">
+                                        <td><strong>C-00245</strong></td>
+                                        <td><strong>Sarah Johnson</strong></td>
+                                        <td>(208) 555-0132</td>
+                                        <td>2</td>
+                                        <td><span class="badge badge-success">3</span></td>
+                                        <td><button class="btn btn-secondary btn-sm">View</button></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>C-00198</strong></td>
+                                        <td>Robert Johnson</td>
+                                        <td>(208) 555-0198</td>
+                                        <td>1</td>
+                                        <td><span class="badge badge-success">1</span></td>
+                                        <td><button class="btn btn-secondary btn-sm">View</button></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>C-00412</strong></td>
+                                        <td>Amanda Johnson-Smith</td>
+                                        <td>(208) 555-0412</td>
+                                        <td>3</td>
+                                        <td><span class="badge badge-success">2</span></td>
+                                        <td><button class="btn btn-secondary btn-sm">View</button></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- SCREEN 4: CUSTOMER DETAIL -->
+    <div id="screen4" class="wireframe">
+        <div class="wireframe-header">
+            <h2>Screen 4: Customer Detail Page</h2>
+            <p>Complete customer view with vehicles and contracts</p>
+        </div>
+        <div class="screen">
+            <div class="dashboard-layout">
+                <div class="sidebar">
+                    <div class="logo">🚗 PM System</div>
+                    <div class="nav-item active">👥 Customers</div>
+                </div>
+                <div class="main-content">
+                    <div class="top-bar">
+                        <div class="dealership-switcher">🏢 Premium Motors Boise ▼</div>
+                        <div style="width: 36px; height: 36px; background: #667eea; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: 600;">JD</div>
+                    </div>
+                    <div class="content-area">
+                        <div class="card">
+                            <div class="card-header">
+                                <div>
+                                    <div style="font-size: 1.4em; margin-bottom: 4px;">Sarah Johnson</div>
+                                    <div style="color: #718096;">Customer #C-00245</div>
+                                </div>
+                                <button class="btn btn-secondary btn-sm">✏ Edit</button>
+                            </div>
+                            <div class="card-body">
+                                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;">
+                                    <div>
+                                        <div style="color: #718096; font-size: 0.85em; margin-bottom: 4px;">Address</div>
+                                        <div>1234 Maple St<br>Boise, ID 83702</div>
+                                    </div>
+                                    <div>
+                                        <div style="color: #718096; font-size: 0.85em; margin-bottom: 4px;">Phone</div>
+                                        <div>(208) 555-0132</div>
+                                    </div>
+                                    <div>
+                                        <div style="color: #718096; font-size: 0.85em; margin-bottom: 4px;">Email</div>
+                                        <div>sarah.j@email.com</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="card">
+                            <div class="card-header">
+                                <div>
+                                    <div style="font-size: 1.2em;">2023 Honda Accord</div>
+                                    <div style="color: #718096; font-size: 0.9em;">VIN: 1HGCV1F16MA123456</div>
+                                </div>
+                                <button class="btn btn-primary btn-sm">📋 Assign Contract</button>
+                            </div>
+                            <div class="card-body">
+                                <div style="border: 2px solid #e2e8f0; border-radius: 6px; padding: 16px; background: #f7fafc;">
+                                    <div style="display: flex; justify-content: space-between; margin-bottom: 12px;">
+                                        <div>
+                                            <div style="font-weight: 600; font-size: 1.1em;">Honda 24-Month Maintenance</div>
+                                            <div style="color: #718096; font-size: 0.9em;">PM-2024-389</div>
+                                        </div>
+                                        <span class="badge badge-success">Active Paid</span>
+                                    </div>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: 25%;"></div>
+                                    </div>
+                                    <div style="text-align: center; font-size: 0.9em; color: #718096; margin-bottom: 12px;">1 of 4 services used (25%)</div>
+                                    
+                                    <div class="service-item used">
+                                        <div>
+                                            <div>✓ Oil Change - $75</div>
+                                            <div style="font-size: 0.85em; color: #718096;">Used Oct 28, 2024</div>
+                                        </div>
+                                    </div>
+                                    <div class="service-item">
+                                        <div>
+                                            <div>Tire Rotation - $75</div>
+                                            <div style="font-size: 0.85em; color: #48bb78;">Available</div>
+                                        </div>
+                                        <button class="btn btn-primary btn-sm">Mark as Used</button>
+                                    </div>
+                                    <div class="service-item">
+                                        <div>Air Filter - $75</div>
+                                        <button class="btn btn-primary btn-sm">Mark as Used</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCREEN 5: ADD CUSTOMER MODAL -->
+    <div id="screen5" class="wireframe">
+        <div class="wireframe-header">
+            <h2>Screen 5: Add/Edit Customer Modal</h2>
+            <p>Form for creating or editing customer information</p>
+        </div>
+        <div class="screen">
+            <div class="dashboard-layout">
+                <div class="sidebar">
+                    <div class="logo">🚗 PM System</div>
+                </div>
+                <div class="main-content" style="filter: blur(2px); opacity: 0.4;">
+                    <div class="content-area">
+                        <div class="card" style="height: 400px;"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-overlay">
+                <div class="modal">
+                    <div class="modal-header">Add New Customer</div>
+                    <div class="modal-body">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>First Name *</label>
+                                <input type="text" placeholder="Enter first name">
+                            </div>
+                            <div class="form-group">
+                                <label>Last Name *</label>
+                                <input type="text" placeholder="Enter last name">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Email *</label>
+                            <input type="email" placeholder="customer@email.com">
+                        </div>
+                        <div class="form-group">
+                            <label>Phone *</label>
+                            <input type="tel" placeholder="(208) 555-0100">
+                        </div>
+                        <div class="form-group">
+                            <label>Address</label>
+                            <input type="text" placeholder="123 Main Street">
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>City</label>
+                                <input type="text" placeholder="Boise">
+                            </div>
+                            <div class="form-group">
+                                <label>State</label>
+                                <select><option>ID</option></select>
+                            </div>
+                        </div>
+                        <div class="info-box">Customer number will be auto-generated when you save.</div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary">Cancel</button>
+                        <button class="btn btn-primary">Save Customer</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCREEN 6: ADD VEHICLE MODAL -->
+    <div id="screen6" class="wireframe">
+        <div class="wireframe-header">
+            <h2>Screen 6: Add Vehicle Modal (VIN Decoder)</h2>
+            <p>Quick vehicle entry with automated VIN decoding</p>
+        </div>
+        <div class="screen">
+            <div class="dashboard-layout">
+                <div class="sidebar">
+                    <div class="logo">🚗 PM System</div>
+                </div>
+                <div class="main-content" style="filter: blur(2px); opacity: 0.4;">
+                    <div class="content-area">
+                        <div class="card" style="height: 400px;"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-overlay">
+                <div class="modal">
+                    <div class="modal-header">Add Vehicle</div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label>VIN (17 characters) *</label>
+                            <div style="display: flex; gap: 10px;">
+                                <input type="text" value="1HGCV1F16MA123456" style="flex: 1;">
+                                <button class="btn btn-primary">🔍 Decode</button>
+                            </div>
+                        </div>
+                        <div style="background: #f0fff4; border-left: 4px solid #48bb78; padding: 12px; margin: 12px 0; border-radius: 4px;">
+                            <strong>✓ VIN decoded successfully!</strong> Verify information below.
+                        </div>
+                        <div class="form-row" style="grid-template-columns: 1fr 1fr 1fr;">
+                            <div class="form-group">
+                                <label>Year *</label>
+                                <input type="text" value="2023" style="background: #f7fafc;">
+                            </div>
+                            <div class="form-group">
+                                <label>Make *</label>
+                                <input type="text" value="Honda" style="background: #f7fafc;">
+                            </div>
+                            <div class="form-group">
+                                <label>Model *</label>
+                                <input type="text" value="Accord" style="background: #f7fafc;">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary">Cancel</button>
+                        <button class="btn btn-primary">Save Vehicle</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCREEN 7: CONTRACT TEMPLATES -->
+    <div id="screen7" class="wireframe">
+        <div class="wireframe-header">
+            <h2>Screen 7: Contract Template List</h2>
+            <p>Manage reusable contract packages</p>
+        </div>
+        <div class="screen">
+            <div class="dashboard-layout">
+                <div class="sidebar">
+                    <div class="logo">🚗 PM System</div>
+                    <div class="nav-item active">📄 Templates</div>
+                </div>
+                <div class="main-content">
+                    <div class="top-bar">
+                        <div class="dealership-switcher">🏢 Premium Motors Boise ▼</div>
+                        <div style="width: 36px; height: 36px; background: #667eea; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: 600;">JD</div>
+                    </div>
+                    <div class="content-area">
+                        <h2 style="margin-bottom: 6px;">Contract Templates</h2>
+                        <p style="color: #718096; margin-bottom: 24px;">Create and manage reusable packages</p>
+                        
+                        <div style="display: flex; justify-content: flex-end; margin-bottom: 20px;">
+                            <button class="btn btn-primary">➕ Create Template</button>
+                        </div>
+                        
+                        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;">
+                            <div class="template-card">
+                                <div style="font-weight: 600; font-size: 1.15em; margin-bottom: 10px;">Honda 24-Month Maintenance</div>
+                                <div style="margin-bottom: 12px;">
+                                    <span class="badge badge-info">Honda</span>
+                                    <span class="badge badge-secondary">2020-2024</span>
+                                </div>
+                                <div style="margin-bottom: 12px;">
+                                    <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+                                        <span style="color: #718096;">Cost:</span>
+                                        <span><strong>$200</strong></span>
+                                    </div>
+                                    <div style="display: flex; justify-content: space-between;">
+                                        <span style="color: #718096;">Price:</span>
+                                        <span style="color: #48bb78;"><strong>$300</strong></span>
+                                    </div>
+                                </div>
+                                <div style="font-size: 0.9em; color: #718096; padding-top: 12px; border-top: 1px solid #e2e8f0;">
+                                    24 months • 4 services<br>
+                                    Oil, Tire Rotation, Filter, Brakes
+                                </div>
+                                <div style="display: flex; gap: 8px; margin-top: 14px;">
+                                    <button class="btn btn-secondary btn-sm" style="flex: 1;">✏ Edit</button>
+                                    <button class="btn btn-secondary btn-sm" style="flex: 1;">📋 Copy</button>
+                                </div>
+                            </div>
+                            
+                            <div class="template-card">
+                                <div style="font-weight: 600; font-size: 1.15em; margin-bottom: 10px;">Toyota Premium Care</div>
+                                <div style="margin-bottom: 12px;">
+                                    <span class="badge badge-info">Toyota</span>
+                                    <span class="badge badge-secondary">Camry</span>
+                                </div>
+                                <div style="margin-bottom: 12px;">
+                                    <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+                                        <span style="color: #718096;">Cost:</span>
+                                        <span><strong>$350</strong></span>
+                                    </div>
+                                    <div style="display: flex; justify-content: space-between;">
+                                        <span style="color: #718096;">Price:</span>
+                                        <span style="color: #48bb78;"><strong>$499</strong></span>
+                                    </div>
+                                </div>
+                                <div style="font-size: 0.9em; color: #718096; padding-top: 12px; border-top: 1px solid #e2e8f0;">
+                                    36 months • 6 services<br>
+                                    3x Oil, 2x Rotation, Inspection
+                                </div>
+                                <div style="display: flex; gap: 8px; margin-top: 14px;">
+                                    <button class="btn btn-secondary btn-sm" style="flex: 1;">✏ Edit</button>
+                                    <button class="btn btn-secondary btn-sm" style="flex: 1;">📋 Copy</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCREEN 8: CREATE TEMPLATE -->
+    <div id="screen8" class="wireframe">
+        <div class="wireframe-header">
+            <h2>Screen 8: Create/Edit Contract Template</h2>
+            <p>Build custom contract packages with live preview</p>
+        </div>
+        <div class="screen">
+            <div class="dashboard-layout">
+                <div class="sidebar">
+                    <div class="logo">🚗 PM System</div>
+                    <div class="nav-item active">📄 Templates</div>
+                </div>
+                <div class="main-content">
+                    <div class="top-bar">
+                        <div class="dealership-switcher">🏢 Premium Motors Boise ▼</div>
+                        <div style="width: 36px; height: 36px; background: #667eea; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: 600;">JD</div>
+                    </div>
+                    <div class="content-area">
+                        <h2 style="margin-bottom: 20px;">Create Contract Template</h2>
+                        
+                        <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 20px;">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="form-group">
+                                        <label>Template Name *</label>
+                                        <input type="text" placeholder="Honda 24-Month Maintenance">
+                                    </div>
+                                    <div style="font-weight: 600; margin: 20px 0 12px;">Vehicle Applicability</div>
+                                    <div class="info-box">Select at least one: make, model, or year</div>
+                                    <div class="form-row" style="grid-template-columns: 1fr 1fr 1fr;">
+                                        <div class="form-group">
+                                            <label>Makes</label>
+                                            <select multiple style="height: 80px;">
+                                                <option selected>Honda</option>
+                                                <option>Toyota</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Models</label>
+                                            <select multiple style="height: 80px;">
+                                                <option>Accord</option>
+                                                <option>Civic</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Years</label>
+                                            <select multiple style="height: 80px;">
+                                                <option selected>2024</option>
+                                                <option selected>2023</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label>Cost *</label>
+                                            <input type="number" value="200.00">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Selling Price *</label>
+                                            <input type="number" value="300.00">
+                                        </div>
+                                    </div>
+                                    <div style="font-weight: 600; margin: 20px 0 12px;">Services</div>
+                                    <div class="warning-box">Service prices must equal selling price ($300)</div>
+                                    <div style="display: grid; grid-template-columns: 2fr 1fr auto; gap: 10px; margin-bottom: 10px;">
+                                        <input type="text" value="Oil Change">
+                                        <input type="number" value="75.00">
+                                        <button class="btn btn-secondary btn-sm">✕</button>
+                                    </div>
+                                    <div style="display: grid; grid-template-columns: 2fr 1fr auto; gap: 10px; margin-bottom: 10px;">
+                                        <input type="text" value="Tire Rotation">
+                                        <input type="number" value="75.00">
+                                        <button class="btn btn-secondary btn-sm">✕</button>
+                                    </div>
+                                    <button class="btn btn-secondary" style="width: 100%;">➕ Add Service</button>
+                                </div>
+                            </div>
+                            
+                            <div class="card">
+                                <div class="card-header">Preview</div>
+                                <div class="card-body">
+                                    <div style="font-weight: 600; margin-bottom: 12px;">Honda 24-Month</div>
+                                    <div style="margin-bottom: 12px;">
+                                        <span class="badge badge-info">Honda</span>
+                                        <span class="badge badge-secondary">2023-24</span>
+                                    </div>
+                                    <div style="background: #f7fafc; padding: 14px; border-radius: 6px;">
+                                        <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                                            <span>Cost:</span>
+                                            <span>$200</span>
+                                        </div>
+                                        <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                                            <span>Price:</span>
+                                            <span style="color: #48bb78;">$300</span>
+                                        </div>
+                                        <div style="display: flex; justify-content: space-between; padding-top: 8px; border-top: 1px solid #e2e8f0; font-weight: 600;">
+                                            <span>Profit:</span>
+                                            <span style="color: #667eea;">$100 (33%)</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- SCREEN 9: ASSIGN CONTRACT -->
+    <div id="screen9" class="wireframe">
+        <div class="wireframe-header">
+            <h2>Screen 9: Assign Contract Modal</h2>
+            <p>Smart filtering shows only applicable contracts</p>
+        </div>
+        <div class="screen">
+            <div class="dashboard-layout">
+                <div class="sidebar"><div class="logo">🚗 PM System</div></div>
+                <div class="main-content" style="filter: blur(2px); opacity: 0.4;">
+                    <div class="content-area"><div class="card" style="height: 400px;"></div></div>
+                </div>
+            </div>
+            <div class="modal-overlay">
+                <div class="modal" style="max-width: 700px;">
+                    <div class="modal-header">
+                        <div>Assign Contract to Vehicle</div>
+                        <div style="color: #718096; font-size: 0.9em; font-weight: normal; margin-top: 4px;">2023 Honda Accord - VIN: 1HGCV1F16MA123456</div>
+                    </div>
+                    <div class="modal-body">
+                        <div class="info-box">Showing contracts that match this vehicle's make, model, or year</div>
+                        <div style="border: 2px solid #cbd5e0; border-radius: 6px; padding: 16px; margin: 16px 0; cursor: pointer;">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                                <div>
+                                    <div style="font-weight: 600; font-size: 1.1em;">Honda 24-Month Maintenance</div>
+                                    <div style="margin-top: 6px;">
+                                        <span class="badge badge-info">Honda</span>
+                                        <span class="badge badge-secondary">2020-2024</span>
+                                    </div>
+                                </div>
+                                <div style="text-align: right;">
+                                    <div style="font-size: 1.4em; font-weight: 600; color: #48bb78;">$300</div>
+                                    <div style="font-size: 0.85em; color: #718096;">Cost: $200</div>
+                                </div>
+                            </div>
+                            <div style="background: #f7fafc; padding: 12px; border-radius: 4px; font-size: 0.9em; margin: 12px 0;">
+                                24 months • 30,000 miles • 4 services
+                            </div>
+                            <button class="btn btn-primary" style="width: 100%;">Select This Contract</button>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCREEN 10: CONTRACT DETAIL -->
+    <div id="screen10" class="wireframe">
+        <div class="wireframe-header">
+            <h2>Screen 10: Customer Contract Detail</h2>
+            <p>Complete contract view with service tracking</p>
+        </div>
+        <div class="screen">
+            <div class="dashboard-layout">
+                <div class="sidebar">
+                    <div class="logo">🚗 PM System</div>
+                    <div class="nav-item active">📋 Contracts</div>
+                </div>
+                <div class="main-content">
+                    <div class="top-bar">
+                        <div class="dealership-switcher">🏢 Premium Motors Boise ▼</div>
+                        <div style="width: 36px; height: 36px; background: #667eea; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: 600;">JD</div>
+                    </div>
+                    <div class="content-area">
+                        <div class="card">
+                            <div class="card-header">
+                                <div>
+                                    <div style="font-size: 1.3em;">Contract #PM-2024-389</div>
+                                    <div style="color: #718096; font-size: 0.9em;">Honda 24-Month Maintenance</div>
+                                </div>
+                                <span class="badge badge-success" style="padding: 8px 14px;">Active Paid</span>
+                            </div>
+                            <div class="card-body">
+                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px;">
+                                    <div style="background: #f7fafc; padding: 16px; border-radius: 6px;">
+                                        <div style="font-weight: 600; margin-bottom: 10px;">Customer</div>
+                                        <div style="margin-bottom: 6px;">Sarah Johnson (#C-00245)</div>
+                                        <div style="font-size: 0.9em; color: #718096;">(208) 555-0132</div>
+                                    </div>
+                                    <div style="background: #f7fafc; padding: 16px; border-radius: 6px;">
+                                        <div style="font-weight: 600; margin-bottom: 10px;">Vehicle</div>
+                                        <div style="margin-bottom: 6px;">2023 Honda Accord</div>
+                                        <div style="font-size: 0.9em; color: #718096;">VIN: 1HGCV1F16MA123456</div>
+                                    </div>
+                                </div>
+                                
+                                <div style="background: linear-gradient(135deg, #667eea, #764ba2); padding: 16px; border-radius: 6px; color: white; margin-bottom: 20px;">
+                                    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px;">
+                                        <div>
+                                            <div style="opacity: 0.9; font-size: 0.85em;">Sale Date</div>
+                                            <div style="font-weight: 600;">Oct 15, 2024</div>
+                                        </div>
+                                        <div>
+                                            <div style="opacity: 0.9; font-size: 0.85em;">Expires</div>
+                                            <div style="font-weight: 600;">Oct 15, 2026</div>
+                                        </div>
+                                        <div>
+                                            <div style="opacity: 0.9; font-size: 0.85em;">Price</div>
+                                            <div style="font-weight: 600;">$300</div>
+                                        </div>
+                                        <div>
+                                            <div style="opacity: 0.9; font-size: 0.85em;">Sold By</div>
+                                            <div style="font-weight: 600;">John Doe</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div style="font-weight: 600; margin-bottom: 12px;">Service Progress</div>
+                                <div class="progress-bar" style="height: 10px;">
+                                    <div class="progress-fill" style="width: 25%;"></div>
+                                </div>
+                                <div style="text-align: center; font-size: 0.9em; color: #718096; margin-bottom: 20px;">1 of 4 completed (25%)</div>
+                                
+                                <div class="service-item used">
+                                    <div>
+                                        <div>✓ Oil Change - $75</div>
+                                        <div style="font-size: 0.85em; color: #718096;">Used Oct 28, 2024 at 2:45 PM</div>
+                                    </div>
+                                </div>
+                                <div class="service-item">
+                                    <div>
+                                        <div>Tire Rotation - $75</div>
+                                        <div style="font-size: 0.85em; color: #48bb78;">Available</div>
+                                    </div>
+                                    <button class="btn btn-primary btn-sm">Mark as Used</button>
+                                </div>
+                                <div class="service-item">
+                                    <div>Air Filter - $75</div>
+                                    <button class="btn btn-primary btn-sm">Mark as Used</button>
+                                </div>
+                                <div class="service-item">
+                                    <div>Brake Inspection - $75</div>
+                                    <button class="btn btn-primary btn-sm">Mark as Used</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCREEN 11: MARK SERVICE CONFIRMATION -->
+    <div id="screen11" class="wireframe">
+        <div class="wireframe-header">
+            <h2>Screen 11: Mark Service as Used - Confirmation</h2>
+            <p>Safety confirmation before marking service complete</p>
+        </div>
+        <div class="screen">
+            <div class="dashboard-layout">
+                <div class="sidebar"><div class="logo">🚗 PM System</div></div>
+                <div class="main-content" style="filter: blur(2px); opacity: 0.4;">
+                    <div class="content-area"><div class="card" style="height: 500px;"></div></div>
+                </div>
+            </div>
+            <div class="modal-overlay">
+                <div class="modal" style="max-width: 500px;">
+                    <div class="modal-header">⚠️ Confirm Service Usage</div>
+                    <div class="modal-body">
+                        <p style="margin-bottom: 16px;">Are you sure you want to mark the following service as used?</p>
+                        <div style="background: #f7fafc; padding: 16px; border-radius: 6px; border-left: 4px solid #667eea; margin-bottom: 16px;">
+                            <div style="font-weight: 600; font-size: 1.1em; margin-bottom: 6px;">Tire Rotation</div>
+                            <div style="font-size: 0.9em; color: #718096;">Value: $75 • Contract: PM-2024-389</div>
+                            <div style="font-size: 0.9em; color: #718096;">Customer: Sarah Johnson</div>
+                        </div>
+                        <div class="warning-box">
+                            <strong>Important:</strong> This action will be recorded with today's date and cannot be undone through the interface.
+                        </div>
+                        <div style="background: #ebf8ff; padding: 12px; border-radius: 4px; font-size: 0.9em;">
+                            After marking: Remaining services will be <strong>2 of 4</strong>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary">Cancel</button>
+                        <button class="btn btn-success">✓ Yes, Mark as Used</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCREEN 12: REPORTS -->
+    <div id="screen12" class="wireframe">
+        <div class="wireframe-header">
+            <h2>Screen 12: Accounting Report Interface</h2>
+            <p>Generate financial reports with filters and export</p>
+        </div>
+        <div class="screen">
+            <div class="dashboard-layout">
+                <div class="sidebar">
+                    <div class="logo">🚗 PM System</div>
+                    <div class="nav-item active">📈 Reports</div>
+                </div>
+                <div class="main-content">
+                    <div class="top-bar">
+                        <div class="dealership-switcher">🏢 Premium Motors Boise ▼</div>
+                        <div style="width: 36px; height: 36px; background: #667eea; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: 600;">JD</div>
+                    </div>
+                    <div class="content-area">
+                        <h2 style="margin-bottom: 20px;">Accounting Reports</h2>
+                        
+                        <div class="card">
+                            <div class="card-header">Report Filters</div>
+                            <div class="card-body">
+                                <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px;">
+                                    <div class="form-group" style="margin: 0;">
+                                        <label>Date Range</label>
+                                        <select><option>This Month</option></select>
+                                    </div>
+                                    <div class="form-group" style="margin: 0;">
+                                        <label>Start Date</label>
+                                        <input type="date" value="2024-10-01">
+                                    </div>
+                                    <div class="form-group" style="margin: 0;">
+                                        <label>End Date</label>
+                                        <input type="date" value="2024-10-31">
+                                    </div>
+                                    <div style="align-self: end;">
+                                        <button class="btn btn-primary" style="width: 100%;">Generate</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="card">
+                            <div class="card-header">
+                                <span>Report Results</span>
+                                <div>
+                                    <button class="btn btn-secondary btn-sm">📊 CSV</button>
+                                    <button class="btn btn-secondary btn-sm">📄 PDF</button>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="stats-grid" style="grid-template-columns: repeat(3, 1fr); margin-bottom: 20px;">
+                                    <div class="stat-card" style="box-shadow: none; background: #f7fafc;">
+                                        <div class="stat-label">CONTRACTS</div>
+                                        <div class="stat-value" style="font-size: 1.8em;">47</div>
+                                    </div>
+                                    <div class="stat-card" style="box-shadow: none; background: #f7fafc;">
+                                        <div class="stat-label">REVENUE</div>
+                                        <div class="stat-value" style="font-size: 1.8em; color: #48bb78;">$14.1K</div>
+                                    </div>
+                                    <div class="stat-card" style="box-shadow: none; background: #f7fafc;">
+                                        <div class="stat-label">PROFIT</div>
+                                        <div class="stat-value" style="font-size: 1.8em; color: #667eea;">$4.7K</div>
+                                    </div>
+                                </div>
+                                
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Date</th>
+                                            <th>Contract #</th>
+                                            <th>Customer</th>
+                                            <th>Status</th>
+                                            <th>Cost</th>
+                                            <th>Price</th>
+                                            <th>Profit</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Oct 15</td>
+                                            <td><strong>PM-389</strong></td>
+                                            <td>S. Johnson</td>
+                                            <td><span class="badge badge-success">Paid</span></td>
+                                            <td>$200</td>
+                                            <td>$300</td>
+                                            <td style="color: #48bb78; font-weight: 600;">$100</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Oct 14</td>
+                                            <td><strong>PM-388</strong></td>
+                                            <td>M. Chen</td>
+                                            <td><span class="badge badge-warning">Pending</span></td>
+                                            <td>$350</td>
+                                            <td>$499</td>
+                                            <td style="color: #48bb78; font-weight: 600;">$149</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCREEN 13: USER MANAGEMENT -->
+    <div id="screen13" class="wireframe">
+        <div class="wireframe-header">
+            <h2>Screen 13: User Management (Admin)</h2>
+            <p>Create and manage user accounts with permissions</p>
+        </div>
+        <div class="screen">
+            <div class="dashboard-layout">
+                <div class="sidebar">
+                    <div class="logo">🚗 PM System</div>
+                    <div style="padding: 16px 20px; font-size: 0.75em; opacity: 0.5;">ADMIN</div>
+                    <div class="nav-item active">👤 Users</div>
+                </div>
+                <div class="main-content">
+                    <div class="top-bar">
+                        <div class="dealership-switcher">🏢 All Dealerships (Admin) ▼</div>
+                        <div style="width: 36px; height: 36px; background: #667eea; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: 600;">JD</div>
+                    </div>
+                    <div class="content-area">
+                        <h2 style="margin-bottom: 6px;">User Management</h2>
+                        <p style="color: #718096; margin-bottom: 24px;">Create and manage user accounts</p>
+                        
+                        <div style="display: flex; justify-content: flex-end; margin-bottom: 20px;">
+                            <button class="btn btn-primary">➕ Add User</button>
+                        </div>
+                        
+                        <div class="card">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Email</th>
+                                        <th>Role</th>
+                                        <th>Position</th>
+                                        <th>Dealerships</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><strong>John Doe</strong></td>
+                                        <td>john.doe@dealer.com</td>
+                                        <td><span class="badge badge-purple">Admin</span></td>
+                                        <td>Administrator</td>
+                                        <td><span class="badge badge-info">All</span></td>
+                                        <td><span class="badge badge-success">Active</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Jane Smith</strong></td>
+                                        <td>jane.smith@dealer.com</td>
+                                        <td><span class="badge badge-info">User</span></td>
+                                        <td>Accounting Clerk</td>
+                                        <td><span class="badge badge-secondary">Premium Motors</span></td>
+                                        <td><span class="badge badge-success">Active</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Mike Johnson</strong></td>
+                                        <td>mike.j@dealer.com</td>
+                                        <td><span class="badge badge-info">User</span></td>
+                                        <td>F&I Manager</td>
+                                        <td><span class="badge badge-secondary">Premium</span> <span class="badge badge-secondary">Downtown</span></td>
+                                        <td><span class="badge badge-success">Active</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCREEN 14: API KEYS -->
+    <div id="screen14" class="wireframe">
+        <div class="wireframe-header">
+            <h2>Screen 14: API Key Management</h2>
+            <p>Generate and manage API keys for external integrations</p>
+        </div>
+        <div class="screen">
+            <div class="dashboard-layout">
+                <div class="sidebar">
+                    <div class="logo">🚗 PM System</div>
+                    <div class="nav-item active">🔑 API Keys</div>
+                </div>
+                <div class="main-content">
+                    <div class="top-bar">
+                        <div class="dealership-switcher">🏢 All Dealerships (Admin) ▼</div>
+                        <div style="width: 36px; height: 36px; background: #667eea; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: 600;">JD</div>
+                    </div>
+                    <div class="content-area">
+                        <h2 style="margin-bottom: 6px;">API Key Management</h2>
+                        <p style="color: #718096; margin-bottom: 20px;">Manage external system integrations</p>
+                        
+                        <div class="info-box" style="margin-bottom: 20px;">
+                            <strong>External APIs:</strong> Rating (get contracts), Purchase (create contracts), Void (cancel contracts)
+                        </div>
+                        
+                        <button class="btn btn-primary" style="margin-bottom: 20px;">➕ Generate New API Key</button>
+                        
+                        <div class="card">
+                            <div class="card-header">Active API Keys</div>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Key Name</th>
+                                        <th>API Key</th>
+                                        <th>Dealership</th>
+                                        <th>Last Used</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><strong>Darwin F&I Integration</strong></td>
+                                        <td><code style="background: #f7fafc; padding: 4px 8px; border-radius: 4px;">pmsk_live_7x9...k2n</code> <button class="btn btn-secondary btn-sm">👁</button></td>
+                                        <td><span class="badge badge-secondary">Premium Motors</span></td>
+                                        <td style="color: #48bb78;">2 hours ago</td>
+                                        <td><span class="badge badge-success">Active</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Downtown Auto API</strong></td>
+                                        <td><code style="background: #f7fafc; padding: 4px 8px; border-radius: 4px;">pmsk_live_3m8...p1q</code> <button class="btn btn-secondary btn-sm">👁</button></td>
+                                        <td><span class="badge badge-secondary">Downtown Auto</span></td>
+                                        <td>Yesterday</td>
+                                        <td><span class="badge badge-success">Active</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 20px;">
+                            <div class="card">
+                                <div class="card-header">📊 Rating API</div>
+                                <div class="card-body" style="font-size: 0.9em;">
+                                    Query available contracts for vehicles<br><br>
+                                    <strong>Endpoint:</strong><br>
+                                    <code style="font-size: 0.85em;">POST /api/external/v1/rating</code>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-header">🛒 Purchase API</div>
+                                <div class="card-body" style="font-size: 0.9em;">
+                                    Create contracts (Pending status)<br><br>
+                                    <strong>Endpoint:</strong><br>
+                                    <code style="font-size: 0.85em;">POST /api/external/v1/purchase</code>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-header">❌ Void API</div>
+                                <div class="card-body" style="font-size: 0.9em;">
+                                    Cancel contracts<br><br>
+                                    <strong>Endpoint:</strong><br>
+                                    <code style="font-size: 0.85em;">POST /api/external/v1/void</code>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCREEN 15: PDF CONFIG -->
+    <div id="screen15" class="wireframe">
+        <div class="wireframe-header">
+            <h2>Screen 15: PDF Template Customization</h2>
+            <p>Configure PDF contract documents with live preview</p>
+        </div>
+        <div class="screen">
+            <div class="dashboard-layout">
+                <div class="sidebar">
+                    <div class="logo">🚗 PM System</div>
+                    <div class="nav-item active">📝 PDF Config</div>
+                </div>
+                <div class="main-content">
+                    <div class="top-bar">
+                        <div class="dealership-switcher">🏢 Premium Motors Boise ▼</div>
+                        <div style="width: 36px; height: 36px; background: #667eea; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: 600;">JD</div>
+                    </div>
+                    <div class="content-area">
+                        <h2 style="margin-bottom: 20px;">PDF Template Configuration</h2>
+                        
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                            <div class="card">
+                                <div class="card-header">Template Settings</div>
+                                <div class="card-body">
+                                    <div class="form-group">
+                                        <label>Dealership Logo</label>
+                                        <div style="display: flex; gap: 10px; align-items: center;">
+                                            <div style="width: 100px; height: 50px; background: #e2e8f0; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 0.8em; color: #718096;">LOGO</div>
+                                            <button class="btn btn-secondary btn-sm">Upload</button>
+                                        </div>
+                                    </div>
+                                    
+                                    <div style="font-weight: 600; margin: 20px 0 12px;">Document Sections</div>
+                                    <div class="form-group">
+                                        <label style="display: flex; align-items: center; font-weight: normal;">
+                                            <input type="checkbox" checked style="width: auto; margin-right: 8px;"> Customer Information
+                                        </label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label style="display: flex; align-items: center; font-weight: normal;">
+                                            <input type="checkbox" checked style="width: auto; margin-right: 8px;"> Vehicle Information
+                                        </label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label style="display: flex; align-items: center; font-weight: normal;">
+                                            <input type="checkbox" checked style="width: auto; margin-right: 8px;"> Service Schedule (Page 4)
+                                        </label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label style="display: flex; align-items: center; font-weight: normal;">
+                                            <input type="checkbox" checked style="width: auto; margin-right: 8px;"> Terms & Conditions (Pages 2-3)
+                                        </label>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label>Footer Text</label>
+                                        <input type="text" value="Thank you for your business!">
+                                    </div>
+                                    
+                                    <button class="btn btn-primary" style="width: 100%; margin-top: 20px;">Save Template</button>
+                                </div>
+                            </div>
+                            
+                            <div class="card">
+                                <div class="card-header">PDF Preview</div>
+                                <div class="card-body">
+                                    <div style="background: white; border: 2px solid #e2e8f0; padding: 24px; border-radius: 6px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                                        <div style="display: flex; justify-content: space-between; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 2px solid #e2e8f0;">
+                                            <div style="width: 60px; height: 30px; background: #e2e8f0; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 0.7em;">LOGO</div>
+                                            <div style="text-align: right; font-size: 0.85em;">
+                                                <div style="font-weight: 600;">Premium Motors Boise</div>
+                                                <div style="color: #718096; font-size: 0.9em;">123 Auto Dr, Boise, ID</div>
+                                            </div>
+                                        </div>
+                                        
+                                        <h3 style="text-align: center; margin: 20px 0; font-size: 1.1em;">Service Contract Agreement</h3>
+                                        
+                                        <div style="margin-bottom: 16px;">
+                                            <div style="font-weight: 600; font-size: 0.9em; margin-bottom: 8px;">Customer Information</div>
+                                            <div style="font-size: 0.85em; line-height: 1.6; color: #4a5568;">
+                                                Sarah Johnson<br>
+                                                1234 Maple St, Boise, ID 83702<br>
+                                                (208) 555-0132
+                                            </div>
+                                        </div>
+                                        
+                                        <div style="margin-bottom: 16px;">
+                                            <div style="font-weight: 600; font-size: 0.9em; margin-bottom: 8px;">Vehicle Information</div>
+                                            <div style="font-size: 0.85em; line-height: 1.6; color: #4a5568;">
+                                                2023 Honda Accord<br>
+                                                VIN: 1HGCV1F16MA123456
+                                            </div>
+                                        </div>
+                                        
+                                        <div style="margin-bottom: 16px;">
+                                            <div style="font-weight: 600; font-size: 0.9em; margin-bottom: 8px;">Contract Details</div>
+                                            <div style="font-size: 0.85em; line-height: 1.6; color: #4a5568;">
+                                                Contract #PM-2024-389<br>
+                                                Start: Oct 15, 2024<br>
+                                                Expires: Oct 15, 2026<br>
+                                                Price: $300.00
+                                            </div>
+                                        </div>
+                                        
+                                        <div style="margin-top: 24px; padding-top: 12px; border-top: 1px solid #e2e8f0; text-align: center; font-size: 0.75em; color: #718096;">
+                                            Thank you for your business! • Page 1 of 4
+                                        </div>
+                                    </div>
+                                    <div style="text-align: center; margin-top: 12px; font-size: 0.85em; color: #718096;">
+                                        📄 Pages 2-3: Terms • Page 4: Service Schedule
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div style="text-align: center; padding: 60px 20px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; margin-top: 40px;">
+    <h2 style="font-size: 2em; margin-bottom: 16px;">✅ Complete Wireframe Set</h2>
+    <p style="font-size: 1.1em; max-width: 700px; margin: 0 auto;">
+        All 15 screens documented with detailed UI components, workflows, and feature demonstrations. Ready for stakeholder review and development.
+    </p>
+</div>
+
+</body>
+</html>

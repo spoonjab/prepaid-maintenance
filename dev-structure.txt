@@ -1,0 +1,686 @@
+
+Dev Structure
+Technical Outline: Prepaid Maintenance Contract Administration System
+1. System Overview
+A web-based application for managing prepaid maintenance and service contracts across multiple dealerships with role-based access control, customer/vehicle management, and external API integration.
+________________
+
+
+2. Technology Stack Recommendations
+Backend
+* Framework: Node.js with Express.js 
+* Database: Mongodb
+* Authentication: JWT tokens with bcrypt password hashing
+* API Documentation: OpenAPI/Swagger
+* File Storage: on server? for PDF generation
+* PDF Generation: PDFKit (Node.js)
+Frontend
+* Framework: React.js
+* State Management: Redux or Context API
+* UI Library: Material-UI, Ant Design, or Tailwind CSS
+* API Client: Axios or Fetch API
+External Services
+* VIN Decoder API: NHTSA vPIC API (free) or commercial alternative
+* Hosting: Linux, Ubuntu
+________________
+
+
+3. Database Schema
+3.1 Users & Authentication
+Table: users
+* id (PK, UUID)
+* email (unique, indexed)
+* password_hash
+* first_name
+* last_name
+* phone
+* position_id (FK to positions)
+* role (enum: 'admin', 'user')
+* is_active (boolean)
+* created_at
+* updated_at
+Table: positions
+* id (PK, UUID)
+* name (unique - e.g., "Admin", "F&I Manager", "Accounting Clerk", "Service Advisor")
+* created_at
+3.2 Dealerships
+Table: dealerships
+* id (PK, UUID)
+* dealer_code (unique, indexed)
+* name
+* address
+* city
+* state
+* zip
+* phone
+* pdf_template_config (JSON - stores template settings)
+* created_at
+* updated_at
+Table: user_dealership_assignments
+* id (PK, UUID)
+* user_id (FK to users)
+* dealership_id (FK to dealerships)
+* assigned_at
+* Unique constraint on (user_id, dealership_id)
+3.3 Customers & Vehicles
+Table: customers
+* id (PK, UUID)
+* dealership_id (FK to dealerships, indexed)
+* customer_number (unique within dealership)
+* first_name
+* last_name
+* address
+* city
+* state
+* zip
+* phone
+* created_at
+* updated_at
+Table: vehicles
+* id (PK, UUID)
+* customer_id (FK to customers, indexed)
+* vin (unique, indexed, 17 chars)
+* year
+* make
+* model
+* created_at
+* updated_at
+3.4 Service Contracts
+Table: contract_templates
+* id (PK, UUID)
+* dealership_id (FK to dealerships, indexed)
+* title
+* contract_type (enum: 'Prepaid Maintenance', 'Service Contract')
+* applicable_makes (JSON array - optional)
+* applicable_models (JSON array - optional)
+* applicable_years (JSON array - optional)
+* cost (decimal)
+* selling_price (decimal)
+* terms (text)
+* contract_length_months (integer)
+* mileage_expiration (integer, nullable)
+* deductible (decimal, nullable)
+* description (text)
+* number_of_services (integer)
+* created_at
+* updated_at
+Table: contract_template_services
+* id (PK, UUID)
+* contract_template_id (FK to contract_templates)
+* service_name
+* service_price (decimal)
+* service_order (integer)
+Table: customer_contracts
+* id (PK, UUID)
+* vehicle_id (FK to vehicles, indexed)
+* contract_template_id (FK to contract_templates)
+* contract_number (unique, indexed)
+* sale_date
+* expiration_date
+* expiration_miles (integer, nullable)
+* status (enum: 'Active Unpaid', 'Active Paid', 'Fulfilled', 'Void', 'Canceled', 'Pending')
+* assigned_by_user_id (FK to users)
+* created_at
+* updated_at
+Table: contract_status_history
+* id (PK, UUID)
+* customer_contract_id (FK to customer_contracts)
+* old_status
+* new_status
+* changed_by_user_id (FK to users)
+* changed_at
+Table: service_visits
+* id (PK, UUID)
+* customer_contract_id (FK to customer_contracts, indexed)
+* service_name
+* is_used (boolean, default false)
+* used_date (nullable)
+* service_order (integer)
+3.5 API Management
+Table: api_keys
+* id (PK, UUID)
+* key_name
+* api_key (unique, indexed, hashed)
+* dealership_id (FK to dealerships, nullable - for dealership-specific keys)
+* created_by_user_id (FK to users)
+* is_active (boolean)
+* created_at
+* last_used_at (nullable)
+________________
+
+
+4. User Roles & Permissions
+4.1 Admin Role
+* Full CRUD on dealerships
+* Create/manage admin and regular users
+* Assign users to dealerships
+* Create/manage positions
+* Generate API keys
+* All regular user permissions
+4.2 Regular User Role
+* View only assigned dealerships' data
+* CRUD on customers (within assigned dealerships)
+* CRUD on vehicles
+* CRUD on contract templates
+* Assign contracts to customer vehicles
+* Mark service visits as used (if contract is "Active Paid")
+* View dashboards and reports (filtered by assigned dealerships)
+4.3 Position-Based Permissions
+* Accounting Clerk: Only position that can change contract status to "Active Paid"
+* Service Advisor, F&I Manager: Standard user permissions
+________________
+
+
+5. Core Functionality Specifications
+5.1 Authentication & Authorization
+Endpoints:
+* POST /api/auth/login - Email/password authentication, returns JWT
+* POST /api/auth/logout - Invalidate token
+* POST /api/auth/refresh - Refresh JWT token
+* GET /api/auth/me - Get current user profile
+Middleware:
+* JWT verification on all protected routes
+* Role-based access control middleware
+* Dealership access verification middleware
+5.2 User Management
+Admin Endpoints:
+* POST /api/users - Create new user (admin only)
+* GET /api/users - List all users (admin only)
+* GET /api/users/:id - Get user details
+* PUT /api/users/:id - Update user
+* DELETE /api/users/:id - Soft delete user
+* POST /api/users/:id/dealerships - Assign user to dealership(s)
+* DELETE /api/users/:id/dealerships/:dealershipId - Remove dealership assignment
+Position Management:
+* POST /api/positions - Create position (admin only)
+* GET /api/positions - List all positions
+5.3 Dealership Management
+Endpoints:
+* POST /api/dealerships - Create dealership (admin only)
+* GET /api/dealerships - List dealerships (filtered by user access)
+* GET /api/dealerships/:id - Get dealership details
+* PUT /api/dealerships/:id - Update dealership
+* PUT /api/dealerships/:id/pdf-template - Update PDF template configuration
+5.4 Customer Management
+Endpoints:
+* POST /api/customers - Create customer
+* GET /api/customers - List customers (with search/filter)
+* GET /api/customers/:id - Get customer details (includes vehicles and contracts)
+* PUT /api/customers/:id - Update customer
+* DELETE /api/customers/:id - Soft delete customer
+Business Logic:
+* Auto-generate customer_number on creation
+* Validate customer belongs to user's assigned dealerships
+5.5 Vehicle Management
+Endpoints:
+* POST /api/vehicles - Create vehicle
+* GET /api/vehicles/:id - Get vehicle details
+* PUT /api/vehicles/:id - Update vehicle
+* DELETE /api/vehicles/:id - Delete vehicle
+* POST /api/vehicles/decode-vin - Decode VIN via external API
+VIN Decoding Process:
+1. Validate VIN format (17 characters)
+2. Call NHTSA vPIC API: https://vpic.nhtsa.dot.gov/api/vehicles/DecodeVin/{VIN}?format=json
+3. Parse response for Year, Make, Model
+4. Return decoded data to frontend for confirmation
+5.6 Contract Template Management
+Endpoints:
+* POST /api/contract-templates - Create contract template
+* GET /api/contract-templates - List templates (filtered by dealership)
+* GET /api/contract-templates/:id - Get template details
+* PUT /api/contract-templates/:id - Update template
+* DELETE /api/contract-templates/:id - Delete template
+Business Logic:
+* Validate that sum of service prices equals selling price
+* At least one of make/model/year must be specified
+* Populate make/model/year dropdowns from VIN API or predefined lists
+5.7 Customer Contract Assignment
+Endpoints:
+* POST /api/customer-contracts - Assign contract to vehicle
+* GET /api/customer-contracts/:id - Get contract details
+* PUT /api/customer-contracts/:id - Update contract
+* PUT /api/customer-contracts/:id/status - Change contract status
+* GET /api/vehicles/:vehicleId/available-contracts - Get applicable contracts for vehicle
+Business Logic:
+* Filter contract templates by vehicle make/model/year
+* Auto-generate contract_number
+* Set initial status to "Active Unpaid"
+* Record assigned_by_user_id
+* Create service_visits records based on contract template services
+* Status change validation:
+   * Only Accounting Clerks can set "Active Paid"
+   * "Fulfilled" cannot be set manually
+   * Log all status changes with timestamp and user
+5.8 Service Visit Management
+Endpoints:
+* PUT /api/service-visits/:id/mark-used - Mark service visit as used
+* GET /api/customer-contracts/:id/service-visits - List service visits for contract
+Business Logic:
+* Display confirmation popup before marking as used
+* Validation: Contract must be in "Active Paid" status
+* Set is_used = true, used_date = current timestamp
+* After marking service used, check if all services are used
+* If all services used, auto-update contract status to "Fulfilled"
+* Display used_date next to service visit name in UI
+5.9 Dashboard & Search
+Endpoints:
+* GET /api/dashboard/search - Universal search (customers, contracts, vehicles)
+   * Query params: q (search term), type (customer/contract/vehicle), dealership_id
+* GET /api/dashboard/summary - Dashboard summary statistics
+Search Results Format:
+json
+{
+ "customers": [{
+   "id": "uuid",
+   "name": "John Doe",
+   "customer_number": "C12345",
+   "vehicle_count": 2,
+   "active_contract_count": 3
+ }],
+ "vehicles": [{
+   "id": "uuid",
+   "vin": "1HGBH41JXMN109186",
+   "year_make_model": "2021 Honda Accord",
+   "customer_name": "John Doe",
+   "contract_count": 1
+ }],
+ "contracts": [{
+   "id": "uuid",
+   "contract_number": "PM-2024-001",
+   "customer_name": "John Doe",
+   "vehicle": "2021 Honda Accord",
+   "status": "Active Paid",
+   "services_remaining": 2,
+   "services_total": 4
+ }]
+}
+5.10 Accounting Reports
+Endpoints:
+* GET /api/reports/accounting - Generate accounting report
+   * Query params: start_date, end_date, dealership_id, status[]
+Report Fields:
+* Contract creation date
+* Customer name
+* Contract number
+* Contract status
+* Contract cost
+* Selling price
+* Assigned by user
+* Service visits completed (count and dates)
+* Totals and summaries
+Export Formats:
+* JSON (for UI display)
+* CSV export option
+* PDF export option
+________________
+
+
+6. External API Specifications
+6.1 API Authentication
+* Use API Key in header: X-API-Key: {api_key}
+* Validate API key on each request
+* Log API usage with timestamp
+* Rate limiting: 1000 requests/hour per key
+6.2 Rating API
+Endpoint: POST /api/external/v1/rating
+Request Body:
+json
+{
+ "dealer_code": "DEALER001",
+ "product_type": "Prepaid Maintenance",
+ "vin": "1HGBH41JXMN109186",
+ "mileage": 15000,
+ "in_service_date": "2021-06-15"
+}
+Response:
+json
+{
+ "contracts": [
+  {
+     "contract_template_id": "uuid",
+     "title": "Honda 2-Year Maintenance Plan",
+     "selling_price": 299.99,
+     "cost": 249.99,
+     "contract_length_months": 24,
+     "mileage_expiration": 30000,
+     "number_of_services": 4,
+     "services": [
+       {"name": "Oil Change", "price": 74.99},
+       {"name": "Tire Rotation", "price": 75.00}
+     ],
+     "terms": "Full terms text...",
+     "description": "Contract description..."
+   }
+ ]
+}
+Business Logic:
+* Decode VIN to get make/model/year
+* Match dealer_code to dealership
+* Filter contract templates by:
+   * dealership_id
+   * product_type (contract_type)
+   * applicable makes/models/years matching VIN
+   * mileage restrictions (if specified)
+6.3 Purchase API
+Endpoint: POST /api/external/v1/purchase
+Request Body:
+json
+{
+ "dealer_code": "DEALER001",
+ "customer": {
+   "customer_number": "C12345",
+   "first_name": "John",
+   "last_name": "Doe",
+   "address": "123 Main St",
+   "city": "Boise",
+   "state": "ID",
+   "zip": "83701",
+   "phone": "208-555-0100"
+ },
+ "vehicle": {
+   "vin": "1HGBH41JXMN109186"
+ },
+ "contract": {
+   "contract_template_id": "uuid",
+   "sale_date": "2024-10-15",
+   "expiration_date": "2026-10-15",
+   "expiration_miles": 30000
+ }
+}
+Response:
+json
+{
+ "success": true,
+ "customer_contract_id": "uuid",
+ "contract_number": "PM-2024-001",
+ "status": "Pending",
+ "pdf_url": "https://storage.example.com/contracts/PM-2024-001.pdf"
+}
+Business Logic:
+1. Find or create customer (match by customer_number and dealership)
+2. Decode VIN and create vehicle if not exists
+3. Validate contract_template_id exists and applies to vehicle
+4. Create customer_contract with status "Pending"
+5. Generate PDF using dealership's template configuration
+6. Return PDF URL
+6.4 Void API
+Endpoint: POST /api/external/v1/void
+Request Body:
+json
+{
+ "dealer_code": "DEALER001",
+ "customer_number": "C12345",
+ "vin": "1HGBH41JXMN109186",
+ "contract_number": "PM-2024-001"
+}
+Response:
+json
+{
+ "success": true,
+ "contract_number": "PM-2024-001",
+ "status": "Void",
+ "voided_at": "2024-10-16T10:30:00Z"
+}
+Business Logic:
+* Find customer_contract by dealer_code, customer_number, vin, contract_number
+* Update status to "Void"
+* Log status change in contract_status_history
+6.5 API Key Management
+Admin Endpoints:
+* POST /api/admin/api-keys - Generate new API key
+* GET /api/admin/api-keys - List API keys
+* PUT /api/admin/api-keys/:id - Update API key (activate/deactivate)
+* DELETE /api/admin/api-keys/:id - Delete API key
+API Key Generation:
+* Generate cryptographically secure random string (32-64 chars)
+* Hash before storing in database
+* Return plain text key only once during creation
+* Associate with dealership if dealership-specific
+________________
+
+
+7. PDF Generation System
+7.1 PDF Template Configuration
+Dealership PDF Template Settings (JSON):
+json
+{
+ "header": {
+   "logo_url": "https://...",
+   "dealership_name_display": true,
+   "contact_info_display": true
+ },
+ "sections": {
+   "customer_info": true,
+   "vehicle_info": true,
+   "contract_details": true,
+   "services_list": true,
+   "terms_and_conditions": true
+ },
+ "footer": {
+   "text": "Thank you for your business",
+   "page_numbers": true
+ },
+ "custom_fields": [
+   {"label": "Dealer Rep", "value": "{{assigned_user_name}}"}
+ ]
+}
+7.2 PDF Generation Process
+Triggered by Purchase API:
+1. Retrieve dealership PDF template configuration
+2. Populate template variables:
+   * {{customer_name}}, {{customer_address}}, etc.
+   * {{vehicle_vin}}, {{vehicle_year_make_model}}
+   * {{contract_number}}, {{sale_date}}, {{expiration_date}}
+   * {{services_list}} - formatted list of services
+   * {{assigned_user_name}}
+3. Generate PDF using template engine
+4. Upload to cloud storage (S3/Azure Blob)
+5. Return signed URL with expiration
+________________
+
+
+8. Frontend Implementation Guide
+8.1 Application Structure
+Main Routes:
+* /login - Authentication
+* /dashboard - Main dashboard with search
+* /customers - Customer list/detail
+* /customers/:id - Customer detail (with vehicles and contracts)
+* /vehicles/:id - Vehicle detail
+* /contracts/templates - Contract template management
+* /contracts/:id - Customer contract detail
+* /reports/accounting - Accounting reports
+* /admin/users - User management (admin only)
+* /admin/dealerships - Dealership management (admin only)
+* /admin/api-keys - API key management (admin only)
+* /admin/positions - Position management (admin only)
+8.2 Key UI Components
+Customer Search Component:
+* Search input with autocomplete
+* Filter by dealership (for admins)
+* Results table with:
+   * Customer name/number
+   * Number of vehicles
+   * Number of active contracts
+   * Quick action buttons
+Vehicle Management Component:
+* VIN input with decode button
+* Auto-populated year/make/model fields (editable)
+* Assign contract button (opens modal with filtered contracts)
+* List of assigned contracts with status badges
+Contract Template Builder:
+* Make/Model/Year selectors (multi-select with API data)
+* Service visit repeater (add/remove services)
+* Real-time validation: sum of service prices = selling price
+* Preview section
+Service Visit Tracker:
+* List of services with checkboxes
+* Used date display next to used services
+* Confirmation modal: "Are you sure you want to mark [service name] as used?"
+* Visual indicator of remaining services
+Dashboard Widgets:
+* Active contracts count
+* Pending contracts (from Purchase API)
+* Fulfilled contracts this month
+* Revenue summary (for Accounting Clerks)
+8.3 State Management
+Global State (Redux/Context):
+* Current user (role, position, assigned dealerships)
+* Selected dealership filter
+* Authentication token
+Component State:
+* Form data
+* Loading states
+* Modal visibility
+8.4 Form Validations
+Customer Form:
+* Required: first_name, last_name, phone, customer_number
+* Phone format validation
+* Zip code format validation
+Vehicle Form:
+* VIN: exactly 17 characters
+* Required: VIN, year, make, model
+Contract Template Form:
+* At least one of: make, model, or year
+* Selling price > 0
+* Sum of service prices = selling price
+* Number of services matches service list length
+Contract Assignment:
+* Contract must apply to vehicle (make/model/year match)
+* Expiration date > sale date
+________________
+
+
+9. Security Considerations
+9.1 Authentication & Authorization
+* Use bcrypt with salt rounds >= 10 for password hashing
+* JWT tokens with 15-minute expiration, refresh tokens with 7-day expiration
+* Implement CSRF protection for web application
+* Enforce strong password policy (min 8 chars, complexity requirements)
+9.2 Data Access Control
+* Middleware to verify user has access to requested dealership data
+* Prepared statements/parameterized queries to prevent SQL injection
+* Input validation and sanitization on all endpoints
+* Rate limiting on authentication endpoints (5 attempts per 15 minutes)
+9.3 API Security
+* API keys hashed in database (use bcrypt or SHA-256)
+* API rate limiting per key
+* IP whitelisting option for API keys
+* Request/response logging for audit trail
+9.4 Data Privacy
+* Soft delete for customers/users (retain for audit)
+* GDPR compliance considerations for personal data
+* Encrypt sensitive data at rest (PII)
+* SSL/TLS for all communications
+________________
+
+
+10. Testing Strategy
+10.1 Unit Tests
+* User authentication logic
+* Permission validation functions
+* VIN decoding integration
+* Service visit fulfillment logic
+* PDF generation functions
+10.2 Integration Tests
+* Complete user workflows (create customer → add vehicle → assign contract → use service)
+* API endpoint testing (all CRUD operations)
+* External API integration (Rating, Purchase, Void)
+* Status change workflows and validations
+10.3 End-to-End Tests
+* User login and role-based access
+* Complete contract lifecycle (creation → assignment → usage → fulfillment)
+* API key generation and usage
+* Report generation
+________________
+
+
+11. Deployment & Infrastructure
+11.1 Environment Setup
+* Development: Local database, mock external APIs
+* Staging: Cloud-hosted, real external APIs
+* Production: Load-balanced, auto-scaling, CDN for static assets
+11.2 Database Migrations
+* Use migration tool (Flyway, Liquibase, Alembic, or ORM migrations)
+* Version control all schema changes
+* Seed data for initial positions ("Admin", "F&I Manager", "Accounting Clerk", "Service Advisor")
+11.3 Monitoring & Logging
+* Application logging (Winston, Log4j, or similar)
+* Error tracking (Sentry, Rollbar)
+* API usage monitoring
+* Database query performance monitoring
+* Uptime monitoring (Pingdom, UptimeRobot)
+11.4 Backup & Recovery
+* Automated daily database backups
+* Point-in-time recovery capability
+* PDF storage backups
+* Disaster recovery plan
+________________
+
+
+12. Implementation Phases
+Cost Estimates @ $50/hr for 14 weeks
+Phase 1: Core Infrastructure - 120 hours, $6,000
+Phase 2: Customer & Vehicle Mgmt - 80 hours, $4,000
+Phase 3: Contract System - 120 hours $6,000
+Phase 4: Reporting & Features - 80 hours, $4,000
+Phase 5: External API - 96 hours, $4,800
+Phase 6: Testing & Deployment - 80 hours, $4,000
+TOTAL - 576 hours, $28,800
+Phase 1: Core Infrastructure (Weeks 1-3)
+* Database setup and schema creation
+* Authentication system
+* User and dealership management
+* Admin portal basics
+Phase 2: Customer & Vehicle Management (Weeks 4-5)
+* Customer CRUD operations
+* Vehicle management with VIN decoding
+* Dashboard and search functionality
+Phase 3: Contract System (Weeks 6-8)
+* Contract template builder
+* Contract assignment logic
+* Service visit tracking
+* Status management and validation
+Phase 4: Reporting & Advanced Features (Weeks 9-10)
+* Accounting reports
+* PDF generation system
+* Dashboard enhancements
+Phase 5: External API (Weeks 11-12)
+* API key management
+* Rating API implementation
+* Purchase API implementation
+* Void API implementation
+* API documentation
+Phase 6: Testing & Deployment (Weeks 13-14)
+* Comprehensive testing
+* Performance optimization
+* Security audit
+* Production deployment
+* User training documentation
+________________
+
+
+13. Additional Considerations
+13.1 Future Enhancements
+* Email notifications for contract expiration
+* SMS reminders for upcoming services
+* Mobile app for service advisors
+* Integration with dealership DMS systems
+* Advanced analytics and BI dashboards
+* Bulk import functionality for customers/contracts
+13.2 Documentation Requirements
+* API documentation (Swagger/OpenAPI)
+* User manual (admin and regular users)
+* Integration guide for external systems
+* Database schema documentation
+* Deployment runbook
+13.3 Performance Targets
+* Page load time < 2 seconds
+* API response time < 500ms (95th percentile)
+* Support 100 concurrent users
+* Dashboard search < 1 second
+* PDF generation < 3 seconds
+________________
+
+
+This technical outline provides a comprehensive blueprint for building the Prepaid Maintenance Contract Administration system. The software engineer should adapt technology choices based on team expertise and infrastructure requirements while maintaining the core functionality and business logic described.

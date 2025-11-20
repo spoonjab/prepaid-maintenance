@@ -1,0 +1,318 @@
+﻿________________
+
+
+1. What This System Does
+This is a web-based platform that helps dealerships manage prepaid maintenance and service contracts. Think of it as your central hub for:
+* Tracking customers and their vehicles
+* Creating and selling service contract packages
+* Managing which services customers have used and what's remaining
+* Generating reports for accounting and business insights
+* Integrating with other dealership software systems
+The system works on any computer with a web browser - no special software to install. You'll access it with your email and password, just like logging into your email or online banking.
+________________
+
+
+2. Who Uses the System
+Administrators
+These are the system managers who can:
+* Set up new dealerships in the system
+* Create user accounts for employees
+* Decide which dealerships each employee can access
+* Generate special keys for connecting other software
+* Do everything regular users can do
+Regular Users (Dealership Staff)
+Depending on your position, you can:
+* Add and manage customer information
+* Record vehicle details
+* Create service contract packages
+* Sell contracts to customers
+* Mark services as completed when customers come in
+* Run reports
+Special Position Permissions
+* Accounting Clerks: Only they can mark contracts as "Paid"
+* F&I Managers: Typically create and sell contracts
+* Service Advisors: Usually mark services as used when customers visit
+* Admins: Can do everything
+________________
+
+
+3. Daily Workflows
+Scenario 1: Adding a New Customer Who Bought a Contract
+Step 1: Create the Customer Profile
+* Click "Add Customer"
+* Enter their basic information: name, address, phone number
+* System automatically assigns them a customer number
+* Save the profile
+Step 2: Add Their Vehicle
+* Enter the 17-character VIN number
+* Click "Decode VIN" - the system automatically looks up the year, make, and model
+* Verify the information is correct
+* Save the vehicle
+Step 3: Assign a Service Contract
+* Click "Assign Contract" on the vehicle
+* The system shows ONLY contracts that apply to this specific vehicle
+   * Example: If it's a Honda, you'll only see Honda contracts
+* Select the contract package they purchased
+* Enter the sale date and when it expires
+* System generates a unique contract number automatically
+* The contract starts in "Active Unpaid" status
+Step 4: Mark as Paid (Accounting Clerk Only)
+* Once payment is received, Accounting Clerk changes status to "Active Paid"
+* Now services can be used!
+Scenario 2: Customer Comes in for Service
+Step 1: Look Up the Customer
+* Use the search box - type their name, VIN, phone, email, or customer number
+* System instantly shows matching results
+* Click on the customer to see their details
+Step 2: View Available Services
+* See all their vehicles and contracts
+* Each contract shows:
+   * How many services are included
+   * Which ones have been used (with dates)
+   * Which ones are still available
+   * Contract expiration date
+Step 3: Mark a Service as Used
+* Click on the service to mark it as used
+* Confirmation popup appears: "Are you sure you want to mark Oil Change as used?"
+* Click "Yes"
+* System records today's date next to that service
+* Remaining services counter updates automatically
+Step 4: Automatic Fulfillment
+* When the last service is used, the system automatically marks the contract as "Fulfilled"
+* No more services can be used from this contract
+Scenario 3: Creating a New Contract Package
+Step 1: Design the Contract
+* Click "Create Contract Template"
+* Give it a name: "Honda 24-Month Maintenance Package"
+* Choose what vehicles it applies to:
+   * Specific makes (Honda)
+   * Specific models (Accord, Civic)
+   * Specific years (2020-2024)
+   * You must select at least one of these
+Step 2: Set Pricing and Terms
+* Enter your cost: $200
+* Enter selling price: $300
+* Set contract length: 24 months
+* Optional: Set grace period in months to use final service
+* Optional: Set mileage limit (30,000 miles)
+* Optional: Set deductible amount
+* Add description and terms
+Step 3: Add Services
+* Click "Add Service" for each service included
+* Example:
+   * Oil Change: $75
+   * Tire Rotation: $75
+   * Air Filter Replacement: $75
+   * Brake Inspection: $75
+* Important: The total of all services must equal your selling price
+* System won't let you save if the math doesn't add up
+Step 4: Save
+* System validates everything
+* Contract template is now available to assign to vehicles
+________________
+
+
+4. Key Features Explained
+Smart Contract Matching
+When you go to assign a contract to a vehicle, the system is smart about what it shows you:
+* Only shows contracts that fit that vehicle
+* If the customer has a 2023 Honda Accord, you'll only see contracts that include:
+   * Honda (make), OR
+   * Accord (model), OR
+   * 2023 (year), OR
+   * Any combination of these
+This prevents mistakes like accidentally selling a Honda contract to a Ford owner.
+Service Status Tracking
+The system always shows you what's available:
+* Green/Available: Services ready to use
+* Used: Shows the date it was used
+* Fulfilled: All services used, contract complete
+* Expired: Contract past expiration date
+Contract Statuses Explained
+* Active Unpaid: Contract assigned but payment not yet received
+* Active Paid: Payment received, services can be used
+* Pending: Contract created through external system, needs approval
+* Fulfilled: All services used (automatic)
+* Void: Contract cancelled, no services can be used
+* Canceled: Contract terminated
+Search & Dashboard
+The main dashboard makes it easy to find anything:
+* Search for customers by name, phone, email, or customer number
+* Search for vehicles by VIN
+* Search for contracts by contract number
+* See at-a-glance summaries:
+   * How many active contracts you have
+   * How many are pending
+   * Revenue totals
+________________
+
+
+5. Reporting for Accounting
+Monthly Accounting Report
+Accounting staff can generate reports showing:
+* All contracts created in a date range
+* Customer names
+* Contract numbers and status
+* Cost vs. selling price for each
+* Who sold each contract
+* How many services were completed
+* Total revenue
+Export Options
+* View on screen
+* Download as Excel/CSV
+* Download as PDF for records
+What You Can Filter
+* Date range (show me January 2025)
+* Dealership (if you manage multiple locations)
+* Contract status (show only Active Paid contracts)
+* Assigned by user (show what John sold)
+________________
+
+
+6. Multi-Dealership Management
+For Single Dealership Users
+* You only see your dealership's data
+* Everything works the same
+* Simple and focused
+For Multi-Dealership Organizations
+Administrators can:
+* Create multiple dealership profiles
+* Assign specific users to specific dealerships
+* Each user only sees data from their assigned dealerships
+Example:
+* Sarah works at Dealership A and B
+* She can switch between them in the system
+* When viewing Dealership A, she only sees A's customers
+* When viewing Dealership B, she only sees B's customers
+________________
+
+
+7. Integration with Other Software (API)
+What This Means for You
+Other software systems your dealership uses (like Darwin in Finance) can talk to this system automatically.
+The Rating Feature - Quote Rating API Endpoint
+When someone else's software asks: "What maintenance packages do you have for a 2023 Honda Accord?"
+Our system responds with:
+* All matching contract packages
+* Prices and terms
+* What services are included
+* This lets them quote customers in their system
+The Purchase Feature - Purchase API Endpoint
+When someone buys a contract through another system:
+* That system sends the customer and vehicle info to us
+* We automatically create the customer profile
+* We add their vehicle
+* We assign the contract
+* We generate a PDF of the contract
+* Status starts as "Pending" for you to review and approve
+The Void Feature - Void Cancel API Endpoint
+When a contract needs to be cancelled:
+* External system sends cancellation request
+* We mark the contract as "Void"
+* All logged automatically
+How This Helps You
+* Less manual data entry
+* Fewer mistakes from retyping information
+* Seamless integration with partners
+* Automatic record keeping
+________________
+
+
+8. PDF Contract Documents
+Automatic Generation
+When a contract is purchased (especially through the external API), the system automatically creates a professional PDF document.
+
+What's Included
+* Your dealership logo and information
+* Customer details
+* Vehicle information
+* Contract number and dates
+* All included services
+* Terms and conditions
+* Who sold the contract
+Customization
+Administrators can customize the PDF template:
+* Upload your logo
+* Choose which sections to include
+* Add custom fields
+* Set footer text
+* Your changes apply to all future PDFs
+________________
+
+
+9. Security & Access
+Your Data is Protected
+* Each user logs in with email and password
+* You only see data for your assigned dealerships
+* Different permissions based on your position
+* All changes are logged (who did what and when)
+Audit Trail
+The system keeps a complete history:
+* When contracts change status (and who changed it)
+* When services are marked as used
+* All timestamps recorded
+* Perfect for audits and accountability
+________________
+
+
+10. Common Questions
+Q: What if I enter the wrong VIN? A: You can edit vehicle information at any time. Just go to the vehicle and click "Edit."
+Q: Can I delete a customer? A: The system uses "soft delete" - the customer is hidden but data is retained for records and reports.
+Q: What if I mark a service as used by mistake? A: Contact your administrator - they can correct this in the database. This prevents accidental changes but allows for corrections.
+Q: Can contracts be transferred between vehicles? A: No, contracts are tied to specific vehicles. You would need to void the old contract and create a new one.
+Q: What happens when a contract expires? A: The system doesn't automatically change status based on date, but you can filter reports by date to see expired contracts. Services can still be marked as used if they came in before expiration.
+Q: Can I have multiple contracts on one vehicle? A: Yes! A vehicle can have multiple active contracts - for example, a maintenance contract and an extended warranty.
+Q: How do I know which contracts apply to which vehicles? A: The system handles this automatically. When you go to assign a contract, it only shows you contracts that match the vehicle's make, model, or year.
+Q: Can I see who sold each contract? A: Yes! The system tracks who assigned each contract, and this information appears in reports.
+Q: What if our contract packages change? A: You can create new contract templates at any time. Old contracts keep their original terms, but new sales use the new template.
+Q: Can I bulk import customers? A: This can be added as a future enhancement. Initially, customers are added one at a time or through the external API.
+________________
+
+
+11. Getting Started
+Initial Setup (Administrators)
+1. Admin account is created for you
+2. Create your dealership profile(s)
+3. Add positions if you need custom ones
+4. Create user accounts for your staff
+5. Assign users to dealerships
+6. Create your first contract templates
+For Regular Users
+1. Receive login credentials from admin
+2. Log in with your email and password
+3. Start adding customers
+4. Begin assigning contracts
+5. Mark services as used
+Training & Support
+* User manual available in the system
+* Quick reference guides for common tasks
+* Admin has access to all documentation
+* Context-sensitive help throughout the system
+________________
+
+
+12. Benefits Summary
+✅ Eliminates paper tracking - Everything digital and searchable
+✅ Prevents errors - System validates data and prevents incompatible assignments
+✅ Saves time - Auto VIN decoding, auto contract numbering, smart filtering
+✅ Complete visibility - See all customer contracts and usage at a glance
+✅ Accurate accounting - Detailed reports with all financial data
+✅ Integration ready - Connect with other dealership software
+✅ Audit compliant - Complete history of all changes
+✅ Multi-location support - Manage multiple dealerships in one system
+✅ Role-based security - Right people have right access
+✅ Professional documents - Auto-generated PDFs for customers
+________________
+
+
+Does This Match Your Needs?
+This system is designed to make prepaid maintenance contract management simple, accurate, and efficient. Before we build it, we want to make sure it does everything you need.
+Please verify:
+* ✓ Does this workflow match how you want to work?
+* ✓ Are there features missing that you need?
+* ✓ Are there features included that you don't need?
+* ✓ Do the user roles and permissions make sense for your organization?
+* ✓ Will the reporting give you the information you need?
+* ✓ Does the integration capability match your needs?
+Your feedback now will ensure we build exactly what you need!
+
