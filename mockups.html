@@ -43,7 +43,7 @@
         th { text-align: left; padding: 12px; background: #f7fafc; font-size: 0.85em; text-transform: uppercase; color: #4a5568; }
         td { padding: 12px; border-bottom: 1px solid #e2e8f0; }
         
-        .badge { padding: 4px 10px; border-radius: 12px; font-size: 0.8em; font-weight: 600; display: inline-block; }
+        .badge { padding: 4px 10px; border-radius: 12px; font-size: 0.8em; font-weight: 600; display: inline-block; line-height: 1.2; }
         .badge-success { background: #c6f6d5; color: #22543d; }
         .badge-warning { background: #feebc8; color: #7c2d12; }
         .badge-danger { background: #fed7d7; color: #742a2a; }
@@ -180,15 +180,32 @@
                         <h2 style="margin-bottom: 6px;">Dashboard</h2>
                         <p style="color: #718096; margin-bottom: 16px;">Overview of your contract operations</p>
 
-                        <div style="display: flex; gap: 12px; margin-bottom: 24px; align-items: center;">
+                        <div style="display: flex; gap: 12px; margin-bottom: 24px; align-items: center; flex-wrap: wrap;">
                             <div style="font-weight: 600; color: #4a5568;">Date Range:</div>
                             <input type="date" value="2024-10-01" style="padding: 8px 12px; border: 2px solid #e2e8f0; border-radius: 6px;">
                             <span style="color: #718096;">to</span>
                             <input type="date" value="2024-10-31" style="padding: 8px 12px; border: 2px solid #e2e8f0; border-radius: 6px;">
+                            <div style="font-weight: 600; color: #4a5568; margin-left: 20px;">Status:</div>
+                            <select style="padding: 8px 12px; border: 2px solid #e2e8f0; border-radius: 6px;">
+                                <option>All Statuses</option>
+                                <option>Active Paid</option>
+                                <option>Pending</option>
+                                <option>Active Unpaid</option>
+                                <option>Fulfilled</option>
+                                <option>Void</option>
+                                <option>Canceled</option>
+                            </select>
+                            <div style="font-weight: 600; color: #4a5568;">Sold By:</div>
+                            <select style="padding: 8px 12px; border: 2px solid #e2e8f0; border-radius: 6px;">
+                                <option>All Users</option>
+                                <option>John Doe</option>
+                                <option>Jane Smith</option>
+                                <option>Jason Johnson</option>
+                            </select>
                             <button class="btn btn-secondary btn-sm">Apply</button>
                         </div>
 
-                        <div class="stats-grid" style="grid-template-columns: repeat(5, 1fr);">
+                        <div class="stats-grid" style="grid-template-columns: repeat(4, 1fr);">
                             <div class="stat-card">
                                 <div class="stat-label">ACTIVE PAID</div>
                                 <div class="stat-value">247</div>
@@ -198,11 +215,6 @@
                                 <div class="stat-label">PENDING</div>
                                 <div class="stat-value" style="color: #ed8936;">18</div>
                                 <div style="color: #c53030; font-size: 0.9em; margin-top: 6px;">⚠ Needs approval</div>
-                            </div>
-                            <div class="stat-card">
-                                <div class="stat-label">FULFILLED</div>
-                                <div class="stat-value">43</div>
-                                <div style="color: #48bb78; font-size: 0.9em; margin-top: 6px;">↑ 8% from period</div>
                             </div>
                             <div class="stat-card">
                                 <div class="stat-label">REVENUE</div>
@@ -219,63 +231,92 @@
                         <div class="card">
                             <div class="card-header">
                                 <span>Recent Contracts</span>
-                                <a href="#" style="color: #4A90E2; text-decoration: none;">View all →</a>
+                                <div>
+                                    <button class="btn btn-secondary btn-sm">📊 CSV</button>
+                                    <button class="btn btn-secondary btn-sm">📄 PDF</button>
+                                </div>
                             </div>
                             <table>
                                 <thead>
                                     <tr>
+                                        <th>Created</th>
                                         <th>Contract #</th>
                                         <th>Customer</th>
                                         <th>Vehicle</th>
                                         <th>Status</th>
                                         <th>Services</th>
+                                        <th>Sold By</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td><strong>PM-2024-389</strong></td>
-                                        <td>Sarah Johnson</td>
+                                        <td>10/28/24</td>
+                                        <td><a href="#" style="color: #4A90E2; text-decoration: underline;"><strong>PM-2024-389</strong></a></td>
+                                        <td><a href="#" style="color: #4A90E2; text-decoration: underline;">Sarah Johnson</a></td>
                                         <td>2023 Honda Accord</td>
                                         <td><span class="badge badge-success">Active Paid</span></td>
                                         <td>1 of 4</td>
+                                        <td>John Doe</td>
                                     </tr>
                                     <tr>
-                                        <td><strong>PM-2024-388</strong></td>
-                                        <td>Michael Chen</td>
+                                        <td>10/27/24</td>
+                                        <td><a href="#" style="color: #4A90E2; text-decoration: underline;"><strong>PM-2024-388</strong></a></td>
+                                        <td><a href="#" style="color: #4A90E2; text-decoration: underline;">Michael Chen</a></td>
                                         <td>2024 Toyota Camry</td>
                                         <td><span class="badge badge-warning">Pending</span></td>
                                         <td>0 of 6</td>
+                                        <td>Jane Smith</td>
                                     </tr>
                                     <tr>
-                                        <td><strong>PM-2024-387</strong></td>
-                                        <td>Emily Rodriguez</td>
+                                        <td>10/25/24</td>
+                                        <td><a href="#" style="color: #4A90E2; text-decoration: underline;"><strong>PM-2024-387</strong></a></td>
+                                        <td><a href="#" style="color: #4A90E2; text-decoration: underline;">Emily Rodriguez</a></td>
                                         <td>2022 Ford F-150</td>
                                         <td><span class="badge badge-secondary">Active Unpaid</span></td>
                                         <td>0 of 5</td>
+                                        <td>Jason Johnson</td>
                                     </tr>
                                     <tr>
-                                        <td><strong>PM-2024-386</strong></td>
-                                        <td>David Martinez</td>
+                                        <td>10/22/24</td>
+                                        <td><a href="#" style="color: #4A90E2; text-decoration: underline;"><strong>PM-2024-386</strong></a></td>
+                                        <td><a href="#" style="color: #4A90E2; text-decoration: underline;">David Martinez</a></td>
                                         <td>2021 Chevrolet Silverado</td>
                                         <td><span class="badge badge-secondary">Fulfilled</span></td>
                                         <td>4 of 4</td>
+                                        <td>John Doe</td>
                                     </tr>
                                     <tr>
-                                        <td><strong>PM-2024-385</strong></td>
-                                        <td>Lisa Thompson</td>
+                                        <td>10/15/24</td>
+                                        <td><a href="#" style="color: #4A90E2; text-decoration: underline;"><strong>PM-2024-385</strong></a></td>
+                                        <td><a href="#" style="color: #4A90E2; text-decoration: underline;">Lisa Thompson</a></td>
                                         <td>2023 Toyota RAV4</td>
                                         <td><span class="badge badge-danger">Void</span></td>
                                         <td>0 of 5</td>
+                                        <td>Jane Smith</td>
                                     </tr>
                                     <tr>
-                                        <td><strong>PM-2024-384</strong></td>
-                                        <td>Robert Wilson</td>
+                                        <td>10/08/24</td>
+                                        <td><a href="#" style="color: #4A90E2; text-decoration: underline;"><strong>PM-2024-384</strong></a></td>
+                                        <td><a href="#" style="color: #4A90E2; text-decoration: underline;">Robert Wilson</a></td>
                                         <td>2022 Honda CR-V</td>
                                         <td><span class="badge badge-danger">Canceled</span></td>
                                         <td>2 of 6</td>
+                                        <td>Jason Johnson</td>
                                     </tr>
                                 </tbody>
                             </table>
+                            <div style="display: flex; justify-content: space-between; align-items: center; padding: 16px; border-top: 1px solid #e2e8f0;">
+                                <div style="color: #718096; font-size: 0.9em;">Showing 1-6 of 247 contracts</div>
+                                <div style="display: flex; gap: 8px;">
+                                    <button class="btn btn-secondary btn-sm" disabled style="opacity: 0.5; cursor: not-allowed;">← Previous</button>
+                                    <button class="btn btn-secondary btn-sm" style="background: #4A90E2; color: white; border-color: #4A90E2;">1</button>
+                                    <button class="btn btn-secondary btn-sm">2</button>
+                                    <button class="btn btn-secondary btn-sm">3</button>
+                                    <button class="btn btn-secondary btn-sm">...</button>
+                                    <button class="btn btn-secondary btn-sm">42</button>
+                                    <button class="btn btn-secondary btn-sm">Next →</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -408,39 +449,31 @@
                                     <div style="font-size: 1.2em;">2023 Honda Accord</div>
                                     <div style="color: #718096; font-size: 0.9em;">VIN: 1HGCV1F16MA123456</div>
                                 </div>
-                                <button class="btn btn-primary btn-sm">📋 Assign Contract</button>
+                                <button class="btn btn-primary btn-sm">📋 Add Contract to this Vehicle</button>
                             </div>
                             <div class="card-body">
-                                <div style="border: 2px solid #e2e8f0; border-radius: 6px; padding: 16px; background: #f7fafc;">
-                                    <div style="display: flex; justify-content: space-between; margin-bottom: 12px;">
+                                <div style="border: 2px solid #e2e8f0; border-radius: 6px; padding: 16px; background: #f7fafc; cursor: pointer; transition: background 0.2s;" onmouseover="this.style.background='#edf2f7'" onmouseout="this.style.background='#f7fafc'">
+                                    <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 12px;">
                                         <div>
-                                            <div style="font-weight: 600; font-size: 1.1em;">Honda 24-Month Maintenance</div>
+                                            <div style="font-weight: 600; font-size: 1.1em; color: #4A90E2; text-decoration: underline;">Honda 24-Month Maintenance</div>
                                             <div style="color: #718096; font-size: 0.9em;">PM-2024-389</div>
                                         </div>
-                                        <span class="badge badge-success">Active Paid</span>
+                                        <span class="badge badge-success" style="line-height: 1; padding: 6px 12px;">Active Paid</span>
                                     </div>
                                     <div class="progress-bar">
                                         <div class="progress-fill" style="width: 25%;"></div>
                                     </div>
                                     <div style="text-align: center; font-size: 0.9em; color: #718096; margin-bottom: 12px;">1 of 4 services used (25%)</div>
-                                    
-                                    <div class="service-item used">
+
+                                    <div style="display: flex; gap: 20px; font-size: 0.9em;">
                                         <div>
-                                            <div>✓ Oil Change - $75</div>
-                                            <div style="font-size: 0.85em; color: #718096;">Used Oct 28, 2024</div>
+                                            <span style="color: #718096;">Used:</span> Oil Change
+                                        </div>
+                                        <div>
+                                            <span style="color: #718096;">Available:</span> Tire Rotation, Air Filter, Brake Inspection
                                         </div>
                                     </div>
-                                    <div class="service-item">
-                                        <div>
-                                            <div>Tire Rotation - $75</div>
-                                            <div style="font-size: 0.85em; color: #48bb78;">Available</div>
-                                        </div>
-                                        <button class="btn btn-primary btn-sm">Mark as Used</button>
-                                    </div>
-                                    <div class="service-item">
-                                        <div>Air Filter - $75</div>
-                                        <button class="btn btn-primary btn-sm">Mark as Used</button>
-                                    </div>
+                                    <div style="margin-top: 12px; font-size: 0.85em; color: #4A90E2; font-style: italic;">Click to view details and mark services as used →</div>
                                 </div>
                             </div>
                         </div>
@@ -708,23 +741,31 @@
                                     <div class="form-row">
                                         <div class="form-group">
                                             <label>Cost *</label>
-                                            <input type="number" value="200.00">
+                                            <input type="number" value="$200.00">
                                         </div>
                                         <div class="form-group">
                                             <label>Selling Price *</label>
-                                            <input type="number" value="300.00">
+                                            <input type="number" value="$300.00">
                                         </div>
                                     </div>
                                     <div style="font-weight: 600; margin: 20px 0 12px;">Services</div>
-                                    <div class="warning-box">Service prices must equal selling price ($300)</div>
-                                    <div style="display: grid; grid-template-columns: 2fr 1fr auto; gap: 10px; margin-bottom: 10px;">
+                                    <div class="warning-box">Cost must equal $200. Selling Price must equal $300</div>
+                                    <div style="display: grid; grid-template-columns: 2fr 1fr 1fr auto; gap: 10px; margin-bottom: 10px; font-weight: 600; font-size: 0.85em; color: #4a5568;">
+                                        <div>Service visit description</div>
+                                        <div>Cost</div>
+                                        <div>Selling Price</div>
+                                        <div></div>
+                                    </div>
+                                    <div style="display: grid; grid-template-columns: 2fr 1fr 1fr auto; gap: 10px; margin-bottom: 10px;">
                                         <input type="text" value="Oil Change">
-                                        <input type="number" value="75.00">
+                                        <input type="number" value="$50.00">
+                                        <input type="number" value="$75.00">
                                         <button class="btn btn-secondary btn-sm">✕</button>
                                     </div>
-                                    <div style="display: grid; grid-template-columns: 2fr 1fr auto; gap: 10px; margin-bottom: 10px;">
+                                    <div style="display: grid; grid-template-columns: 2fr 1fr 1fr auto; gap: 10px; margin-bottom: 10px;">
                                         <input type="text" value="Tire Rotation">
-                                        <input type="number" value="75.00">
+                                        <input type="number" value="$50.00">
+                                        <input type="number" value="$75.00">
                                         <button class="btn btn-secondary btn-sm">✕</button>
                                     </div>
                                     <button class="btn btn-secondary" style="width: 100%;">➕ Add Service</button>
@@ -790,6 +831,7 @@
                                     </div>
                                 </div>
                                 <div style="text-align: right;">
+                                    <div style="font-size: 0.85em; color: #718096; margin-bottom: 4px;">Customer owes</div>
                                     <div style="font-size: 1.4em; font-weight: 600; color: #48bb78;">$300</div>
                                 </div>
                             </div>
@@ -810,6 +852,7 @@
                                     </div>
                                 </div>
                                 <div style="text-align: right;">
+                                    <div style="font-size: 0.85em; color: #718096; margin-bottom: 4px;">Customer owes</div>
                                     <div style="font-size: 1.4em; font-weight: 600; color: #48bb78;">$499</div>
                                 </div>
                             </div>
@@ -829,6 +872,7 @@
                                     </div>
                                 </div>
                                 <div style="text-align: right;">
+                                    <div style="font-size: 0.85em; color: #718096; margin-bottom: 4px;">Customer owes</div>
                                     <div style="font-size: 1.4em; font-weight: 600; color: #48bb78;">$399</div>
                                 </div>
                             </div>
@@ -1068,7 +1112,7 @@
     <!-- SCREEN 12: REPORTS -->
     <div id="screen12" class="wireframe">
         <div class="wireframe-header">
-            <h2>Screen 12: Accounting Report Interface</h2>
+            <h2>Screen 12: Service Redemption Reports</h2>
             <p>Generate financial reports with filters and export</p>
         </div>
         <div class="screen">
@@ -1083,7 +1127,7 @@
                         <div style="width: 36px; height: 36px; background: #667eea; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: 600;">JD</div>
                     </div>
                     <div class="content-area">
-                        <h2 style="margin-bottom: 20px;">Accounting Reports</h2>
+                        <h2 style="margin-bottom: 20px;">Service Redemption Reports</h2>
                         
                         <div class="card">
                             <div class="card-header">Report Filters</div>
@@ -1102,7 +1146,7 @@
                                         <select><option>All Statuses</option></select>
                                     </div>
                                     <div class="form-group" style="margin: 0;">
-                                        <label>Assigning User</label>
+                                        <label>Sold By</label>
                                         <select><option>All Users</option><option>John Doe</option><option>Jane Smith</option></select>
                                     </div>
                                     <div style="align-self: end;">
@@ -1141,55 +1185,55 @@
                                     <thead>
                                         <tr>
                                             <th>Date Used</th>
-                                            <th>Customer</th>
                                             <th>Contract #</th>
+                                            <th>Customer</th>
                                             <th>Service Contract</th>
                                             <th>Redeemed Service</th>
                                             <th>Value</th>
-                                            <th>Assigning User</th>
+                                            <th>Sold By</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td>Oct 28</td>
-                                            <td>S. Johnson</td>
-                                            <td><strong>PM-389</strong></td>
+                                            <td>10/28/24</td>
+                                            <td><a href="#" style="color: #4A90E2; text-decoration: underline;"><strong>PM-2024-389</strong></a></td>
+                                            <td><a href="#" style="color: #4A90E2; text-decoration: underline;">Sarah Johnson</a></td>
                                             <td>Honda 24-Month Maintenance</td>
                                             <td>Oil Change</td>
                                             <td style="font-weight: 600;">$75</td>
                                             <td>Jason Johnson</td>
                                         </tr>
                                         <tr>
-                                            <td>Oct 25</td>
-                                            <td>M. Chen</td>
-                                            <td><strong>PM-387</strong></td>
+                                            <td>10/25/24</td>
+                                            <td><a href="#" style="color: #4A90E2; text-decoration: underline;"><strong>PM-2024-387</strong></a></td>
+                                            <td><a href="#" style="color: #4A90E2; text-decoration: underline;">Michael Chen</a></td>
                                             <td>Honda Extended Care Plus</td>
                                             <td>Tire Rotation</td>
                                             <td style="font-weight: 600;">$75</td>
                                             <td>Jane Smith</td>
                                         </tr>
                                         <tr>
-                                            <td>Oct 22</td>
-                                            <td>R. Wilson</td>
-                                            <td><strong>PM-384</strong></td>
+                                            <td>10/22/24</td>
+                                            <td><a href="#" style="color: #4A90E2; text-decoration: underline;"><strong>PM-2024-384</strong></a></td>
+                                            <td><a href="#" style="color: #4A90E2; text-decoration: underline;">Robert Wilson</a></td>
                                             <td>Universal Premium Maintenance</td>
                                             <td>Air Filter Replacement</td>
                                             <td style="font-weight: 600;">$75</td>
                                             <td>Jason Johnson</td>
                                         </tr>
                                         <tr>
-                                            <td>Oct 20</td>
-                                            <td>S. Johnson</td>
-                                            <td><strong>PM-382</strong></td>
+                                            <td>10/20/24</td>
+                                            <td><a href="#" style="color: #4A90E2; text-decoration: underline;"><strong>PM-2024-382</strong></a></td>
+                                            <td><a href="#" style="color: #4A90E2; text-decoration: underline;">Sarah Johnson</a></td>
                                             <td>Honda 24-Month Maintenance</td>
                                             <td>Brake Inspection</td>
                                             <td style="font-weight: 600;">$75</td>
                                             <td>John Doe</td>
                                         </tr>
                                         <tr>
-                                            <td>Oct 18</td>
-                                            <td>L. Thompson</td>
-                                            <td><strong>PM-375</strong></td>
+                                            <td>10/18/24</td>
+                                            <td><a href="#" style="color: #4A90E2; text-decoration: underline;"><strong>PM-2024-375</strong></a></td>
+                                            <td><a href="#" style="color: #4A90E2; text-decoration: underline;">Lisa Thompson</a></td>
                                             <td>Honda Extended Care Plus</td>
                                             <td>Oil Change</td>
                                             <td style="font-weight: 600;">$75</td>
