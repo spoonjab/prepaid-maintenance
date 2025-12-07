@@ -44,10 +44,11 @@
         td { padding: 12px; border-bottom: 1px solid #e2e8f0; }
         
         .badge { padding: 4px 10px; border-radius: 12px; font-size: 0.8em; font-weight: 600; display: inline-block; line-height: 1.2; }
-        .badge-success { background: #c6f6d5; color: #22543d; }
+        .badge-success { background: #fffbeb; color: #92400e; }
         .badge-warning { background: #feebc8; color: #7c2d12; }
         .badge-danger { background: #fed7d7; color: #742a2a; }
-        .badge-info { background: #bee3f8; color: #2c5282; }
+        .badge-info { background: #c6f6d5; color: #22543d; }
+        .badge-completed { background: #dbeafe; color: #1e40af; }
         .badge-secondary { background: #e2e8f0; color: #4a5568; }
         .badge-purple { background: #e9d8fd; color: #44337a; }
         
@@ -64,7 +65,7 @@
         
         .form-group { margin-bottom: 16px; }
         .form-group label { display: block; margin-bottom: 6px; font-weight: 500; color: #4a5568; font-size: 0.9em; }
-        .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 10px; border: 2px solid #e2e8f0; border-radius: 6px; font-size: 0.95em; }
+        .form-group input:not([type="checkbox"]), .form-group select, .form-group textarea { width: 100%; padding: 10px; border: 2px solid #e2e8f0; border-radius: 6px; font-size: 0.95em; }
         .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
         
         .login-split { display: flex; height: 100vh; }
@@ -82,6 +83,64 @@
         
         .info-box { background: #ebf8ff; border-left: 4px solid #4299e1; padding: 14px; margin: 14px 0; border-radius: 4px; font-size: 0.9em; }
         .warning-box { background: #fffaf0; border-left: 4px solid #ed8936; padding: 14px; margin: 14px 0; border-radius: 4px; font-size: 0.9em; }
+
+        /* Tooltip styles */
+        .contract-badge { position: relative; cursor: help; }
+        .vehicle-item {
+            position: relative;
+            cursor: help;
+            display: inline-block;
+            padding: 2px 4px;
+            border-radius: 4px;
+            transition: background 0.2s;
+        }
+        .vehicle-item:hover { background: #f7fafc; }
+        .contract-tooltip {
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            margin-bottom: 8px;
+            background: #1a202c;
+            color: white;
+            padding: 12px 16px;
+            border-radius: 6px;
+            font-size: 0.85em;
+            white-space: nowrap;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s;
+            min-width: 250px;
+        }
+        .contract-tooltip::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 6px solid transparent;
+            border-top-color: #1a202c;
+        }
+        .contract-badge:hover .contract-tooltip,
+        .vehicle-item:hover .contract-tooltip { opacity: 1; }
+        .contract-tooltip-line { margin: 4px 0; }
+        .contract-tooltip-label { color: #a0aec0; font-size: 0.9em; }
+        .contract-status {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 0.85em;
+            margin-top: 6px;
+        }
+        .status-badge-active { background: #c6f6d5; color: #22543d; padding: 2px 8px; border-radius: 4px; font-size: 0.75em; font-weight: 600; margin-left: 8px; }
+        .status-badge-expired { background: #fed7d7; color: #742a2a; padding: 2px 8px; border-radius: 4px; font-size: 0.75em; font-weight: 600; margin-left: 8px; }
+        .status-badge-void { background: #e2e8f0; color: #4a5568; padding: 2px 8px; border-radius: 4px; font-size: 0.75em; font-weight: 600; margin-left: 8px; }
+        .status-badge-canceled { background: #feebc8; color: #7c2d12; padding: 2px 8px; border-radius: 4px; font-size: 0.75em; font-weight: 600; margin-left: 8px; }
+        .clickable-row { cursor: pointer; transition: background 0.2s; }
+        .clickable-row:hover { background: #f7fafc !important; }
     </style>
 </head>
 <body>
@@ -152,21 +211,21 @@
     <div id="screen2" class="wireframe">
         <div class="wireframe-header">
             <h2>Screen 2: Main Dashboard</h2>
-            <p>Central hub with statistics and dealership switcher</p>
+            <p>Dashboard for viewing contract performance and managing contract remittance for accounting. Restricted visibility to Admin, Accounting Clerk, F&I Manager</p>
         </div>
         <div class="screen">
             <div class="dashboard-layout">
                 <div class="sidebar">
                     <div class="logo">🚗 PM System</div>
+                    <button onclick="scrollToScreen('screen3'); return false;" style="width: 50%; margin: 16px auto; display: block; padding: 8px; background: #4A90E2; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 14px;">Sell Contract</button>
                     <div class="nav-item active">📊 Dashboard</div>
-                    <div class="nav-item">👥 Customers</div>
-                    <div class="nav-item">🚙 Vehicles</div>
-                    <div class="nav-item">📄 Templates</div>
-                    <div class="nav-item">📋 Contracts</div>
-                    <div class="nav-item">📈 Reports</div>
+                    <div class="nav-item" onclick="scrollToScreen('screen3'); return false;" style="cursor: pointer;">👥 Customers</div>
+                    <div class="nav-item" onclick="scrollToScreen('screen7'); return false;" style="cursor: pointer;">📄 Service Contract Templates</div>
+                    <div class="nav-item" onclick="scrollToScreen('screen12'); return false;" style="cursor: pointer;">📈 Redemption Reports</div>
                     <div style="padding: 16px 20px; border-top: 1px solid rgba(255,255,255,0.1); margin-top: 16px; font-size: 0.75em; opacity: 0.5;">ADMIN</div>
-                    <div class="nav-item">👤 Users</div>
-                    <div class="nav-item">🔑 API Keys</div>
+                    <div class="nav-item" onclick="scrollToScreen('screen13'); return false;" style="cursor: pointer;">👤 Users</div>
+                    <div class="nav-item" onclick="scrollToScreen('screen14'); return false;" style="cursor: pointer;">🔑 API Keys</div>
+                    <div class="nav-item" onclick="scrollToScreen('screen15'); return false;" style="cursor: pointer;">📋 PDF Config</div>
                 </div>
                 <div class="main-content">
                     <div class="top-bar">
@@ -178,52 +237,110 @@
                     </div>
                     <div class="content-area">
                         <h2 style="margin-bottom: 6px;">Dashboard</h2>
-                        <p style="color: #718096; margin-bottom: 16px;">Overview of your contract operations</p>
+                        <p style="color: #718096; margin-bottom: 16px;">Summary of Service Contracts created by date, status, and user</p>
 
                         <div style="display: flex; gap: 12px; margin-bottom: 24px; align-items: center; flex-wrap: wrap;">
-                            <div style="font-weight: 600; color: #4a5568;">Date Range:</div>
+                            <div style="font-weight: 600; color: #4a5568;">Contract Created Date Range:</div>
                             <input type="date" value="2024-10-01" style="padding: 8px 12px; border: 2px solid #e2e8f0; border-radius: 6px;">
                             <span style="color: #718096;">to</span>
                             <input type="date" value="2024-10-31" style="padding: 8px 12px; border: 2px solid #e2e8f0; border-radius: 6px;">
                             <div style="font-weight: 600; color: #4a5568; margin-left: 20px;">Status:</div>
-                            <select style="padding: 8px 12px; border: 2px solid #e2e8f0; border-radius: 6px;">
-                                <option>All Statuses</option>
-                                <option>Active Paid</option>
-                                <option>Pending</option>
-                                <option>Active Unpaid</option>
-                                <option>Fulfilled</option>
-                                <option>Void</option>
-                                <option>Canceled</option>
-                            </select>
+                            <div style="position: relative; display: inline-block;">
+                                <button id="statusDropdownBtn" style="padding: 8px 12px; border: 2px solid #e2e8f0; border-radius: 6px; background: white; cursor: pointer; min-width: 180px; text-align: left; display: flex; justify-content: space-between; align-items: center;">
+                                    <span>All Statuses</span><span>▼</span>
+                                </button>
+                                <div id="statusDropdownMenu" style="position: absolute; top: 100%; left: 0; margin-top: 4px; background: white; border: 2px solid #e2e8f0; border-radius: 6px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); min-width: 200px; z-index: 1000; display: none;">
+                                    <div style="padding: 8px;">
+                                        <label style="display: block; padding: 6px 8px; cursor: pointer; border-radius: 4px; margin-bottom: 2px;" onmouseover="this.style.background='#f7fafc'" onmouseout="this.style.background='white'">
+                                            <input type="checkbox" checked style="margin-right: 8px;" id="selectAllStatusCheckbox">
+                                            <span style="font-weight: 600;">Select All</span>
+                                        </label>
+                                        <div style="border-top: 1px solid #e2e8f0; margin: 6px 0;"></div>
+                                        <label style="display: block; padding: 6px 8px; cursor: pointer; border-radius: 4px; margin-bottom: 2px;" onmouseover="this.style.background='#f7fafc'" onmouseout="this.style.background='white'">
+                                            <input type="checkbox" checked style="margin-right: 8px;" class="statusCheckbox">
+                                            Active - Unremitted
+                                        </label>
+                                        <label style="display: block; padding: 6px 8px; cursor: pointer; border-radius: 4px; margin-bottom: 2px;" onmouseover="this.style.background='#f7fafc'" onmouseout="this.style.background='white'">
+                                            <input type="checkbox" checked style="margin-right: 8px;" class="statusCheckbox">
+                                            Active - Remitted
+                                        </label>
+                                        <label style="display: block; padding: 6px 8px; cursor: pointer; border-radius: 4px; margin-bottom: 2px;" onmouseover="this.style.background='#f7fafc'" onmouseout="this.style.background='white'">
+                                            <input type="checkbox" checked style="margin-right: 8px;" class="statusCheckbox">
+                                            Canceled
+                                        </label>
+                                        <label style="display: block; padding: 6px 8px; cursor: pointer; border-radius: 4px; margin-bottom: 2px;" onmouseover="this.style.background='#f7fafc'" onmouseout="this.style.background='white'">
+                                            <input type="checkbox" checked style="margin-right: 8px;" class="statusCheckbox">
+                                            Void
+                                        </label>
+                                        <label style="display: block; padding: 6px 8px; cursor: pointer; border-radius: 4px; margin-bottom: 2px;" onmouseover="this.style.background='#f7fafc'" onmouseout="this.style.background='white'">
+                                            <input type="checkbox" checked style="margin-right: 8px;" class="statusCheckbox">
+                                            Completed
+                                        </label>
+                                        <label style="display: block; padding: 6px 8px; cursor: pointer; border-radius: 4px; margin-bottom: 2px;" onmouseover="this.style.background='#f7fafc'" onmouseout="this.style.background='white'">
+                                            <input type="checkbox" checked style="margin-right: 8px;" class="statusCheckbox">
+                                            Expired
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
                             <div style="font-weight: 600; color: #4a5568;">Sold By:</div>
-                            <select style="padding: 8px 12px; border: 2px solid #e2e8f0; border-radius: 6px;">
-                                <option>All Users</option>
-                                <option>John Doe</option>
-                                <option>Jane Smith</option>
-                                <option>Jason Johnson</option>
-                            </select>
+                            <div style="position: relative; display: inline-block;">
+                                <button id="soldByDropdownBtn" style="padding: 8px 12px; border: 2px solid #e2e8f0; border-radius: 6px; background: white; cursor: pointer; min-width: 220px; text-align: left; display: flex; justify-content: space-between; align-items: center;">
+                                    <span>All Users</span><span>▼</span>
+                                </button>
+                                <div id="soldByDropdownMenu" style="position: absolute; top: 100%; left: 0; margin-top: 4px; background: white; border: 2px solid #e2e8f0; border-radius: 6px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); min-width: 220px; z-index: 1000; display: none;">
+                                    <div style="padding: 8px;">
+                                        <label style="display: block; padding: 6px 8px; cursor: pointer; border-radius: 4px; margin-bottom: 2px;" onmouseover="this.style.background='#f7fafc'" onmouseout="this.style.background='white'">
+                                            <input type="checkbox" checked style="margin-right: 8px;" id="selectAllCheckbox">
+                                            <span style="font-weight: 600;">Select All</span>
+                                        </label>
+                                        <div style="border-top: 1px solid #e2e8f0; margin: 6px 0;"></div>
+                                        <label style="display: block; padding: 6px 8px; cursor: pointer; border-radius: 4px; margin-bottom: 2px;" onmouseover="this.style.background='#f7fafc'" onmouseout="this.style.background='white'">
+                                            <input type="checkbox" checked style="margin-right: 8px;" class="userCheckbox">
+                                            John Doe
+                                        </label>
+                                        <label style="display: block; padding: 6px 8px; cursor: pointer; border-radius: 4px; margin-bottom: 2px;" onmouseover="this.style.background='#f7fafc'" onmouseout="this.style.background='white'">
+                                            <input type="checkbox" checked style="margin-right: 8px;" class="userCheckbox">
+                                            Jane Smith
+                                        </label>
+                                        <label style="display: block; padding: 6px 8px; cursor: pointer; border-radius: 4px; margin-bottom: 2px;" onmouseover="this.style.background='#f7fafc'" onmouseout="this.style.background='white'">
+                                            <input type="checkbox" checked style="margin-right: 8px;" class="userCheckbox">
+                                            Jason Johnson
+                                        </label>
+                                        <label style="display: block; padding: 6px 8px; cursor: pointer; border-radius: 4px; margin-bottom: 2px;" onmouseover="this.style.background='#f7fafc'" onmouseout="this.style.background='white'">
+                                            <input type="checkbox" checked style="margin-right: 8px;" class="userCheckbox">
+                                            ABC Hyundai - Darwin
+                                        </label>
+                                        <label style="display: block; padding: 6px 8px; cursor: pointer; border-radius: 4px; margin-bottom: 2px;" onmouseover="this.style.background='#f7fafc'" onmouseout="this.style.background='white'">
+                                            <input type="checkbox" checked style="margin-right: 8px;" class="userCheckbox">
+                                            ABC Kia - Darwin
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
                             <button class="btn btn-secondary btn-sm">Apply</button>
                         </div>
 
                         <div class="stats-grid" style="grid-template-columns: repeat(4, 1fr);">
                             <div class="stat-card">
-                                <div class="stat-label">ACTIVE PAID</div>
+                                <div class="stat-label">CONTRACTS CREATED</div>
                                 <div class="stat-value">247</div>
                                 <div style="color: #48bb78; font-size: 0.9em; margin-top: 6px;">↑ 12% from last month</div>
                             </div>
                             <div class="stat-card">
-                                <div class="stat-label">PENDING</div>
+                                <div class="stat-label">CONTRACTS TO BE REMITTED</div>
                                 <div class="stat-value" style="color: #ed8936;">18</div>
                                 <div style="color: #c53030; font-size: 0.9em; margin-top: 6px;">⚠ Needs approval</div>
                             </div>
                             <div class="stat-card">
                                 <div class="stat-label">REVENUE</div>
-                                <div class="stat-value" style="font-size: 1.8em;">$73.9K</div>
+                                <div class="stat-value" style="font-size: 1.8em;">$73,926</div>
                                 <div style="color: #48bb78; font-size: 0.9em; margin-top: 6px;">↑ 15% from period</div>
                             </div>
                             <div class="stat-card">
                                 <div class="stat-label">SPOILAGE</div>
                                 <div class="stat-value" style="font-size: 1.8em; color: #ed8936;">8.2%</div>
+                                <div style="color: #ed8936; font-size: 1.1em; margin-top: 4px;">$6,060</div>
                                 <div style="color: #718096; font-size: 0.9em; margin-top: 6px;">Expired unused</div>
                             </div>
                         </div>
@@ -246,62 +363,69 @@
                                         <th>Status</th>
                                         <th>Services</th>
                                         <th>Sold By</th>
+                                        <th>Price</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr>
                                         <td>10/28/24</td>
-                                        <td><a href="#" style="color: #4A90E2; text-decoration: underline;"><strong>PM-2024-389</strong></a></td>
-                                        <td><a href="#" style="color: #4A90E2; text-decoration: underline;">Sarah Johnson</a></td>
+                                        <td><a href="#" onclick="scrollToScreen('screen10'); return false;" style="color: #4A90E2; text-decoration: underline; cursor: pointer;"><strong>PM-2024-389</strong></a></td>
+                                        <td><a href="#" onclick="scrollToScreen('screen4'); return false;" style="color: #4A90E2; text-decoration: underline; cursor: pointer;">Sarah Johnson</a></td>
                                         <td>2023 Honda Accord</td>
-                                        <td><span class="badge badge-success">Active Paid</span></td>
+                                        <td><span class="badge badge-success">Active - Unremitted</span></td>
                                         <td>1 of 4</td>
                                         <td>John Doe</td>
+                                        <td>$1,249</td>
                                     </tr>
                                     <tr>
                                         <td>10/27/24</td>
-                                        <td><a href="#" style="color: #4A90E2; text-decoration: underline;"><strong>PM-2024-388</strong></a></td>
-                                        <td><a href="#" style="color: #4A90E2; text-decoration: underline;">Michael Chen</a></td>
+                                        <td><a href="#" onclick="scrollToScreen('screen10'); return false;" style="color: #4A90E2; text-decoration: underline; cursor: pointer;"><strong>PM-2024-388</strong></a></td>
+                                        <td><a href="#" onclick="scrollToScreen('screen4'); return false;" style="color: #4A90E2; text-decoration: underline; cursor: pointer;">Michael Chen</a></td>
                                         <td>2024 Toyota Camry</td>
-                                        <td><span class="badge badge-warning">Pending</span></td>
-                                        <td>0 of 6</td>
+                                        <td><span class="badge badge-completed">Completed</span></td>
+                                        <td>6 of 6</td>
                                         <td>Jane Smith</td>
+                                        <td>$1,899</td>
                                     </tr>
                                     <tr>
                                         <td>10/25/24</td>
-                                        <td><a href="#" style="color: #4A90E2; text-decoration: underline;"><strong>PM-2024-387</strong></a></td>
-                                        <td><a href="#" style="color: #4A90E2; text-decoration: underline;">Emily Rodriguez</a></td>
+                                        <td><a href="#" onclick="scrollToScreen('screen10'); return false;" style="color: #4A90E2; text-decoration: underline; cursor: pointer;"><strong>PM-2024-387</strong></a></td>
+                                        <td><a href="#" onclick="scrollToScreen('screen4'); return false;" style="color: #4A90E2; text-decoration: underline; cursor: pointer;">Emily Rodriguez</a></td>
                                         <td>2022 Ford F-150</td>
-                                        <td><span class="badge badge-secondary">Active Unpaid</span></td>
+                                        <td><span class="badge badge-info">Active - Remitted</span></td>
                                         <td>0 of 5</td>
                                         <td>Jason Johnson</td>
+                                        <td>$1,549</td>
                                     </tr>
                                     <tr>
                                         <td>10/22/24</td>
-                                        <td><a href="#" style="color: #4A90E2; text-decoration: underline;"><strong>PM-2024-386</strong></a></td>
-                                        <td><a href="#" style="color: #4A90E2; text-decoration: underline;">David Martinez</a></td>
+                                        <td><a href="#" onclick="scrollToScreen('screen10'); return false;" style="color: #4A90E2; text-decoration: underline; cursor: pointer;"><strong>PM-2024-386</strong></a></td>
+                                        <td><a href="#" onclick="scrollToScreen('screen4'); return false;" style="color: #4A90E2; text-decoration: underline; cursor: pointer;">David Martinez</a></td>
                                         <td>2021 Chevrolet Silverado</td>
-                                        <td><span class="badge badge-secondary">Fulfilled</span></td>
+                                        <td><span class="badge badge-secondary">Expired</span></td>
                                         <td>4 of 4</td>
                                         <td>John Doe</td>
+                                        <td>$1,099</td>
                                     </tr>
                                     <tr>
                                         <td>10/15/24</td>
-                                        <td><a href="#" style="color: #4A90E2; text-decoration: underline;"><strong>PM-2024-385</strong></a></td>
-                                        <td><a href="#" style="color: #4A90E2; text-decoration: underline;">Lisa Thompson</a></td>
+                                        <td><a href="#" onclick="scrollToScreen('screen10'); return false;" style="color: #4A90E2; text-decoration: underline; cursor: pointer;"><strong>PM-2024-385</strong></a></td>
+                                        <td><a href="#" onclick="scrollToScreen('screen4'); return false;" style="color: #4A90E2; text-decoration: underline; cursor: pointer;">Lisa Thompson</a></td>
                                         <td>2023 Toyota RAV4</td>
                                         <td><span class="badge badge-danger">Void</span></td>
                                         <td>0 of 5</td>
-                                        <td>Jane Smith</td>
+                                        <td>ABC Kia - Darwin</td>
+                                        <td>$1,399</td>
                                     </tr>
                                     <tr>
                                         <td>10/08/24</td>
-                                        <td><a href="#" style="color: #4A90E2; text-decoration: underline;"><strong>PM-2024-384</strong></a></td>
-                                        <td><a href="#" style="color: #4A90E2; text-decoration: underline;">Robert Wilson</a></td>
+                                        <td><a href="#" onclick="scrollToScreen('screen10'); return false;" style="color: #4A90E2; text-decoration: underline; cursor: pointer;"><strong>PM-2024-384</strong></a></td>
+                                        <td><a href="#" onclick="scrollToScreen('screen4'); return false;" style="color: #4A90E2; text-decoration: underline; cursor: pointer;">Robert Wilson</a></td>
                                         <td>2022 Honda CR-V</td>
                                         <td><span class="badge badge-danger">Canceled</span></td>
                                         <td>2 of 6</td>
                                         <td>Jason Johnson</td>
+                                        <td>$1,649</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -334,9 +458,15 @@
             <div class="dashboard-layout">
                 <div class="sidebar">
                     <div class="logo">🚗 PM System</div>
-                    <div class="nav-item">📊 Dashboard</div>
+                    <button onclick="scrollToScreen('screen3'); return false;" style="width: 50%; margin: 16px auto; display: block; padding: 8px; background: #4A90E2; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 14px;">Sell Contract</button>
+                    <div class="nav-item" onclick="scrollToScreen('screen2'); return false;" style="cursor: pointer;">📊 Dashboard</div>
                     <div class="nav-item active">👥 Customers</div>
-                    <div class="nav-item">🚙 Vehicles</div>
+                    <div class="nav-item" onclick="scrollToScreen('screen7'); return false;" style="cursor: pointer;">📄 Service Contract Templates</div>
+                    <div class="nav-item" onclick="scrollToScreen('screen12'); return false;" style="cursor: pointer;">📈 Redemption Reports</div>
+                    <div style="padding: 16px 20px; border-top: 1px solid rgba(255,255,255,0.1); margin-top: 16px; font-size: 0.75em; opacity: 0.5;">ADMIN</div>
+                    <div class="nav-item" onclick="scrollToScreen('screen13'); return false;" style="cursor: pointer;">👤 Users</div>
+                    <div class="nav-item" onclick="scrollToScreen('screen14'); return false;" style="cursor: pointer;">🔑 API Keys</div>
+                    <div class="nav-item" onclick="scrollToScreen('screen15'); return false;" style="cursor: pointer;">📋 PDF Config</div>
                 </div>
                 <div class="main-content">
                     <div class="top-bar">
@@ -345,7 +475,7 @@
                     </div>
                     <div class="content-area">
                         <h2 style="margin-bottom: 6px;">Customers</h2>
-                        <p style="color: #718096; margin-bottom: 24px;">Manage customer profiles and contracts</p>
+                        <p style="color: #718096; margin-bottom: 24px;">Search existing customers by name, customer number, phone, email, contract number, or partial VIN</p>
                         
                         <div style="display: flex; justify-content: space-between; margin-bottom: 20px;">
                             <input type="text" placeholder="🔍 Search by name, phone, email, or customer number..." value="Johnson" style="flex: 1; max-width: 500px; padding: 10px 10px 10px 36px; border: 2px solid #e2e8f0; border-radius: 6px;">
@@ -358,36 +488,101 @@
                                     <tr>
                                         <th>Customer #</th>
                                         <th>Name</th>
+                                        <th>Email</th>
                                         <th>Phone</th>
                                         <th>Vehicles</th>
-                                        <th>Contracts</th>
-                                        <th>Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr style="background: #fffaf0;">
+                                    <tr class="clickable-row" style="background: #fffaf0;" onclick="scrollToScreen('screen4')">
                                         <td><strong>C-00245</strong></td>
                                         <td><strong>Sarah Johnson</strong></td>
+                                        <td>sarah.j@email.com</td>
                                         <td>(208) 555-0132</td>
-                                        <td>2</td>
-                                        <td><span class="badge badge-success">3</span></td>
-                                        <td><button class="btn btn-secondary btn-sm">View</button></td>
+                                        <td>
+                                            <div style="font-size: 0.9em; margin-bottom: 4px;">
+                                                <span class="vehicle-item">2023 Honda Accord - ...23AB3243
+                                                    <div class="contract-tooltip">
+                                                        <div class="contract-tooltip-line"><span class="contract-tooltip-label">Start Date:</span> 01/15/2024</div>
+                                                        <div class="contract-tooltip-line"><span class="contract-tooltip-label">Contract Name:</span> Premium Maintenance Plan</div>
+                                                        <div class="contract-tooltip-line"><span class="contract-tooltip-label">Contract #:</span> PM-2024-389</div>
+                                                        <div class="contract-tooltip-line"><span class="contract-tooltip-label">Services:</span> 4 of 6 available</div>
+                                                    </div>
+                                                </span>
+                                                <span class="status-badge-active">Active - Unremitted</span>
+                                            </div>
+                                            <div style="font-size: 0.85em; color: #718096;">
+                                                <span class="vehicle-item">2021 Toyota RAV4 - ...19XY7891
+                                                    <div class="contract-tooltip">
+                                                        <div class="contract-tooltip-line"><span class="contract-tooltip-label">Start Date:</span> 10/22/2023</div>
+                                                        <div class="contract-tooltip-line"><span class="contract-tooltip-label">Contract Name:</span> Basic Maintenance Plan</div>
+                                                        <div class="contract-tooltip-line"><span class="contract-tooltip-label">Contract #:</span> PM-2023-287</div>
+                                                        <div class="contract-tooltip-line"><span class="contract-tooltip-label">Services:</span> 0 of 3 available</div>
+                                                    </div>
+                                                </span>
+                                                <span class="status-badge-expired">Expired</span>
+                                            </div>
+                                        </td>
                                     </tr>
-                                    <tr>
+                                    <tr class="clickable-row" onclick="scrollToScreen('screen4')">
                                         <td><strong>C-00198</strong></td>
                                         <td>Robert Johnson</td>
+                                        <td>robert.j@email.com</td>
                                         <td>(208) 555-0198</td>
-                                        <td>1</td>
-                                        <td><span class="badge badge-success">1</span></td>
-                                        <td><button class="btn btn-secondary btn-sm">View</button></td>
+                                        <td>
+                                            <div style="font-size: 0.9em;">
+                                                <span class="vehicle-item">2022 Ford F-150 - ...45CD9876
+                                                    <div class="contract-tooltip">
+                                                        <div class="contract-tooltip-line"><span class="contract-tooltip-label">Start Date:</span> 05/18/2024</div>
+                                                        <div class="contract-tooltip-line"><span class="contract-tooltip-label">Contract Name:</span> Standard Maintenance Plan</div>
+                                                        <div class="contract-tooltip-line"><span class="contract-tooltip-label">Contract #:</span> PM-2024-445</div>
+                                                        <div class="contract-tooltip-line"><span class="contract-tooltip-label">Services:</span> N/A</div>
+                                                    </div>
+                                                </span>
+                                                <span class="status-badge-void">Void</span>
+                                            </div>
+                                        </td>
                                     </tr>
-                                    <tr>
+                                    <tr class="clickable-row" onclick="scrollToScreen('screen4')">
                                         <td><strong>C-00412</strong></td>
                                         <td>Amanda Johnson-Smith</td>
+                                        <td>amanda.js@email.com</td>
                                         <td>(208) 555-0412</td>
-                                        <td>3</td>
-                                        <td><span class="badge badge-success">2</span></td>
-                                        <td><button class="btn btn-secondary btn-sm">View</button></td>
+                                        <td>
+                                            <div style="font-size: 0.9em; margin-bottom: 4px;">
+                                                <span class="vehicle-item">2024 Tesla Model 3 - ...56EF1234
+                                                    <div class="contract-tooltip">
+                                                        <div class="contract-tooltip-line"><span class="contract-tooltip-label">Start Date:</span> 08/05/2024</div>
+                                                        <div class="contract-tooltip-line"><span class="contract-tooltip-label">Contract Name:</span> Premium Plus Plan</div>
+                                                        <div class="contract-tooltip-line"><span class="contract-tooltip-label">Contract #:</span> PM-2024-512</div>
+                                                        <div class="contract-tooltip-line"><span class="contract-tooltip-label">Services:</span> 6 of 6 available</div>
+                                                    </div>
+                                                </span>
+                                                <span class="status-badge-active">Active - Unremitted</span>
+                                            </div>
+                                            <div style="font-size: 0.85em; color: #718096; margin-bottom: 4px;">
+                                                <span class="vehicle-item">2022 BMW X5 - ...78GH5678
+                                                    <div class="contract-tooltip">
+                                                        <div class="contract-tooltip-line"><span class="contract-tooltip-label">Start Date:</span> 03/12/2024</div>
+                                                        <div class="contract-tooltip-line"><span class="contract-tooltip-label">Contract Name:</span> Deluxe Maintenance Plan</div>
+                                                        <div class="contract-tooltip-line"><span class="contract-tooltip-label">Contract #:</span> PM-2024-398</div>
+                                                        <div class="contract-tooltip-line"><span class="contract-tooltip-label">Services:</span> Refunded</div>
+                                                    </div>
+                                                </span>
+                                                <span class="status-badge-canceled">Canceled</span>
+                                            </div>
+                                            <div style="font-size: 0.85em; color: #718096;">
+                                                <span class="vehicle-item">2020 Audi A4 - ...90IJ9012
+                                                    <div class="contract-tooltip">
+                                                        <div class="contract-tooltip-line"><span class="contract-tooltip-label">Start Date:</span> 11/20/2023</div>
+                                                        <div class="contract-tooltip-line"><span class="contract-tooltip-label">Contract Name:</span> Basic Maintenance Plan</div>
+                                                        <div class="contract-tooltip-line"><span class="contract-tooltip-label">Contract #:</span> PM-2023-334</div>
+                                                        <div class="contract-tooltip-line"><span class="contract-tooltip-label">Services:</span> 2 of 4 available</div>
+                                                    </div>
+                                                </span>
+                                                <span class="status-badge-active">Active - Unremitted</span>
+                                            </div>
+                                        </td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -409,7 +604,15 @@
             <div class="dashboard-layout">
                 <div class="sidebar">
                     <div class="logo">🚗 PM System</div>
+                    <button onclick="scrollToScreen('screen3'); return false;" style="width: 50%; margin: 16px auto; display: block; padding: 8px; background: #4A90E2; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 14px;">Sell Contract</button>
+                    <div class="nav-item" onclick="scrollToScreen('screen2'); return false;" style="cursor: pointer;">📊 Dashboard</div>
                     <div class="nav-item active">👥 Customers</div>
+                    <div class="nav-item" onclick="scrollToScreen('screen7'); return false;" style="cursor: pointer;">📄 Service Contract Templates</div>
+                    <div class="nav-item" onclick="scrollToScreen('screen12'); return false;" style="cursor: pointer;">📈 Redemption Reports</div>
+                    <div style="padding: 16px 20px; border-top: 1px solid rgba(255,255,255,0.1); margin-top: 16px; font-size: 0.75em; opacity: 0.5;">ADMIN</div>
+                    <div class="nav-item" onclick="scrollToScreen('screen13'); return false;" style="cursor: pointer;">👤 Users</div>
+                    <div class="nav-item" onclick="scrollToScreen('screen14'); return false;" style="cursor: pointer;">🔑 API Keys</div>
+                    <div class="nav-item" onclick="scrollToScreen('screen15'); return false;" style="cursor: pointer;">📋 PDF Config</div>
                 </div>
                 <div class="main-content">
                     <div class="top-bar">
@@ -424,8 +627,7 @@
                                     <div style="color: #718096;">Customer #C-00245</div>
                                 </div>
                                 <div style="display: flex; gap: 10px;">
-                                    <button class="btn btn-secondary btn-sm">Add Vehicle</button>
-                                    <button class="btn btn-secondary btn-sm">✏ Edit</button>
+                                    <button class="btn btn-secondary btn-sm" onclick="scrollToScreen('screen5'); return false;" style="cursor: pointer;">✏ Edit</button>
                                 </div>
                             </div>
                             <div class="card-body">
@@ -445,23 +647,27 @@
                                 </div>
                             </div>
                         </div>
-                        
+
+                        <div style="text-align: center; margin: 20px 0;">
+                            <button class="btn btn-secondary" onclick="scrollToScreen('screen6'); return false;" style="cursor: pointer;">Add Vehicle</button>
+                        </div>
+
                         <div class="card">
                             <div class="card-header">
                                 <div>
                                     <div style="font-size: 1.2em;">2023 Honda Accord</div>
-                                    <div style="color: #718096; font-size: 0.9em;">VIN: 1HGCV1F16MA123456</div>
+                                    <div style="color: #718096; font-size: 0.9em;">VIN: 1HGCV1F16MA123456 | Odometer: 1,934</div>
                                 </div>
-                                <button class="btn btn-primary btn-sm">📋 Add Contract to this Vehicle</button>
+                                <button class="btn btn-primary btn-sm" onclick="scrollToScreen('screen9'); return false;" style="cursor: pointer;">📋 Add Contract to this Vehicle</button>
                             </div>
                             <div class="card-body">
-                                <div style="border: 2px solid #e2e8f0; border-radius: 6px; padding: 16px; background: #f7fafc; cursor: pointer; transition: background 0.2s;" onmouseover="this.style.background='#edf2f7'" onmouseout="this.style.background='#f7fafc'">
+                                <div style="border: 2px solid #e2e8f0; border-radius: 6px; padding: 16px; background: #f7fafc; cursor: pointer; transition: background 0.2s;" onmouseover="this.style.background='#edf2f7'" onmouseout="this.style.background='#f7fafc'" onclick="scrollToScreen('screen10'); return false;">
                                     <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 12px;">
                                         <div>
                                             <div style="font-weight: 600; font-size: 1.1em; color: #4A90E2; text-decoration: underline;">Honda 24-Month Maintenance</div>
                                             <div style="color: #718096; font-size: 0.9em;">PM-2024-389</div>
                                         </div>
-                                        <span class="badge badge-success" style="line-height: 1; padding: 6px 12px;">Active Paid</span>
+                                        <span class="badge badge-success" style="line-height: 1; padding: 6px 12px;">Active - Unremitted</span>
                                     </div>
                                     <div class="progress-bar">
                                         <div class="progress-fill" style="width: 25%;"></div>
@@ -490,12 +696,21 @@
     <div id="screen5" class="wireframe">
         <div class="wireframe-header">
             <h2>Screen 5: Add/Edit Customer Modal</h2>
-            <p>Form for creating or editing customer information</p>
+            <p>Create or edit customer profile. For new customers, advance to Add Vehicle Screen, then Assign Contract Modal step, then display PDF Contract to print (screen not shown on mockups)</p>
         </div>
         <div class="screen">
             <div class="dashboard-layout">
                 <div class="sidebar">
                     <div class="logo">🚗 PM System</div>
+                    <button onclick="scrollToScreen('screen3'); return false;" style="width: 50%; margin: 16px auto; display: block; padding: 8px; background: #4A90E2; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 14px;">Sell Contract</button>
+                    <div class="nav-item" onclick="scrollToScreen('screen2'); return false;" style="cursor: pointer;">📊 Dashboard</div>
+                    <div class="nav-item" onclick="scrollToScreen('screen3'); return false;" style="cursor: pointer;">👥 Customers</div>
+                    <div class="nav-item" onclick="scrollToScreen('screen7'); return false;" style="cursor: pointer;">📄 Service Contract Templates</div>
+                    <div class="nav-item" onclick="scrollToScreen('screen12'); return false;" style="cursor: pointer;">📈 Redemption Reports</div>
+                    <div style="padding: 16px 20px; border-top: 1px solid rgba(255,255,255,0.1); margin-top: 16px; font-size: 0.75em; opacity: 0.5;">ADMIN</div>
+                    <div class="nav-item" onclick="scrollToScreen('screen13'); return false;" style="cursor: pointer;">👤 Users</div>
+                    <div class="nav-item" onclick="scrollToScreen('screen14'); return false;" style="cursor: pointer;">🔑 API Keys</div>
+                    <div class="nav-item" onclick="scrollToScreen('screen15'); return false;" style="cursor: pointer;">📋 PDF Config</div>
                 </div>
                 <div class="main-content" style="filter: blur(2px); opacity: 0.4;">
                     <div class="content-area">
@@ -560,6 +775,15 @@
             <div class="dashboard-layout">
                 <div class="sidebar">
                     <div class="logo">🚗 PM System</div>
+                    <button onclick="scrollToScreen('screen3'); return false;" style="width: 50%; margin: 16px auto; display: block; padding: 8px; background: #4A90E2; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 14px;">Sell Contract</button>
+                    <div class="nav-item" onclick="scrollToScreen('screen2'); return false;" style="cursor: pointer;">📊 Dashboard</div>
+                    <div class="nav-item" onclick="scrollToScreen('screen3'); return false;" style="cursor: pointer;">👥 Customers</div>
+                    <div class="nav-item" onclick="scrollToScreen('screen7'); return false;" style="cursor: pointer;">📄 Service Contract Templates</div>
+                    <div class="nav-item" onclick="scrollToScreen('screen12'); return false;" style="cursor: pointer;">📈 Redemption Reports</div>
+                    <div style="padding: 16px 20px; border-top: 1px solid rgba(255,255,255,0.1); margin-top: 16px; font-size: 0.75em; opacity: 0.5;">ADMIN</div>
+                    <div class="nav-item" onclick="scrollToScreen('screen13'); return false;" style="cursor: pointer;">👤 Users</div>
+                    <div class="nav-item" onclick="scrollToScreen('screen14'); return false;" style="cursor: pointer;">🔑 API Keys</div>
+                    <div class="nav-item" onclick="scrollToScreen('screen15'); return false;" style="cursor: pointer;">📋 PDF Config</div>
                 </div>
                 <div class="main-content" style="filter: blur(2px); opacity: 0.4;">
                     <div class="content-area">
@@ -595,6 +819,10 @@
                                 <input type="text" value="Accord" style="background: #f7fafc;">
                             </div>
                         </div>
+                        <div class="form-group">
+                            <label>Current Odometer</label>
+                            <input type="number" value="1,934" placeholder="Enter current odometer reading">
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button class="btn btn-secondary">Cancel</button>
@@ -615,7 +843,15 @@
             <div class="dashboard-layout">
                 <div class="sidebar">
                     <div class="logo">🚗 PM System</div>
-                    <div class="nav-item active">📄 Service Contracts</div>
+                    <button onclick="scrollToScreen('screen3'); return false;" style="width: 50%; margin: 16px auto; display: block; padding: 8px; background: #4A90E2; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 14px;">Sell Contract</button>
+                    <div class="nav-item" onclick="scrollToScreen('screen2'); return false;" style="cursor: pointer;">📊 Dashboard</div>
+                    <div class="nav-item" onclick="scrollToScreen('screen3'); return false;" style="cursor: pointer;">👥 Customers</div>
+                    <div class="nav-item active">📄 Service Contract Templates</div>
+                    <div class="nav-item" onclick="scrollToScreen('screen12'); return false;" style="cursor: pointer;">📈 Redemption Reports</div>
+                    <div style="padding: 16px 20px; border-top: 1px solid rgba(255,255,255,0.1); margin-top: 16px; font-size: 0.75em; opacity: 0.5;">ADMIN</div>
+                    <div class="nav-item" onclick="scrollToScreen('screen13'); return false;" style="cursor: pointer;">👤 Users</div>
+                    <div class="nav-item" onclick="scrollToScreen('screen14'); return false;" style="cursor: pointer;">🔑 API Keys</div>
+                    <div class="nav-item" onclick="scrollToScreen('screen15'); return false;" style="cursor: pointer;">📋 PDF Config</div>
                 </div>
                 <div class="main-content">
                     <div class="top-bar">
@@ -627,7 +863,7 @@
                         <p style="color: #718096; margin-bottom: 24px;">Create and manage reusable contract packages</p>
                         
                         <div style="display: flex; justify-content: flex-end; margin-bottom: 20px;">
-                            <button class="btn btn-primary">➕ Create Contract</button>
+                            <button class="btn btn-primary" onclick="scrollToScreen('screen8'); return false;" style="cursor: pointer;">➕ Create Contract</button>
                         </div>
                         
                         <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;">
@@ -652,7 +888,7 @@
                                     Oil, Tire Rotation, Filter, Brakes
                                 </div>
                                 <div style="display: flex; gap: 8px; margin-top: 14px;">
-                                    <button class="btn btn-secondary btn-sm" style="flex: 1;">✏ Edit</button>
+                                    <button class="btn btn-secondary btn-sm" style="flex: 1;" onclick="scrollToScreen('screen8'); return false;" style="cursor: pointer;">✏ Edit</button>
                                     <button class="btn btn-secondary btn-sm" style="flex: 1;">📋 Copy</button>
                                 </div>
                             </div>
@@ -678,7 +914,7 @@
                                     3x Oil, 2x Rotation, Inspection
                                 </div>
                                 <div style="display: flex; gap: 8px; margin-top: 14px;">
-                                    <button class="btn btn-secondary btn-sm" style="flex: 1;">✏ Edit</button>
+                                    <button class="btn btn-secondary btn-sm" style="flex: 1;" onclick="scrollToScreen('screen8'); return false;" style="cursor: pointer;">✏ Edit</button>
                                     <button class="btn btn-secondary btn-sm" style="flex: 1;">📋 Copy</button>
                                 </div>
                             </div>
@@ -699,7 +935,15 @@
             <div class="dashboard-layout">
                 <div class="sidebar">
                     <div class="logo">🚗 PM System</div>
-                    <div class="nav-item active">📄 Service Contracts</div>
+                    <button onclick="scrollToScreen('screen3'); return false;" style="width: 50%; margin: 16px auto; display: block; padding: 8px; background: #4A90E2; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 14px;">Sell Contract</button>
+                    <div class="nav-item" onclick="scrollToScreen('screen2'); return false;" style="cursor: pointer;">📊 Dashboard</div>
+                    <div class="nav-item" onclick="scrollToScreen('screen3'); return false;" style="cursor: pointer;">👥 Customers</div>
+                    <div class="nav-item active">📄 Service Contract Templates</div>
+                    <div class="nav-item" onclick="scrollToScreen('screen12'); return false;" style="cursor: pointer;">📈 Redemption Reports</div>
+                    <div style="padding: 16px 20px; border-top: 1px solid rgba(255,255,255,0.1); margin-top: 16px; font-size: 0.75em; opacity: 0.5;">ADMIN</div>
+                    <div class="nav-item" onclick="scrollToScreen('screen13'); return false;" style="cursor: pointer;">👤 Users</div>
+                    <div class="nav-item" onclick="scrollToScreen('screen14'); return false;" style="cursor: pointer;">🔑 API Keys</div>
+                    <div class="nav-item" onclick="scrollToScreen('screen15'); return false;" style="cursor: pointer;">📋 PDF Config</div>
                 </div>
                 <div class="main-content">
                     <div class="top-bar">
@@ -753,20 +997,26 @@
                                     </div>
                                     <div style="font-weight: 600; margin: 20px 0 12px;">Services</div>
                                     <div class="warning-box">Cost must equal $200. Selling Price must equal $300</div>
-                                    <div style="display: grid; grid-template-columns: 2fr 1fr 1fr auto; gap: 10px; margin-bottom: 10px; font-weight: 600; font-size: 0.85em; color: #4a5568;">
-                                        <div>Service visit description</div>
+                                    <div style="display: grid; grid-template-columns: 51% 10% 10% 10% 10% auto; gap: 10px; margin-bottom: 10px; font-weight: 600; font-size: 0.85em; color: #4a5568;">
+                                        <div>Visit description</div>
+                                        <div>Months</div>
+                                        <div>Mileage</div>
                                         <div>Cost</div>
                                         <div>Selling Price</div>
                                         <div></div>
                                     </div>
-                                    <div style="display: grid; grid-template-columns: 2fr 1fr 1fr auto; gap: 10px; margin-bottom: 10px;">
-                                        <input type="text" value="Oil Change">
+                                    <div style="display: grid; grid-template-columns: 51% 10% 10% 10% 10% auto; gap: 10px; margin-bottom: 10px;">
+                                        <input type="text" value="Visit 1: Oil change, tire rotate, new wire blades">
+                                        <input type="number" value="6" placeholder="Months">
+                                        <input type="number" value="6000" placeholder="Miles">
                                         <input type="number" value="$50.00">
                                         <input type="number" value="$75.00">
                                         <button class="btn btn-secondary btn-sm">✕</button>
                                     </div>
-                                    <div style="display: grid; grid-template-columns: 2fr 1fr 1fr auto; gap: 10px; margin-bottom: 10px;">
-                                        <input type="text" value="Tire Rotation">
+                                    <div style="display: grid; grid-template-columns: 51% 10% 10% 10% 10% auto; gap: 10px; margin-bottom: 10px;">
+                                        <input type="text" value="Visit 2: Oil Change, tire rotate, air filter">
+                                        <input type="number" value="12" placeholder="Months">
+                                        <input type="number" value="12000" placeholder="Miles">
                                         <input type="number" value="$50.00">
                                         <input type="number" value="$75.00">
                                         <button class="btn btn-secondary btn-sm">✕</button>
@@ -775,24 +1025,32 @@
                                 </div>
                             </div>
                             
-                            <div class="card">
-                                <div class="card-header">Preview</div>
-                                <div class="card-body">
-                                    <div style="font-weight: 600; margin-bottom: 12px;">Honda 24-Month</div>
-                                    <div style="margin-bottom: 12px;">
-                                        <span class="badge badge-info">Honda</span>
-                                        <span class="badge badge-secondary">2023-24</span>
-                                    </div>
-                                    <div style="background: #f7fafc; padding: 14px; border-radius: 6px;">
-                                        <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
-                                            <span>Cost:</span>
-                                            <span>$200</span>
+                            <div style="display: flex; flex-direction: column; height: 100%;">
+                                <div class="card" style="height: fit-content;">
+                                    <div class="card-header">Preview</div>
+                                    <div class="card-body">
+                                        <div style="font-weight: 600; margin-bottom: 12px;">Honda 24-Month</div>
+                                        <div style="margin-bottom: 12px;">
+                                            <span class="badge badge-info">Honda</span>
+                                            <span class="badge badge-secondary">2023,2024</span>
                                         </div>
-                                        <div style="display: flex; justify-content: space-between;">
-                                            <span>Price:</span>
-                                            <span style="color: #48bb78;">$300</span>
+                                        <div style="background: #f7fafc; padding: 14px; border-radius: 6px;">
+                                            <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                                                <span>Cost:</span>
+                                                <span>$200</span>
+                                            </div>
+                                            <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                                                <span>Price:</span>
+                                                <span style="color: #48bb78;">$300</span>
+                                            </div>
+                                        </div>
+                                        <div style="background: #f7fafc; padding: 14px; border-radius: 6px; margin-top: 12px; font-size: 0.9em;">
+                                            2 Services • 12 Months • 12,000 Miles
                                         </div>
                                     </div>
+                                </div>
+                                <div style="margin-top: auto; text-align: right; padding-top: 16px;">
+                                    <button class="btn btn-primary" onclick="scrollToScreen('screen7'); return false;" style="cursor: pointer;">Create Contract</button>
                                 </div>
                             </div>
                         </div>
@@ -811,7 +1069,18 @@
         </div>
         <div class="screen">
             <div class="dashboard-layout">
-                <div class="sidebar"><div class="logo">🚗 PM System</div></div>
+                <div class="sidebar">
+                    <div class="logo">🚗 PM System</div>
+                    <button onclick="scrollToScreen('screen3'); return false;" style="width: 50%; margin: 16px auto; display: block; padding: 8px; background: #4A90E2; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 14px;">Sell Contract</button>
+                    <div class="nav-item" onclick="scrollToScreen('screen2'); return false;" style="cursor: pointer;">📊 Dashboard</div>
+                    <div class="nav-item" onclick="scrollToScreen('screen3'); return false;" style="cursor: pointer;">👥 Customers</div>
+                    <div class="nav-item" onclick="scrollToScreen('screen7'); return false;" style="cursor: pointer;">📄 Service Contract Templates</div>
+                    <div class="nav-item" onclick="scrollToScreen('screen12'); return false;" style="cursor: pointer;">📈 Redemption Reports</div>
+                    <div style="padding: 16px 20px; border-top: 1px solid rgba(255,255,255,0.1); margin-top: 16px; font-size: 0.75em; opacity: 0.5;">ADMIN</div>
+                    <div class="nav-item" onclick="scrollToScreen('screen13'); return false;" style="cursor: pointer;">👤 Users</div>
+                    <div class="nav-item" onclick="scrollToScreen('screen14'); return false;" style="cursor: pointer;">🔑 API Keys</div>
+                    <div class="nav-item" onclick="scrollToScreen('screen15'); return false;" style="cursor: pointer;">📋 PDF Config</div>
+                </div>
                 <div class="main-content" style="filter: blur(2px); opacity: 0.4;">
                     <div class="content-area"><div class="card" style="height: 400px;"></div></div>
                 </div>
@@ -841,7 +1110,7 @@
                             <div style="background: #f7fafc; padding: 12px; border-radius: 4px; font-size: 0.9em; margin: 12px 0;">
                                 24 months • 30,000 miles • 4 services
                             </div>
-                            <button class="btn btn-primary" style="width: 100%;">Select This Contract</button>
+                            <button class="btn btn-primary" style="width: 100%;" onclick="scrollToScreen('screen10'); return false;" style="cursor: pointer;">Select This Contract</button>
                         </div>
 
                         <div style="border: 2px solid #cbd5e0; border-radius: 6px; padding: 16px; margin: 16px 0; cursor: pointer;">
@@ -862,7 +1131,7 @@
                             <div style="background: #f7fafc; padding: 12px; border-radius: 4px; font-size: 0.9em; margin: 12px 0;">
                                 36 months • 50,000 miles • 6 services
                             </div>
-                            <button class="btn btn-primary" style="width: 100%;">Select This Contract</button>
+                            <button class="btn btn-primary" style="width: 100%;" onclick="scrollToScreen('screen10'); return false;" style="cursor: pointer;">Select This Contract</button>
                         </div>
 
                         <div style="border: 2px solid #cbd5e0; border-radius: 6px; padding: 16px; margin: 16px 0; cursor: pointer;">
@@ -882,7 +1151,7 @@
                             <div style="background: #f7fafc; padding: 12px; border-radius: 4px; font-size: 0.9em; margin: 12px 0;">
                                 24 months • 40,000 miles • 5 services
                             </div>
-                            <button class="btn btn-primary" style="width: 100%;">Select This Contract</button>
+                            <button class="btn btn-primary" style="width: 100%;" onclick="scrollToScreen('screen10'); return false;" style="cursor: pointer;">Select This Contract</button>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -903,7 +1172,15 @@
             <div class="dashboard-layout">
                 <div class="sidebar">
                     <div class="logo">🚗 PM System</div>
-                    <div class="nav-item active">📋 Contracts</div>
+                    <button onclick="scrollToScreen('screen3'); return false;" style="width: 50%; margin: 16px auto; display: block; padding: 8px; background: #4A90E2; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 14px;">Sell Contract</button>
+                    <div class="nav-item" onclick="scrollToScreen('screen2'); return false;" style="cursor: pointer;">📊 Dashboard</div>
+                    <div class="nav-item" onclick="scrollToScreen('screen3'); return false;" style="cursor: pointer;">👥 Customers</div>
+                    <div class="nav-item" onclick="scrollToScreen('screen7'); return false;" style="cursor: pointer;">📄 Service Contract Templates</div>
+                    <div class="nav-item" onclick="scrollToScreen('screen12'); return false;" style="cursor: pointer;">📈 Redemption Reports</div>
+                    <div style="padding: 16px 20px; border-top: 1px solid rgba(255,255,255,0.1); margin-top: 16px; font-size: 0.75em; opacity: 0.5;">ADMIN</div>
+                    <div class="nav-item" onclick="scrollToScreen('screen13'); return false;" style="cursor: pointer;">👤 Users</div>
+                    <div class="nav-item" onclick="scrollToScreen('screen14'); return false;" style="cursor: pointer;">🔑 API Keys</div>
+                    <div class="nav-item" onclick="scrollToScreen('screen15'); return false;" style="cursor: pointer;">📋 PDF Config</div>
                 </div>
                 <div class="main-content">
                     <div class="top-bar">
@@ -916,12 +1193,13 @@
                                 <div>
                                     <div style="font-size: 1.3em;">Contract #PM-2024-389</div>
                                     <div style="color: #718096; font-size: 0.9em;">Honda 24-Month Maintenance</div>
-                                    <div style="color: #718096; font-size: 0.8em; margin-top: 4px;">Assigned by: Jason Johnson - Service Advisor</div>
+                                    <div style="color: #718096; font-size: 0.8em; margin-top: 4px;">Sold by: Jason Johnson</div>
+                                    <div style="color: #718096; font-size: 0.8em; margin-top: 4px;">Expires: Oct 15, 2026 • Price: $300</div>
                                 </div>
                                 <div style="display: flex; gap: 10px; align-items: center;">
                                     <button class="btn btn-secondary btn-sm">📄 View Contract PDF</button>
                                     <button class="btn btn-secondary btn-sm">Change Status</button>
-                                    <span class="badge badge-success" style="padding: 8px 14px;">Active Paid</span>
+                                    <span class="badge badge-success" style="padding: 8px 14px;">Active - Unremitted</span>
                                 </div>
                             </div>
                             <div class="card-body">
@@ -935,30 +1213,9 @@
                                         <div style="font-weight: 600; margin-bottom: 10px;">Vehicle</div>
                                         <div style="margin-bottom: 6px;">2023 Honda Accord</div>
                                         <div style="font-size: 0.9em; color: #718096;">VIN: 1HGCV1F16MA123456</div>
+                                        <div style="font-size: 0.9em; color: #718096;">Recent Odometer Reading: 1,934</div>
                                     </div>
                                 </div>
-                                
-                                <div style="background: #4A90E2; padding: 16px; border-radius: 6px; color: white; margin-bottom: 20px;">
-                                    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px;">
-                                        <div>
-                                            <div style="opacity: 0.9; font-size: 0.85em;">Sale Date</div>
-                                            <div style="font-weight: 600;">Oct 15, 2024</div>
-                                        </div>
-                                        <div>
-                                            <div style="opacity: 0.9; font-size: 0.85em;">Expires</div>
-                                            <div style="font-weight: 600;">Oct 15, 2026</div>
-                                        </div>
-                                        <div>
-                                            <div style="opacity: 0.9; font-size: 0.85em;">Price</div>
-                                            <div style="font-weight: 600;">$300</div>
-                                        </div>
-                                        <div>
-                                            <div style="opacity: 0.9; font-size: 0.85em;">Sold By</div>
-                                            <div style="font-weight: 600;">John Doe</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                
                                 <div style="font-weight: 600; margin-bottom: 12px;">Service Progress</div>
                                 <div class="progress-bar" style="height: 10px;">
                                     <div class="progress-fill" style="width: 25%;"></div>
@@ -967,24 +1224,23 @@
                                 
                                 <div class="service-item used">
                                     <div>
-                                        <div>✓ Oil Change - $75</div>
-                                        <div style="font-size: 0.85em; color: #718096;">Used Oct 28, 2024 at 2:45 PM</div>
+                                        <div>✓ Service 1: Oil change, tire rotation, wiper blades - $75</div>
+                                        <div style="font-size: 0.85em; color: #718096;">Used Oct 28, 2024 at 2:45 PM on RO # 345283 with latest odometer reading 1,934</div>
                                     </div>
                                 </div>
                                 <div class="service-item">
                                     <div>
-                                        <div>Tire Rotation - $75</div>
-                                        <div style="font-size: 0.85em; color: #48bb78;">Available</div>
+                                        <div>Service 2: Oil change, tire rotation, air filter - $75</div>
                                     </div>
-                                    <button class="btn btn-primary btn-sm">Mark as Used</button>
+                                    <button class="btn btn-primary btn-sm" onclick="scrollToScreen('screen11'); return false;" style="cursor: pointer;">Redeem this Service</button>
                                 </div>
                                 <div class="service-item">
-                                    <div>Air Filter - $75</div>
-                                    <button class="btn btn-primary btn-sm">Mark as Used</button>
+                                    <div>Service 3: Oil Change - $75</div>
+                                    <button class="btn btn-primary btn-sm" onclick="scrollToScreen('screen11'); return false;" style="cursor: pointer;">Redeem this Service</button>
                                 </div>
                                 <div class="service-item">
-                                    <div>Brake Inspection - $75</div>
-                                    <button class="btn btn-primary btn-sm">Mark as Used</button>
+                                    <div>Service 4: Tire rotation, blinker fluid change - $75</div>
+                                    <button class="btn btn-primary btn-sm" onclick="scrollToScreen('screen11'); return false;" style="cursor: pointer;">Redeem this Service</button>
                                 </div>
                             </div>
                         </div>
@@ -1007,7 +1263,7 @@
                                             <td>
                                                 <span class="badge badge-warning">Pending</span>
                                                 →
-                                                <span class="badge badge-success">Active Paid</span>
+                                                <span class="badge badge-success">Active - Unremitted</span>
                                             </td>
                                             <td>Jane Smith</td>
                                             <td>Payment received and verified</td>
@@ -1042,7 +1298,7 @@
 
                         <div class="form-group">
                             <label>Current Status</label>
-                            <div><span class="badge badge-success" style="padding: 6px 12px; font-size: 1em;">Active Paid</span></div>
+                            <div><span class="badge badge-success" style="padding: 6px 12px; font-size: 1em;">Active - Unremitted</span></div>
                         </div>
 
                         <div class="form-group">
@@ -1082,31 +1338,52 @@
         </div>
         <div class="screen">
             <div class="dashboard-layout">
-                <div class="sidebar"><div class="logo">🚗 PM System</div></div>
+                <div class="sidebar">
+                    <div class="logo">🚗 PM System</div>
+                    <button onclick="scrollToScreen('screen3'); return false;" style="width: 50%; margin: 16px auto; display: block; padding: 8px; background: #4A90E2; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 14px;">Sell Contract</button>
+                    <div class="nav-item" onclick="scrollToScreen('screen2'); return false;" style="cursor: pointer;">📊 Dashboard</div>
+                    <div class="nav-item" onclick="scrollToScreen('screen3'); return false;" style="cursor: pointer;">👥 Customers</div>
+                    <div class="nav-item" onclick="scrollToScreen('screen7'); return false;" style="cursor: pointer;">📄 Service Contract Templates</div>
+                    <div class="nav-item" onclick="scrollToScreen('screen12'); return false;" style="cursor: pointer;">📈 Redemption Reports</div>
+                    <div style="padding: 16px 20px; border-top: 1px solid rgba(255,255,255,0.1); margin-top: 16px; font-size: 0.75em; opacity: 0.5;">ADMIN</div>
+                    <div class="nav-item" onclick="scrollToScreen('screen13'); return false;" style="cursor: pointer;">👤 Users</div>
+                    <div class="nav-item" onclick="scrollToScreen('screen14'); return false;" style="cursor: pointer;">🔑 API Keys</div>
+                    <div class="nav-item" onclick="scrollToScreen('screen15'); return false;" style="cursor: pointer;">📋 PDF Config</div>
+                </div>
                 <div class="main-content" style="filter: blur(2px); opacity: 0.4;">
                     <div class="content-area"><div class="card" style="height: 500px;"></div></div>
                 </div>
             </div>
             <div class="modal-overlay">
                 <div class="modal" style="max-width: 500px;">
-                    <div class="modal-header">⚠️ Confirm Service Usage</div>
+                    <div class="modal-header">⚠️ Confirm Service Redemption</div>
                     <div class="modal-body">
                         <p style="margin-bottom: 16px;">Are you sure you want to mark the following service as used?</p>
                         <div style="background: #f7fafc; padding: 16px; border-radius: 6px; border-left: 4px solid #4A90E2; margin-bottom: 16px;">
-                            <div style="font-weight: 600; font-size: 1.1em; margin-bottom: 6px;">Tire Rotation</div>
+                            <div style="font-weight: 600; font-size: 1.1em; margin-bottom: 6px;">Service 2: Oil change, tire rotation, air filter</div>
                             <div style="font-size: 0.9em; color: #718096;">Value: $75 • Contract: PM-2024-389</div>
                             <div style="font-size: 0.9em; color: #718096;">Customer: Sarah Johnson</div>
                         </div>
+                        <div class="form-row" style="margin-bottom: 16px;">
+                            <div class="form-group" style="margin-bottom: 0;">
+                                <label>Current Odometer</label>
+                                <input type="number" placeholder="Enter current odometer">
+                            </div>
+                            <div class="form-group" style="margin-bottom: 0;">
+                                <label>Service Repair Order #</label>
+                                <input type="text" placeholder="Enter RO number">
+                            </div>
+                        </div>
                         <div class="warning-box">
-                            <strong>Important:</strong> This action will be recorded with today's date and cannot be undone through the interface.
+                            <strong>Important:</strong> This action will be recorded with today's date and funds to pay for this service will be finalized with the Accounting Department.
                         </div>
                         <div style="background: #ebf8ff; padding: 12px; border-radius: 4px; font-size: 0.9em;">
                             After marking: Remaining services will be <strong>2 of 4</strong>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button class="btn btn-secondary">Cancel</button>
-                        <button class="btn btn-success">✓ Yes, Mark as Used</button>
+                        <button class="btn btn-secondary" onclick="scrollToScreen('screen10'); return false;" style="cursor: pointer;">Cancel</button>
+                        <button class="btn btn-success" onclick="scrollToScreen('screen10'); return false;" style="cursor: pointer;">✓ Yes, Redeem Service</button>
                     </div>
                 </div>
             </div>
@@ -1123,7 +1400,15 @@
             <div class="dashboard-layout">
                 <div class="sidebar">
                     <div class="logo">🚗 PM System</div>
-                    <div class="nav-item active">📈 Reports</div>
+                    <button onclick="scrollToScreen('screen3'); return false;" style="width: 50%; margin: 16px auto; display: block; padding: 8px; background: #4A90E2; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 14px;">Sell Contract</button>
+                    <div class="nav-item" onclick="scrollToScreen('screen2'); return false;" style="cursor: pointer;">📊 Dashboard</div>
+                    <div class="nav-item" onclick="scrollToScreen('screen3'); return false;" style="cursor: pointer;">👥 Customers</div>
+                    <div class="nav-item" onclick="scrollToScreen('screen7'); return false;" style="cursor: pointer;">📄 Service Contract Templates</div>
+                    <div class="nav-item active">📈 Redemption Reports</div>
+                    <div style="padding: 16px 20px; border-top: 1px solid rgba(255,255,255,0.1); margin-top: 16px; font-size: 0.75em; opacity: 0.5;">ADMIN</div>
+                    <div class="nav-item" onclick="scrollToScreen('screen13'); return false;" style="cursor: pointer;">👤 Users</div>
+                    <div class="nav-item" onclick="scrollToScreen('screen14'); return false;" style="cursor: pointer;">🔑 API Keys</div>
+                    <div class="nav-item" onclick="scrollToScreen('screen15'); return false;" style="cursor: pointer;">📋 PDF Config</div>
                 </div>
                 <div class="main-content">
                     <div class="top-bar">
@@ -1131,12 +1416,17 @@
                         <div style="width: 36px; height: 36px; background: #667eea; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: 600;">JD</div>
                     </div>
                     <div class="content-area">
-                        <h2 style="margin-bottom: 20px;">Service Redemption Reports</h2>
+                        <h2 style="margin-bottom: 6px;">Service Redemption Reports</h2>
+                        <p style="color: #718096; margin-bottom: 24px;">Reports of individual services redeemed for accounting reconciliation. Restricted visibility to Admin, Accounting Clerk, F&I Manager</p>
                         
                         <div class="card">
                             <div class="card-header">Report Filters</div>
                             <div class="card-body">
-                                <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin-bottom: 12px;">
+                                <div style="display: grid; grid-template-columns: 2fr 1fr 1fr 1.5fr 1.5fr 0.5fr; gap: 12px; margin-bottom: 12px;">
+                                    <div class="form-group" style="margin: 0;">
+                                        <label>Search by VIN, Contract #, Customer Info:</label>
+                                        <input type="text" placeholder="Search...">
+                                    </div>
                                     <div class="form-group" style="margin: 0;">
                                         <label>Start Date</label>
                                         <input type="date" value="2024-10-01">
@@ -1147,14 +1437,84 @@
                                     </div>
                                     <div class="form-group" style="margin: 0;">
                                         <label>Status</label>
-                                        <select><option>All Statuses</option></select>
+                                        <div style="position: relative; display: inline-block; width: 100%;">
+                                            <button id="reportsStatusDropdownBtn" onclick="toggleDropdown('reportsStatusDropdownMenu')" style="padding: 8px 12px; border: 2px solid #e2e8f0; border-radius: 6px; background: white; cursor: pointer; width: 100%; text-align: left; display: flex; justify-content: space-between; align-items: center;">
+                                                <span>All Statuses</span><span>▼</span>
+                                            </button>
+                                            <div id="reportsStatusDropdownMenu" style="position: absolute; top: 100%; left: 0; margin-top: 4px; background: white; border: 2px solid #e2e8f0; border-radius: 6px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); min-width: 200px; width: 100%; z-index: 1000; display: none;">
+                                                <div style="padding: 8px;">
+                                                    <label style="display: block; padding: 6px 8px; cursor: pointer; border-radius: 4px; margin-bottom: 2px;" onmouseover="this.style.background='#f7fafc'" onmouseout="this.style.background='white'">
+                                                        <input type="checkbox" checked style="margin-right: 8px;" id="reportsSelectAllStatusCheckbox">
+                                                        <span style="font-weight: 600;">Select All</span>
+                                                    </label>
+                                                    <div style="border-top: 1px solid #e2e8f0; margin: 6px 0;"></div>
+                                                    <label style="display: block; padding: 6px 8px; cursor: pointer; border-radius: 4px; margin-bottom: 2px;" onmouseover="this.style.background='#f7fafc'" onmouseout="this.style.background='white'">
+                                                        <input type="checkbox" checked style="margin-right: 8px;" class="reportsStatusCheckbox">
+                                                        Active - Unremitted
+                                                    </label>
+                                                    <label style="display: block; padding: 6px 8px; cursor: pointer; border-radius: 4px; margin-bottom: 2px;" onmouseover="this.style.background='#f7fafc'" onmouseout="this.style.background='white'">
+                                                        <input type="checkbox" checked style="margin-right: 8px;" class="reportsStatusCheckbox">
+                                                        Active - Remitted
+                                                    </label>
+                                                    <label style="display: block; padding: 6px 8px; cursor: pointer; border-radius: 4px; margin-bottom: 2px;" onmouseover="this.style.background='#f7fafc'" onmouseout="this.style.background='white'">
+                                                        <input type="checkbox" checked style="margin-right: 8px;" class="reportsStatusCheckbox">
+                                                        Completed
+                                                    </label>
+                                                    <label style="display: block; padding: 6px 8px; cursor: pointer; border-radius: 4px; margin-bottom: 2px;" onmouseover="this.style.background='#f7fafc'" onmouseout="this.style.background='white'">
+                                                        <input type="checkbox" checked style="margin-right: 8px;" class="reportsStatusCheckbox">
+                                                        Canceled
+                                                    </label>
+                                                    <label style="display: block; padding: 6px 8px; cursor: pointer; border-radius: 4px; margin-bottom: 2px;" onmouseover="this.style.background='#f7fafc'" onmouseout="this.style.background='white'">
+                                                        <input type="checkbox" checked style="margin-right: 8px;" class="reportsStatusCheckbox">
+                                                        Void
+                                                    </label>
+                                                    <label style="display: block; padding: 6px 8px; cursor: pointer; border-radius: 4px; margin-bottom: 2px;" onmouseover="this.style.background='#f7fafc'" onmouseout="this.style.background='white'">
+                                                        <input type="checkbox" checked style="margin-right: 8px;" class="reportsStatusCheckbox">
+                                                        Expired
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                     <div class="form-group" style="margin: 0;">
-                                        <label>Sold By</label>
-                                        <select><option>All Users</option><option>John Doe</option><option>Jane Smith</option></select>
+                                        <label>Completed By</label>
+                                        <div style="position: relative; display: inline-block; width: 100%;">
+                                            <button id="reportsSoldByDropdownBtn" onclick="toggleDropdown('reportsSoldByDropdownMenu')" style="padding: 8px 12px; border: 2px solid #e2e8f0; border-radius: 6px; background: white; cursor: pointer; width: 100%; text-align: left; display: flex; justify-content: space-between; align-items: center;">
+                                                <span>All Users</span><span>▼</span>
+                                            </button>
+                                            <div id="reportsSoldByDropdownMenu" style="position: absolute; top: 100%; left: 0; margin-top: 4px; background: white; border: 2px solid #e2e8f0; border-radius: 6px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); min-width: 200px; width: 100%; z-index: 1000; display: none;">
+                                                <div style="padding: 8px;">
+                                                    <label style="display: block; padding: 6px 8px; cursor: pointer; border-radius: 4px; margin-bottom: 2px;" onmouseover="this.style.background='#f7fafc'" onmouseout="this.style.background='white'">
+                                                        <input type="checkbox" checked style="margin-right: 8px;" id="reportsSelectAllUsersCheckbox">
+                                                        <span style="font-weight: 600;">Select All</span>
+                                                    </label>
+                                                    <div style="border-top: 1px solid #e2e8f0; margin: 6px 0;"></div>
+                                                    <label style="display: block; padding: 6px 8px; cursor: pointer; border-radius: 4px; margin-bottom: 2px;" onmouseover="this.style.background='#f7fafc'" onmouseout="this.style.background='white'">
+                                                        <input type="checkbox" checked style="margin-right: 8px;" class="reportsUserCheckbox">
+                                                        John Doe
+                                                    </label>
+                                                    <label style="display: block; padding: 6px 8px; cursor: pointer; border-radius: 4px; margin-bottom: 2px;" onmouseover="this.style.background='#f7fafc'" onmouseout="this.style.background='white'">
+                                                        <input type="checkbox" checked style="margin-right: 8px;" class="reportsUserCheckbox">
+                                                        Jane Smith
+                                                    </label>
+                                                    <label style="display: block; padding: 6px 8px; cursor: pointer; border-radius: 4px; margin-bottom: 2px;" onmouseover="this.style.background='#f7fafc'" onmouseout="this.style.background='white'">
+                                                        <input type="checkbox" checked style="margin-right: 8px;" class="reportsUserCheckbox">
+                                                        Jason Johnson
+                                                    </label>
+                                                    <label style="display: block; padding: 6px 8px; cursor: pointer; border-radius: 4px; margin-bottom: 2px;" onmouseover="this.style.background='#f7fafc'" onmouseout="this.style.background='white'">
+                                                        <input type="checkbox" checked style="margin-right: 8px;" class="reportsUserCheckbox">
+                                                        ABC Hyundai - Darwin
+                                                    </label>
+                                                    <label style="display: block; padding: 6px 8px; cursor: pointer; border-radius: 4px; margin-bottom: 2px;" onmouseover="this.style.background='#f7fafc'" onmouseout="this.style.background='white'">
+                                                        <input type="checkbox" checked style="margin-right: 8px;" class="reportsUserCheckbox">
+                                                        ABC Kia - Darwin
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div style="align-self: end;">
-                                        <button class="btn btn-primary" style="width: 100%;">Generate</button>
+                                    <div style="margin-top: 25px;">
+                                        <button class="btn btn-primary" style="width: 100%;">Go</button>
                                     </div>
                                 </div>
                             </div>
@@ -1169,20 +1529,21 @@
                                 </div>
                             </div>
                             <div class="card-body">
-                                <div class="stats-grid" style="grid-template-columns: repeat(2, 1fr); margin-bottom: 20px;">
+                                <div class="stats-grid" style="grid-template-columns: repeat(3, 1fr); margin-bottom: 20px;">
+                                    <div class="stat-card" style="box-shadow: none; background: #f7fafc;">
+                                        <div class="stat-label">CONTRACTS WITH REDEEMED SERVICES</div>
+                                        <div class="stat-value" style="font-size: 1.8em; color: #38a169;">78</div>
+                                    </div>
                                     <div class="stat-card" style="box-shadow: none; background: #f7fafc;">
                                         <div class="stat-label">SERVICES USED</div>
                                         <div class="stat-value" style="font-size: 1.8em; color: #4A90E2;">73</div>
                                     </div>
                                     <div class="stat-card" style="box-shadow: none; background: #f7fafc;">
                                         <div class="stat-label">SERVICE VALUE REDEEMED</div>
-                                        <div class="stat-value" style="font-size: 1.8em; color: #ed8936;">$5.5K</div>
+                                        <div class="stat-value" style="font-size: 1.8em; color: #ed8936;">$5,549</div>
                                     </div>
                                 </div>
 
-                                <div style="background: #fffaf0; border-left: 4px solid #ed8936; padding: 14px; margin: 24px 0 16px; border-radius: 4px; font-size: 0.9em;">
-                                    <strong>💡 Bulk Status Update:</strong> To approve or update multiple contracts at once, use the Contracts Report view below (filter by Status: Pending)
-                                </div>
 
                                 <h3 style="margin: 24px 0 16px; font-size: 1.1em;">Service Redemption Details</h3>
                                 <table>
@@ -1194,52 +1555,52 @@
                                             <th>Service Contract</th>
                                             <th>Redeemed Service</th>
                                             <th>Value</th>
-                                            <th>Sold By</th>
+                                            <th>Completed By</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
                                             <td>10/28/24</td>
-                                            <td><a href="#" style="color: #4A90E2; text-decoration: underline;"><strong>PM-2024-389</strong></a></td>
-                                            <td><a href="#" style="color: #4A90E2; text-decoration: underline;">Sarah Johnson</a></td>
+                                            <td><a href="#" onclick="scrollToScreen('screen10'); return false;" style="color: #4A90E2; text-decoration: underline; cursor: pointer;"><strong>PM-2024-389</strong></a></td>
+                                            <td><a href="#" onclick="scrollToScreen('screen4'); return false;" style="color: #4A90E2; text-decoration: underline; cursor: pointer;">Sarah Johnson</a></td>
                                             <td>Honda 24-Month Maintenance</td>
-                                            <td>Oil Change</td>
+                                            <td>Service 1: Oil change, tire rotation...<br><span style="font-size: 0.8em; color: #718096;">RO # 345283</span></td>
                                             <td style="font-weight: 600;">$75</td>
                                             <td>Jason Johnson</td>
                                         </tr>
                                         <tr>
                                             <td>10/25/24</td>
-                                            <td><a href="#" style="color: #4A90E2; text-decoration: underline;"><strong>PM-2024-387</strong></a></td>
-                                            <td><a href="#" style="color: #4A90E2; text-decoration: underline;">Michael Chen</a></td>
+                                            <td><a href="#" onclick="scrollToScreen('screen10'); return false;" style="color: #4A90E2; text-decoration: underline; cursor: pointer;"><strong>PM-2024-387</strong></a></td>
+                                            <td><a href="#" onclick="scrollToScreen('screen4'); return false;" style="color: #4A90E2; text-decoration: underline; cursor: pointer;">Michael Chen</a></td>
                                             <td>Honda Extended Care Plus</td>
-                                            <td>Tire Rotation</td>
+                                            <td>Service 3: Oil Change<br><span style="font-size: 0.8em; color: #718096;">RO # 287456</span></td>
                                             <td style="font-weight: 600;">$75</td>
                                             <td>Jane Smith</td>
                                         </tr>
                                         <tr>
                                             <td>10/22/24</td>
-                                            <td><a href="#" style="color: #4A90E2; text-decoration: underline;"><strong>PM-2024-384</strong></a></td>
-                                            <td><a href="#" style="color: #4A90E2; text-decoration: underline;">Robert Wilson</a></td>
+                                            <td><a href="#" onclick="scrollToScreen('screen10'); return false;" style="color: #4A90E2; text-decoration: underline; cursor: pointer;"><strong>PM-2024-384</strong></a></td>
+                                            <td><a href="#" onclick="scrollToScreen('screen4'); return false;" style="color: #4A90E2; text-decoration: underline; cursor: pointer;">Robert Wilson</a></td>
                                             <td>Universal Premium Maintenance</td>
-                                            <td>Air Filter Replacement</td>
+                                            <td>Service 4: Tire rotation, blinker...<br><span style="font-size: 0.8em; color: #718096;">RO # 192847</span></td>
                                             <td style="font-weight: 600;">$75</td>
                                             <td>Jason Johnson</td>
                                         </tr>
                                         <tr>
                                             <td>10/20/24</td>
-                                            <td><a href="#" style="color: #4A90E2; text-decoration: underline;"><strong>PM-2024-382</strong></a></td>
-                                            <td><a href="#" style="color: #4A90E2; text-decoration: underline;">Sarah Johnson</a></td>
+                                            <td><a href="#" onclick="scrollToScreen('screen10'); return false;" style="color: #4A90E2; text-decoration: underline; cursor: pointer;"><strong>PM-2024-382</strong></a></td>
+                                            <td><a href="#" onclick="scrollToScreen('screen4'); return false;" style="color: #4A90E2; text-decoration: underline; cursor: pointer;">Sarah Johnson</a></td>
                                             <td>Honda 24-Month Maintenance</td>
-                                            <td>Brake Inspection</td>
+                                            <td>Service 1: Oil change, tire rotation...<br><span style="font-size: 0.8em; color: #718096;">RO # 456782</span></td>
                                             <td style="font-weight: 600;">$75</td>
                                             <td>John Doe</td>
                                         </tr>
                                         <tr>
                                             <td>10/18/24</td>
-                                            <td><a href="#" style="color: #4A90E2; text-decoration: underline;"><strong>PM-2024-375</strong></a></td>
+                                            <td><a href="#" onclick="scrollToScreen('screen10'); return false;" style="color: #4A90E2; text-decoration: underline; cursor: pointer;"><strong>PM-2024-375</strong></a></td>
                                             <td><a href="#" style="color: #4A90E2; text-decoration: underline;">Lisa Thompson</a></td>
                                             <td>Honda Extended Care Plus</td>
-                                            <td>Oil Change</td>
+                                            <td>Service 3: Oil Change<br><span style="font-size: 0.8em; color: #718096;">RO # 834627</span></td>
                                             <td style="font-weight: 600;">$75</td>
                                             <td>Jane Smith</td>
                                         </tr>
@@ -1263,8 +1624,15 @@
             <div class="dashboard-layout">
                 <div class="sidebar">
                     <div class="logo">🚗 PM System</div>
-                    <div style="padding: 16px 20px; font-size: 0.75em; opacity: 0.5;">ADMIN</div>
+                    <button onclick="scrollToScreen('screen3'); return false;" style="width: 50%; margin: 16px auto; display: block; padding: 8px; background: #4A90E2; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 14px;">Sell Contract</button>
+                    <div class="nav-item" onclick="scrollToScreen('screen2'); return false;" style="cursor: pointer;">📊 Dashboard</div>
+                    <div class="nav-item" onclick="scrollToScreen('screen3'); return false;" style="cursor: pointer;">👥 Customers</div>
+                    <div class="nav-item" onclick="scrollToScreen('screen7'); return false;" style="cursor: pointer;">📄 Service Contract Templates</div>
+                    <div class="nav-item" onclick="scrollToScreen('screen12'); return false;" style="cursor: pointer;">📈 Redemption Reports</div>
+                    <div style="padding: 16px 20px; border-top: 1px solid rgba(255,255,255,0.1); margin-top: 16px; font-size: 0.75em; opacity: 0.5;">ADMIN</div>
                     <div class="nav-item active">👤 Users</div>
+                    <div class="nav-item" onclick="scrollToScreen('screen14'); return false;" style="cursor: pointer;">🔑 API Keys</div>
+                    <div class="nav-item" onclick="scrollToScreen('screen15'); return false;" style="cursor: pointer;">📋 PDF Config</div>
                 </div>
                 <div class="main-content">
                     <div class="top-bar">
@@ -1288,7 +1656,6 @@
                                         <th>Role</th>
                                         <th>Position</th>
                                         <th>Dealerships</th>
-                                        <th>Status</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -1298,7 +1665,6 @@
                                         <td><span class="badge badge-purple">Admin</span></td>
                                         <td>Administrator</td>
                                         <td><span class="badge badge-info">All</span></td>
-                                        <td><span class="badge badge-success">Active</span></td>
                                     </tr>
                                     <tr>
                                         <td><strong>Jane Smith</strong></td>
@@ -1306,7 +1672,6 @@
                                         <td><span class="badge badge-info">User</span></td>
                                         <td>Accounting Clerk</td>
                                         <td><span class="badge badge-secondary">Premium Motors</span></td>
-                                        <td><span class="badge badge-success">Active</span></td>
                                     </tr>
                                     <tr>
                                         <td><strong>Mike Johnson</strong></td>
@@ -1314,7 +1679,6 @@
                                         <td><span class="badge badge-info">User</span></td>
                                         <td>F&I Manager</td>
                                         <td><span class="badge badge-secondary">Premium</span> <span class="badge badge-secondary">Downtown</span></td>
-                                        <td><span class="badge badge-success">Active</span></td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -1329,13 +1693,21 @@
     <div id="screen14" class="wireframe">
         <div class="wireframe-header">
             <h2>Screen 14: API Key Management</h2>
-            <p>Generate and manage API keys for external integrations</p>
+            <p>Generate and manage API keys for external integrations. Restricted visibility to Admin</p>
         </div>
         <div class="screen">
             <div class="dashboard-layout">
                 <div class="sidebar">
                     <div class="logo">🚗 PM System</div>
+                    <button onclick="scrollToScreen('screen3'); return false;" style="width: 50%; margin: 16px auto; display: block; padding: 8px; background: #4A90E2; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 14px;">Sell Contract</button>
+                    <div class="nav-item" onclick="scrollToScreen('screen2'); return false;" style="cursor: pointer;">📊 Dashboard</div>
+                    <div class="nav-item" onclick="scrollToScreen('screen3'); return false;" style="cursor: pointer;">👥 Customers</div>
+                    <div class="nav-item" onclick="scrollToScreen('screen7'); return false;" style="cursor: pointer;">📄 Service Contract Templates</div>
+                    <div class="nav-item" onclick="scrollToScreen('screen12'); return false;" style="cursor: pointer;">📈 Redemption Reports</div>
+                    <div style="padding: 16px 20px; border-top: 1px solid rgba(255,255,255,0.1); margin-top: 16px; font-size: 0.75em; opacity: 0.5;">ADMIN</div>
+                    <div class="nav-item" onclick="scrollToScreen('screen13'); return false;" style="cursor: pointer;">👤 Users</div>
                     <div class="nav-item active">🔑 API Keys</div>
+                    <div class="nav-item" onclick="scrollToScreen('screen15'); return false;" style="cursor: pointer;">📋 PDF Config</div>
                 </div>
                 <div class="main-content">
                     <div class="top-bar">
@@ -1361,7 +1733,6 @@
                                         <th>API Key</th>
                                         <th>Dealership</th>
                                         <th>Last Used</th>
-                                        <th>Status</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -1370,14 +1741,12 @@
                                         <td><code style="background: #f7fafc; padding: 4px 8px; border-radius: 4px;">pmsk_live_7x9...k2n</code> <button class="btn btn-secondary btn-sm">👁</button></td>
                                         <td><span class="badge badge-secondary">Premium Motors</span></td>
                                         <td style="color: #48bb78;">2 hours ago</td>
-                                        <td><span class="badge badge-success">Active</span></td>
                                     </tr>
                                     <tr>
                                         <td><strong>Downtown Auto API</strong></td>
                                         <td><code style="background: #f7fafc; padding: 4px 8px; border-radius: 4px;">pmsk_live_3m8...p1q</code> <button class="btn btn-secondary btn-sm">👁</button></td>
                                         <td><span class="badge badge-secondary">Downtown Auto</span></td>
                                         <td>Yesterday</td>
-                                        <td><span class="badge badge-success">Active</span></td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -1386,26 +1755,69 @@
                         <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 20px;">
                             <div class="card">
                                 <div class="card-header">📊 Rating API</div>
-                                <div class="card-body" style="font-size: 0.9em;">
-                                    Query available contracts for vehicles<br><br>
-                                    <strong>Endpoint:</strong><br>
-                                    <code style="font-size: 0.85em;">POST /api/external/v1/rating</code>
+                                <div class="card-body" style="font-size: 0.85em; line-height: 1.4;">
+                                    <strong>Purpose:</strong> Query available service contracts and pricing for a specific vehicle<br><br>
+
+                                    <strong>Method:</strong> <span class="badge badge-info">GET</span><br>
+                                    <strong>Endpoint:</strong> <code>/api/external/v1/rate</code><br><br>
+
+                                    <strong>Authentication:</strong> Bearer token in Authorization header<br><br>
+
+                                    <strong>Query Parameters:</strong><br>
+                                    • <code>vin</code> (string, required)<br>
+                                    • <code>dealerId</code> (string, required)<br>
+                                    • <code>mileage</code> (integer, required)<br>
+                                    • <code>inServiceDate</code> (date, required)<br><br>
+
+                                    <strong>Response includes:</strong><br>
+                                    • Available contract names & IDs<br>
+                                    • Contract pricing<br>
+                                    • Service intervals & mileage limits<br>
+                                    • Success/failure status
                                 </div>
                             </div>
                             <div class="card">
                                 <div class="card-header">🛒 Purchase API</div>
-                                <div class="card-body" style="font-size: 0.9em;">
-                                    Create contracts (Pending status)<br><br>
-                                    <strong>Endpoint:</strong><br>
-                                    <code style="font-size: 0.85em;">POST /api/external/v1/purchase</code>
+                                <div class="card-body" style="font-size: 0.85em; line-height: 1.4;">
+                                    <strong>Purpose:</strong> Create a new service contract purchase<br><br>
+
+                                    <strong>Method:</strong> <span class="badge badge-warning">POST</span><br>
+                                    <strong>Endpoint:</strong> <code>/api/external/v1/purchase</code><br><br>
+
+                                    <strong>Authentication:</strong> Bearer token in Authorization header<br><br>
+
+                                    <strong>Request Body (JSON):</strong><br>
+                                    • Authentication token, dealer ID<br>
+                                    • Customer details (name, email, phone, address)<br>
+                                    • Vehicle info (VIN, year, make, model, odometer)<br>
+                                    • Contract details (ID, price, sale date)<br><br>
+
+                                    <strong>Response includes:</strong><br>
+                                    • Success/failure status<br>
+                                    • Generated customer ID & contract ID<br>
+                                    • Dealer ID confirmation
                                 </div>
                             </div>
                             <div class="card">
                                 <div class="card-header">❌ Void API</div>
-                                <div class="card-body" style="font-size: 0.9em;">
-                                    Cancel contracts<br><br>
-                                    <strong>Endpoint:</strong><br>
-                                    <code style="font-size: 0.85em;">POST /api/external/v1/void</code>
+                                <div class="card-body" style="font-size: 0.85em; line-height: 1.4;">
+                                    <strong>Purpose:</strong> Cancel/void an existing service contract<br><br>
+
+                                    <strong>Method:</strong> <span class="badge badge-warning">POST</span><br>
+                                    <strong>Endpoint:</strong> <code>/api/external/v1/void</code><br><br>
+
+                                    <strong>Authentication:</strong> Bearer token in Authorization header<br><br>
+
+                                    <strong>Request Body (JSON):</strong><br>
+                                    • Authentication token<br>
+                                    • Customer ID (required)<br>
+                                    • Contract ID (required)<br>
+                                    • Void date (required)<br><br>
+
+                                    <strong>Response includes:</strong><br>
+                                    • Success/failure status message<br>
+                                    • Customer ID, dealership ID<br>
+                                    • Contract ID, void date confirmation
                                 </div>
                             </div>
                         </div>
@@ -1419,13 +1831,21 @@
     <div id="screen15" class="wireframe">
         <div class="wireframe-header">
             <h2>Screen 15: PDF Template Customization</h2>
-            <p>Configure PDF contract documents with live preview</p>
+            <p>Configure PDF contract documents with live preview. Restricted visibility to Admin</p>
         </div>
         <div class="screen">
             <div class="dashboard-layout">
                 <div class="sidebar">
                     <div class="logo">🚗 PM System</div>
-                    <div class="nav-item active">📝 PDF Config</div>
+                    <button onclick="scrollToScreen('screen3'); return false;" style="width: 50%; margin: 16px auto; display: block; padding: 8px; background: #4A90E2; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 14px;">Sell Contract</button>
+                    <div class="nav-item" onclick="scrollToScreen('screen2'); return false;" style="cursor: pointer;">📊 Dashboard</div>
+                    <div class="nav-item" onclick="scrollToScreen('screen3'); return false;" style="cursor: pointer;">👥 Customers</div>
+                    <div class="nav-item" onclick="scrollToScreen('screen7'); return false;" style="cursor: pointer;">📄 Service Contract Templates</div>
+                    <div class="nav-item" onclick="scrollToScreen('screen12'); return false;" style="cursor: pointer;">📈 Redemption Reports</div>
+                    <div style="padding: 16px 20px; border-top: 1px solid rgba(255,255,255,0.1); margin-top: 16px; font-size: 0.75em; opacity: 0.5;">ADMIN</div>
+                    <div class="nav-item" onclick="scrollToScreen('screen13'); return false;" style="cursor: pointer;">👤 Users</div>
+                    <div class="nav-item" onclick="scrollToScreen('screen14'); return false;" style="cursor: pointer;">🔑 API Keys</div>
+                    <div class="nav-item active">📋 PDF Config</div>
                 </div>
                 <div class="main-content">
                     <div class="top-bar">
@@ -1515,7 +1935,7 @@
                                                 </div>
                                             </div>
 
-                                            <div style="position: absolute; bottom: 24px; left: 24px; right: 24px; padding-top: 12px; border-top: 1px solid #e2e8f0; text-align: center; font-size: 0.75em; color: #718096;">
+                                            <div style="bottom: 24px; left: 24px; right: 24px; padding-top: 12px; border-top: 1px solid #e2e8f0; text-align: center; font-size: 0.75em; color: #718096;">
                                                 Thank you for your business! • Page 1 of 4
                                             </div>
                                         </div>
@@ -1639,6 +2059,161 @@
         All 15 screens documented with detailed UI components, workflows, and feature demonstrations. Ready for stakeholder review and development.
     </p>
 </div>
+
+<script>
+    // Sold By Dropdown functionality
+    document.addEventListener('DOMContentLoaded', function() {
+        const dropdownBtn = document.getElementById('soldByDropdownBtn');
+        const dropdownMenu = document.getElementById('soldByDropdownMenu');
+        const selectAllCheckbox = document.getElementById('selectAllCheckbox');
+        const userCheckboxes = document.querySelectorAll('.userCheckbox');
+
+        // Toggle dropdown on button click
+        if (dropdownBtn) {
+            dropdownBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                if (dropdownMenu.style.display === 'none') {
+                    dropdownMenu.style.display = 'block';
+                } else {
+                    dropdownMenu.style.display = 'none';
+                }
+            });
+
+            // Close dropdown when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!dropdownBtn.contains(e.target) && !dropdownMenu.contains(e.target)) {
+                    dropdownMenu.style.display = 'none';
+                }
+            });
+
+            // Prevent dropdown from closing when clicking inside
+            dropdownMenu.addEventListener('click', function(e) {
+                e.stopPropagation();
+            });
+
+            // Select All functionality
+            selectAllCheckbox.addEventListener('change', function() {
+                userCheckboxes.forEach(function(checkbox) {
+                    checkbox.checked = selectAllCheckbox.checked;
+                });
+                updateButtonText();
+            });
+
+            // Update Select All checkbox when individual checkboxes change
+            userCheckboxes.forEach(function(checkbox) {
+                checkbox.addEventListener('change', function() {
+                    const allChecked = Array.from(userCheckboxes).every(cb => cb.checked);
+                    const noneChecked = Array.from(userCheckboxes).every(cb => !cb.checked);
+
+                    selectAllCheckbox.checked = allChecked;
+                    selectAllCheckbox.indeterminate = !allChecked && !noneChecked;
+
+                    updateButtonText();
+                });
+            });
+
+            // Update button text based on selections
+            function updateButtonText() {
+                const checkedCount = Array.from(userCheckboxes).filter(cb => cb.checked).length;
+                const textSpan = dropdownBtn.querySelector('span:first-child');
+                if (checkedCount === userCheckboxes.length) {
+                    textSpan.textContent = 'All Users';
+                } else if (checkedCount === 0) {
+                    textSpan.textContent = 'No Users Selected';
+                } else if (checkedCount === 1) {
+                    const checkedCheckbox = Array.from(userCheckboxes).find(cb => cb.checked);
+                    const userName = checkedCheckbox.parentElement.textContent.trim();
+                    textSpan.textContent = userName;
+                } else {
+                    textSpan.textContent = checkedCount + ' Users Selected';
+                }
+            }
+        }
+
+        // Status Dropdown functionality (similar to Sold By)
+        const statusDropdownBtn = document.getElementById('statusDropdownBtn');
+        const statusDropdownMenu = document.getElementById('statusDropdownMenu');
+        const selectAllStatusCheckbox = document.getElementById('selectAllStatusCheckbox');
+        const statusCheckboxes = document.querySelectorAll('.statusCheckbox');
+
+        if (statusDropdownBtn) {
+            // Toggle dropdown on button click
+            statusDropdownBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                if (statusDropdownMenu.style.display === 'none') {
+                    statusDropdownMenu.style.display = 'block';
+                } else {
+                    statusDropdownMenu.style.display = 'none';
+                }
+            });
+
+            // Close dropdown when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!statusDropdownBtn.contains(e.target) && !statusDropdownMenu.contains(e.target)) {
+                    statusDropdownMenu.style.display = 'none';
+                }
+            });
+
+            // Prevent dropdown from closing when clicking inside
+            statusDropdownMenu.addEventListener('click', function(e) {
+                e.stopPropagation();
+            });
+
+            // Select All functionality
+            selectAllStatusCheckbox.addEventListener('change', function() {
+                statusCheckboxes.forEach(function(checkbox) {
+                    checkbox.checked = selectAllStatusCheckbox.checked;
+                });
+                updateStatusButtonText();
+            });
+
+            // Update Select All checkbox when individual checkboxes change
+            statusCheckboxes.forEach(function(checkbox) {
+                checkbox.addEventListener('change', function() {
+                    const allChecked = Array.from(statusCheckboxes).every(cb => cb.checked);
+                    const noneChecked = Array.from(statusCheckboxes).every(cb => !cb.checked);
+
+                    selectAllStatusCheckbox.checked = allChecked;
+                    selectAllStatusCheckbox.indeterminate = !allChecked && !noneChecked;
+
+                    updateStatusButtonText();
+                });
+            });
+
+            // Update button text based on selections
+            function updateStatusButtonText() {
+                const checkedCount = Array.from(statusCheckboxes).filter(cb => cb.checked).length;
+                const textSpan = statusDropdownBtn.querySelector('span:first-child');
+                if (checkedCount === statusCheckboxes.length) {
+                    textSpan.textContent = 'All Statuses';
+                } else if (checkedCount === 0) {
+                    textSpan.textContent = 'No Statuses Selected';
+                } else if (checkedCount === 1) {
+                    const checkedCheckbox = Array.from(statusCheckboxes).find(cb => cb.checked);
+                    const statusName = checkedCheckbox.parentElement.textContent.trim();
+                    textSpan.textContent = statusName;
+                } else {
+                    textSpan.textContent = checkedCount + ' Statuses Selected';
+                }
+            }
+        }
+    });
+
+    // Scroll to screen functionality
+    function scrollToScreen(screenId) {
+        const screen = document.getElementById(screenId);
+        if (screen) {
+            screen.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    }
+
+    function toggleDropdown(menuId) {
+        const menu = document.getElementById(menuId);
+        if (menu) {
+            menu.style.display = menu.style.display === 'none' ? 'block' : 'none';
+        }
+    }
+</script>
 
 </body>
 </html>
